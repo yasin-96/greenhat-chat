@@ -1,0 +1,23 @@
+[Unit]
+Description=Gitlab as Docker Compose Application Service
+Requires=snap.docker.dockerd.service
+After=snap.docker.dockerd.service
+
+[Service]
+EnvironmentFile=-/usr/local/bin/docker-compose
+RemainAfterExit=yes
+WorkingDirectory=/usr/share/gitlab_server/compose
+User=docker
+ExecStart=/usr/local/bin/docker-compose up -d
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/usr/local/bin/docker-compose down
+KillMode=process
+Restart=on-failure
+StartLimitInterval=300
+Type=notify
+#TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
+Alias=gitlab_server.service
+

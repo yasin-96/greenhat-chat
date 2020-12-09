@@ -1,0 +1,12 @@
+version: '3.2'
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    ports:
+      - "80:80"
+    volumes:
+      - $HOME/gitlab_server/settings/config:/etc/gitlab
+      - $HOME/gitlab_server/settings/logs:/var/log/gitlab
+      - $HOME/gitlab_server/settings/data:/var/opt/gitlab
+      
