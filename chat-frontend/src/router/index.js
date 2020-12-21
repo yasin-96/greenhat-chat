@@ -1,20 +1,26 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import LoginView from '@/views/LoginView.vue'
-import ChatView from "@/views/ChatView";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import LoginView from '@/views/LoginView.vue';
+import RegisterView from '@/views/RegisterView.vue';
+import ChatView from '@/views/ChatView';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
     name: 'LoginView',
-    component: LoginView
+    component: LoginView,
   },
   {
     path: '/chat',
     name: 'ChatView',
-    component: ChatView
+    component: ChatView,
+  },
+  {
+    path: '/register',
+    name: 'RegisterView',
+    component: RegisterView,
   },
   {
     path: '/about',
@@ -22,14 +28,14 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
