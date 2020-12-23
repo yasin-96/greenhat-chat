@@ -13,6 +13,11 @@ const routes = [
     component: LoginView,
   },
   {
+    path: '/login',
+    name: 'LoginView',
+    component: LoginView,
+  },
+  {
     path: '/chat',
     name: 'ChatView',
     component: ChatView,
