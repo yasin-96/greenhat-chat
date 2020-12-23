@@ -1,5 +1,10 @@
 <template>
   <div>
+    
+    <v-container class="ma-10">
+      <Info :message="notfication.message" :toggle="notfication.toggle" :timeout="notfication.timeOut" icon="mdi-alert-circle"/>
+    </v-container>
+    
     <v-container class="d-flex justify-center justify-sm-center justify-md-center justify-lg-center justify-xl-center">
       <v-card elevation="2" shaped class="mx-auto my-auto" max-width="400">
         <v-card-title>
@@ -9,7 +14,7 @@
           <v-form ref="reg_login" v-model="valid">
             <v-text-field
               dense
-              v-model="email"
+              v-model="user.email"
               label="Email"
               outlined
               prepend-inner-icon="mdi-account-circle"
@@ -19,7 +24,7 @@
             ></v-text-field>
             <v-text-field
               dense
-              v-model="passwd"
+              v-model="user.passwd"
               label="Password"
               :type="showPasswd ? 'text' : 'password'"
               prepend-inner-icon="mdi-lock"
@@ -31,7 +36,7 @@
               required
             ></v-text-field>
             <v-divider></v-divider>
-            <v-btn block color="success" :disabled="!valid">
+            <v-btn block color="success" :disabled="!valid" @click="login">
               Anmelden
             </v-btn>
             <p>
@@ -45,21 +50,39 @@
 </template>
 
 <script>
+import Info from '@/components/Info';
+import {umix} from '@/mixins/umix';
+
 export default {
   name: 'Login',
+  mixins: [umix],
+  components: {
+    Info,
+  },
   data: () => ({
-    email: '',
-    passwd: '',
-    valid: false,
+    user: {
+      email: '',
+      passwd: '',
+    },
     showPasswd: false,
+    notfication: {
+      timeOut: 5000,
+      message: '',
+      toggle: false,
+      icon: '',
+      color: ''
+    },
+    valid: false,
     rules: {
       required: (value) => (value && !!value) || 'Das Feld ist erforderlich.',
-      notEmpty: (value) => (value !== null || value !== undefined) || 'Feld darf nicht leer bleiben' 
+      notEmpty: (value) => value !== null || value !== undefined || 'Feld darf nicht leer bleiben',
     },
   }),
   methods: {
     login() {
-      alert('asdja');
+      const msg = 'ahsdjkahsdasdshdjkalhdjahljkdhahsdkhkashdhsjadhkjahskjdhakjshdhasjhdjkashdljhakdh';
+
+      this.setNotification(msg)
     },
   },
   computed: {},

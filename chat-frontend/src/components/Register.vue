@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-container>
-      
+    <v-container class="ma-10">
+      <Info :message="notfication.message" :toggle="notfication.toggle" :timeout="notfication.timeOut" icon="mdi-alert-circle"/>
     </v-container>
     <v-container class="d-flex justify-center justify-sm-center justify-md-center justify-lg-center justify-xl-center">
       <v-card elevation="2" shaped class="mx-auto my-auto" max-width="400">
@@ -45,7 +45,7 @@
               required
             ></v-text-field>
             <v-divider></v-divider>
-            <v-btn block color="success" :disabled="!valid && !isPasswordValid">
+            <v-btn block color="success" :disabled="!valid && !isPasswordValid" @click="registerUser">
               Konto erstellen
             </v-btn>
             <p>
@@ -60,10 +60,23 @@
 </template>
 
 <script>
+import Info from '@/components/Info';
+import {umix} from '@/mixins/umix';
+
 export default {
   name: 'Register',
+  mixins: [umix],
+  components:{
+    Info
+  },
   data: () => ({
-    timeout: 5000,
+     notfication: {
+      timeOut: 5000,
+      message: '',
+      toggle: false,
+      icon: '',
+      color: ''
+    },
     valid: false,
     isPasswordValid: false,
     userName: '',
@@ -87,6 +100,9 @@ export default {
       // if(formValidationState) {
 
       // }
+      const msg = 'ahsdjkahsdasdshdjkalhdjahljkdhahsdkhkashdhsjadhkjahskjdhakjshdhasjhdjkashdljhakdh';
+
+      this.setNotification(msg)
     },
     checkPassword() {
       if (this.repeatPasswd === this.passwd) {
