@@ -28,7 +28,7 @@
               outlined
               prepend-inner-icon="mdi-lock"
               clearable
-              :error-messages="!isPasswordValid ? '' : 'Passwörter stimmen nicht überein!'"
+              :error-messages="isPasswordValid ? '' : 'Passwörter stimmen nicht überein!'"
             ></v-text-field>
             <v-text-field
               dense
@@ -41,7 +41,7 @@
               :append-icon="showPasswd ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
               @click:append="showPasswd = !showPasswd"
               :rules="[rules.required]"
-              :error-messages="!isPasswordValid ? '' : 'Passwörter stimmen nicht überein!'"
+              :error-messages="isPasswordValid ? '' : 'Passwörter stimmen nicht überein!'"
               required
             ></v-text-field>
             <v-divider></v-divider>
