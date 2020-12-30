@@ -11,7 +11,7 @@ import java.util.*
 class MessageService(
         private val messageController: MessageController
 ) {
-    fun findMessageById(id:UUID) : Mono<Message> {
+    fun findMessageById(id:String) : Mono<Message> {
         return messageController.findById(id)
     }
 }

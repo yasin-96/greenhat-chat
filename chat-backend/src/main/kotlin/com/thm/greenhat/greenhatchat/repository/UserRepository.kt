@@ -7,6 +7,6 @@ import reactor.core.publisher.Mono
 import java.util.*
 
 @Repository
-interface UserRepository : ReactiveCrudRepository<User,UUID> {
+interface UserRepository : ReactiveCrudRepository<User,String> {
     fun findByUsername(username:String): Mono<User>
 }

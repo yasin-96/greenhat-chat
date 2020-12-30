@@ -6,4 +6,4 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface MessageRepository: ReactiveCrudRepository<Message,UUID> { }
+interface MessageRepository: ReactiveCrudRepository<Message,String> { }
