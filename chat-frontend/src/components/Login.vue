@@ -2,7 +2,7 @@
   <div>
     
     <v-container class="ma-10">
-      <Info :message="notfication.message" :toggle="notfication.toggle" :timeout="notfication.timeOut" icon="mdi-alert-circle"/>
+      <Info/>
     </v-container>
     
     <v-container class="d-flex justify-center justify-sm-center justify-md-center justify-lg-center justify-xl-center">
@@ -79,10 +79,11 @@ export default {
     },
   }),
   methods: {
-    login() {
-      const msg = 'ahsdjkahsdasdshdjkalhdjahljkdhahsdkhkashdhsjadhkjahskjdhakjshdhasjhdjkashdljhakdh';
+    async login() {
 
-      this.setNotification(msg)
+      const response = await this.$store.dispatch("user/act_logUserIn", this.user);
+      //TOOD: hier muss geprüft werden, welche art von Fehler zurück kommt.
+      this.setNotification(response.message, "error", "mdi-alert-circle")
     },
   },
   computed: {},

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container class="ma-10">
-      <Info :message="notfication.message" :toggle="notfication.toggle" :timeout="notfication.timeOut" icon="mdi-alert-circle"/>
+      <Info />
     </v-container>
     <v-container class="d-flex justify-center justify-sm-center justify-md-center justify-lg-center justify-xl-center">
       <v-card elevation="2" shaped class="mx-auto my-auto" max-width="400">
@@ -9,11 +9,11 @@
           <h2 class="text-center">Registieren</h2>
         </v-card-title>
         <v-card-text>
-          <v-form ref="reg_form" v-model="valid">
-            <v-text-field dense v-model="userName" label="Username" outlined prepend-inner-icon="mdi-account-circle" clearable :rules="[rules.required]" required></v-text-field>
+          <v-form ref="reg_form" v-model="valid" >
+            <v-text-field dense v-model="user.userName" label="Username" outlined prepend-inner-icon="mdi-account-circle" clearable :rules="[rules.required]" required></v-text-field>
             <v-text-field
               dense
-              v-model="userEmail"
+              v-model="user.userEmail"
               label="Email"
               outlined
               prepend-inner-icon="mdi-account-circle"
@@ -23,7 +23,7 @@
             ></v-text-field>
             <v-text-field
               dense
-              v-model="passwd"
+              v-model="user.passwd"
               label="Passwort"
               outlined
               prepend-inner-icon="mdi-lock"
@@ -70,18 +70,13 @@ export default {
     Info
   },
   data: () => ({
-     notfication: {
-      timeOut: 5000,
-      message: '',
-      toggle: false,
-      icon: '',
-      color: ''
-    },
     valid: false,
     isPasswordValid: false,
-    userName: '',
-    userEmail: '',
-    passwd: '',
+    user: {
+      userName: '',
+      userEmail: '',
+      passwd: '',
+    },
     repeatPasswd: '',
     showPasswd: false,
     rules: {
@@ -96,13 +91,10 @@ export default {
     },
   }),
   methods: {
-    registerUser() {
-      // if(formValidationState) {
-
-      // }
-      const msg = 'ahsdjkahsdasdshdjkalhdjahljkdhahsdkhkashdhsjadhkjahskjdhakjshdhasjhdjkashdljhakdh';
-
-      this.setNotification(msg)
+    async registerUser() {
+      const response = await this.$store.dispatch("user/act_registerUser", this.user);
+      //TODO response richtig handle und dann weiterleiten
+      this.setNotification(response.message, "error", "mdi-alert-circle")
     },
     checkPassword() {
       if (this.repeatPasswd === this.passwd) {
@@ -114,13 +106,13 @@ export default {
   },
   computed: {
     hideDetailsPassword() {
-      return this.passwd === this.repeatPasswd ? true : false;
+      return this.user.passwd === this.repeatPasswd ? true : false;
     },
     hideDetailsUsername() {
-      return this.userName && !!this.userName ? true : false;
+      return this.user.userName && !!this.user.userName ? true : false;
     },
     hideDetailsEmail() {
-      return this.userEmail && !!this.userEmail ? true : false;
+      return this.user.userEmail && !!this.user.userEmail ? true : false;
     },
     formState(){
       return this.$refs.reg_form.value;
