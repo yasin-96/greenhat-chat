@@ -1,14 +1,19 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import userModule from "@/store/modules/userModule";
-import messageModule from "@/store/modules/userModule";
+import sidePanelModule from "@/store/modules/sidePanelModule/panel";
+import userModule from "@/store/modules/userModule/user";
+import chatModule from "@/store/modules/chatModule/chat";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
-    
-    userMod: userModule
+    sidePanel: sidePanelModule,
+    user: userModule,
+    chat: chatModule
   }
 });
+
+
+export default store;
