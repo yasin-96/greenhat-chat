@@ -1,60 +1,31 @@
 <template>
   <v-scroll-x-transition>
     <v-snackbar
-      v-if="showSnackbar"
+      v-if="notify.toggle"
       top
-      :timeout="timeout"
+      :timeout="notify.timeout"
       :value="true"
-      :color="`${color} accent-10`"
+      :color="`${notify.color} accent-10`"
       :multi-line="true"
       elevation="12"
       transition="expand-transition"
     >
       <v-icon>
-        {{ icon }}
+        {{ notify.icon }}
       </v-icon>
-      {{ message }}
+      {{ notify.message }}
     </v-snackbar>
   </v-scroll-x-transition>
-</template>
+</template>this.setNotification(msg, "error", "mdi-alert-circle")
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: 'Info',
-  beforeDestroy() {
-    this.showSnackbar = false;
-  },
-  data: () => ({
-    showSnackbar: false,
-  }),
-  props: {
-    color: {
-      type: String,
-      default: 'error',
-    },
-    timeout: {
-      type: Number,
-      default: 2000,
-    },
-    message: {
-      type: String,
-    },
-    toggle: {
-      type: Boolean,
-      default: false,
-    },
-    alertTyp: {
-      type: String,
-      default: 'error',
-    },
-    icon: {
-      type: String,
-    },
-  },
-  watch: {
-    toggle() {
-      this.showSnackbar = this.toggle;
-    },
+  computed:{
+    ...mapState({
+      notify: (state) => state.notify.notfication
+    })
   },
 };
 </script>
