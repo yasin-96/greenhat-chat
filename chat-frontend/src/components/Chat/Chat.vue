@@ -9,7 +9,7 @@ export default {
     name: "Chat",
     components: {
     },
-    data: () => ({ drawer: null }),
+    // data: () => ({ drawer: null }),
 }
 </script>
 

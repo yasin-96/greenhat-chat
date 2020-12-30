@@ -4,7 +4,7 @@
       <v-icon v-if="uidrawer">mdi-menu</v-icon>
       <v-icon v-else>mdi-dots-vertical</v-icon>
     </v-btn>
-    <div class="d-flex align-center">
+    <div class="d-flex align-center">>
       <v-img
         alt="Greenhat Logo"
         class="shrink mr-2"
