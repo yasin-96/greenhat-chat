@@ -6,4 +6,4 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface GroupRepository : ReactiveCrudRepository<Group,UUID> { }
+interface GroupRepository : ReactiveCrudRepository<Group,String> { }

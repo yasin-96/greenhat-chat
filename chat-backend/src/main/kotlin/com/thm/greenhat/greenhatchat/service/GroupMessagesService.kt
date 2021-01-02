@@ -2,16 +2,18 @@ package com.thm.greenhat.greenhatchat.service
 
 import com.thm.greenhat.greenhatchat.controller.GroupMessagesController
 import com.thm.greenhat.greenhatchat.model.Message
+import com.thm.greenhat.greenhatchat.repository.GroupMessagesRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
-import java.util.*
 
 @Service
 class GroupMessagesService(
-        private val groupMessagesController: GroupMessagesController
+        private val groupMessagesRepository: GroupMessagesRepository
 ) {
 
-    fun findAllMessages(group: UUID) : Flux<Message> {
-        return groupMessagesController.findAllMessages(group)
+
+    fun findAllMessages(group: String) : Flux<Message> {
+        return groupMessagesRepository.findById(group)
+                .flatMapIterable { it.messages }
     }
 }
