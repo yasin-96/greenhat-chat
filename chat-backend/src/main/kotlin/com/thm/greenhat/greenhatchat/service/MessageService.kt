@@ -13,7 +13,8 @@ import java.util.*
 @Service
 class MessageService(
         private val messageRepository: MessageRepository,
-        private val kafkaTemplate: KafkaTemplate<String, String>
+        private val kafkaTemplate: KafkaTemplate<String, String>,
+        private val groupService: GroupService
 ) {
     private val topicName: String = "mytopic"
 
@@ -22,11 +23,14 @@ class MessageService(
     }
 
     fun addMessage(message: Message){
-            messageRepository.save(message).map {
-            val headers : MutableMap<String, Any> = HashMap()
-            headers[KafkaHeaders.TOPIC] = topicName
-            kafkaTemplate.send(GenericMessage<Message>(message, headers))
-        }
-
+        val headers : MutableMap<String, Any> = HashMap()
+        headers[KafkaHeaders.TOPIC] = topicName
+        kafkaTemplate.send(GenericMessage<Message>(message, headers))
     }
+
+    fun addMessageToSpecificDB(message: Message) {
+                //TODO
+    }
+
+
 }

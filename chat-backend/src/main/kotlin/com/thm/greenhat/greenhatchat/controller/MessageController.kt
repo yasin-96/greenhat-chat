@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono
 
 @RestController
 class MessageController(
-        private val messageService: MessageService,
+        private val messageService: MessageService
 )
 
 
@@ -25,4 +25,6 @@ class MessageController(
     fun addMessage(@RequestBody message: Message){
         messageService.addMessage(message)
     }
+
+
 }

@@ -1,5 +1,5 @@
 package com.thm.greenhat.greenhatchat.service
-
+/*
 import com.thm.greenhat.greenhatchat.controller.GroupMessagesController
 import com.thm.greenhat.greenhatchat.model.Message
 import com.thm.greenhat.greenhatchat.repository.GroupMessagesRepository
@@ -16,4 +16,4 @@ class GroupMessagesService(
         return groupMessagesRepository.findById(group)
                 .flatMapIterable { it.messages }
     }
-}
+}*/

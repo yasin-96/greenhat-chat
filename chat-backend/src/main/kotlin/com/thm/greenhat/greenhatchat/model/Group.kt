@@ -9,5 +9,6 @@ data class Group(
         @Id var id:Int,
         var name:String,
         var admin:UUID,
-        var users:List<UUID>
+        var users:List<String>,
+        var messages: MutableList<Message> = mutableListOf()
 )
