@@ -16,5 +16,8 @@ import java.util.*
 class WebConfig: WebFluxConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("*")
+                .allowedOrigins("http://localhost:4444")
+                .allowedMethods("POST", "GET")
+                .allowedHeaders("*")
     }
 }
