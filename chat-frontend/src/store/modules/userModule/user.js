@@ -29,8 +29,10 @@ const userModule = {
     },
 
     async act_registerUser({commit}, newUser){
-      ResCall.newAccount(newUser).then((response) => {
+      return ResCall.newAccount(newUser).then((response) => {
         commit("MUT_SAVE_USER", response);
+        const {message} = response;
+        return message;
       }).catch((error) => {
         console.error("act_logUserIn()", error)
       })
