@@ -14,7 +14,9 @@ export default new Vuetify({
         success: colors.green.darken1,
         greenHatGreen: colors.green.darken2,
         danger: colors.deepOrange.darken2,
-        error: colors.red.darken4
+        error: colors.red.darken4,
+        yellow:colors.amber.accent3, //#FFEA00
+        send:colors.lightGreen.accent4
       },
     },
   },

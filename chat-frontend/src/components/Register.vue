@@ -10,10 +10,10 @@
         </v-card-title>
         <v-card-text>
           <v-form ref="reg_form" v-model="valid" >
-            <v-text-field dense v-model="user.userName" label="Username" outlined prepend-inner-icon="mdi-account-circle" clearable :rules="[rules.required]" required></v-text-field>
+            <v-text-field dense v-model="user.username" label="Username" outlined prepend-inner-icon="mdi-account-circle" clearable :rules="[rules.required]" required></v-text-field>
             <v-text-field
               dense
-              v-model="user.userEmail"
+              v-model="user.email"
               label="Email"
               outlined
               prepend-inner-icon="mdi-account-circle"
@@ -23,7 +23,7 @@
             ></v-text-field>
             <v-text-field
               dense
-              v-model="user.passwd"
+              v-model="user.password"
               label="Passwort"
               outlined
               prepend-inner-icon="mdi-lock"
@@ -73,9 +73,9 @@ export default {
     valid: false,
     isPasswordValid: false,
     user: {
-      userName: '',
-      userEmail: '',
-      passwd: '',
+      username: '',
+      email: '',
+      password: '',
     },
     repeatPasswd: '',
     showPasswd: false,
@@ -85,19 +85,19 @@ export default {
         const pattern = /^([a-zA-z0-9]+((\.[a-zA-z0-9]+)*)|(".+"))@(greenhat.de)$/;
         return pattern.test(value) || 'Email passt nicht zur Domaine';
       },
-      passwd: function(value) {
+      password: function(value) {
         this.checkPassword(value);
       },
     },
   }),
   methods: {
     async registerUser() {
-      const response = await this.$store.dispatch("user/act_registerUser", this.user);
+      const message = await this.$store.dispatch("user/act_registerUser", this.user);
       //TODO response richtig handle und dann weiterleiten
-      this.setNotification(response.message, "error", "mdi-alert-circle")
+      this.setNotification(message, "error", "mdi-alert-circle")
     },
     checkPassword() {
-      if (this.repeatPasswd === this.passwd) {
+      if (this.repeatPasswd === this.user.password && !!this.repeatPasswd && !!this.user.password) {
         this.isPasswordValid = true;
       } else {
         this.isPasswordValid = false;
@@ -106,13 +106,13 @@ export default {
   },
   computed: {
     hideDetailsPassword() {
-      return this.user.passwd === this.repeatPasswd ? true : false;
+      return this.user.password === this.repeatPasswd ? true : false;
     },
     hideDetailsUsername() {
-      return this.user.userName && !!this.user.userName ? true : false;
+      return this.user.username && !!this.user.username ? true : false;
     },
     hideDetailsEmail() {
-      return this.user.userEmail && !!this.user.userEmail ? true : false;
+      return this.user.email && !!this.user.email ? true : false;
     },
     formState(){
       return this.$refs.reg_form.value;
@@ -122,7 +122,7 @@ export default {
     repeatPasswd() {
       this.checkPassword();
     },
-    passwd(){
+    "user.password"(){
       this.checkPassword();
     }
   },
