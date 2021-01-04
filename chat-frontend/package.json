@@ -13,6 +13,7 @@
     "vee-validate": "^4.0.3",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vue-winwheel": "^1.0.0",
     "vuetify": "^2.3.21",
     "vuex": "^3.6.0"
   },
