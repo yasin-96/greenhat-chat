@@ -5,7 +5,10 @@ import http from 'http';
 /**
  * Defines Information about server
  */
-const serverConfig = {};
+const serverConfig = {
+  
+  apiAddress: process.env.VUE_APP_BACKEND_API
+};
 
 /* Set: Axios Instance
  * These are the properties for axios given with to send requests.
@@ -21,7 +24,8 @@ const httpClient = new axios.create({
 
 const apiInterfaces = {
   user: {
-    login: '',
+    login: '/user/authenticate',
+    register: '/user/register'
   },
 };
 
@@ -43,7 +47,7 @@ export default {
 
   async newAccount(newUserInfo) {
     return httpClient
-      .post(apiInterfaces.user.login, newUserInfo)
+      .post(apiInterfaces.user.register, newUserInfo)
       .then((response) => {
         const {data} = response;
         if(data && !!data){
