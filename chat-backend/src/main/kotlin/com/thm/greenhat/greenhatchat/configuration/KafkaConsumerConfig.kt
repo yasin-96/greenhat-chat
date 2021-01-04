@@ -27,7 +27,7 @@ class KafkaConsumerConfig {
         config[ConsumerConfig.GROUP_ID_CONFIG] = kafkaGroupId
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = JsonDeserializer::class.java
-        return DefaultKafkaConsumerFactory<String, Message>(config, null, JsonDeserializer<Message>(Message::class.java))
+        return DefaultKafkaConsumerFactory<String, Message>(config, null, JsonDeserializer(Message::class.java))
     }
 
     @Bean

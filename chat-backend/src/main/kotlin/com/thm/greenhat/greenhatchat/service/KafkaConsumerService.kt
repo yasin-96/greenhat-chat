@@ -15,7 +15,7 @@ class KafkaConsumerService(
 
     @KafkaListener(topics = ["mytopic"], groupId = "test-consumer-group")
     fun receiveData(message: Message) {
-
+        logger.info(message.content)
     }
 
 }
