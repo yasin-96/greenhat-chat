@@ -7,13 +7,11 @@ import org.springframework.web.reactive.config.WebFluxConfigurer
 
     @Configuration
     @EnableWebFlux
-    class WebConfig: WebFluxConfigurer
-    {
-        override fun addCorsMappings(registry: CorsRegistry)
-        {
+    class WebConfig: WebFluxConfigurer {
+        override fun addCorsMappings(registry: CorsRegistry) {
             registry.addMapping("/**")
                     .allowedOrigins("*") // any host or put domain(s) here
                     .allowedMethods("*") // put the http verbs you want allow
                     .allowedHeaders("*") // put the http headers you want allow
-        }class WebConfig {
+        }
     }
