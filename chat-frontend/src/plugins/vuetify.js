@@ -1,6 +1,6 @@
-import Vue from "vue";
-import Vuetify from "vuetify/lib";
-import colors from "vuetify/lib/util/colors";
+import Vue from 'vue';
+import Vuetify from 'vuetify/lib';
+import colors from 'vuetify/lib/util/colors';
 
 Vue.use(Vuetify);
 
@@ -15,8 +15,9 @@ export default new Vuetify({
         greenHatGreen: colors.green.darken2,
         danger: colors.deepOrange.darken2,
         error: colors.red.darken4,
-        yellow:colors.amber.accent3, //#FFEA00
-        send:colors.lightGreen.accent4
+        yellow: colors.amber.accent3, //#FFEA00
+        send: colors.lightGreen.accent4,
+        transparent: colors.transparent,
       },
     },
   },

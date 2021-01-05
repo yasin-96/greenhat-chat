@@ -31,14 +31,13 @@ const apiInterfaces = {
 
 export default {
   
-  async login(userCred) {
+  async login({username, password}) {
     return httpClient
-      .post(apiInterfaces.user.login, userCred)
+      .get(apiInterfaces.user.login, { params: {username, password}})
       .then((response) => {
-        const {data} = response;
-        if(data && !!data){
-          return data;
-        }
+        console.log(response)
+        const {data, status} = response;
+        return {data, status};
       })
       .catch((error) => {
         console.log("LOGIN()", error);
@@ -49,10 +48,8 @@ export default {
     return httpClient
       .post(apiInterfaces.user.register, newUserInfo)
       .then((response) => {
-        const {data} = response;
-        if(data && !!data){
-          return data;
-        }
+        const {data, status} = response;
+        return {data, status};
       })
       .catch((error) => {
         console.log("NEWACCOUNT()", error);
