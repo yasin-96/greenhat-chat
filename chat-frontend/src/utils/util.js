@@ -36,7 +36,7 @@ export function messageBasedOnReturnValue(status, view) {
 export function messageForLogin(status) {
   switch (status) {
     case 200:
-      return {message: 'User wird eingeloggt ...', status};
+      return { message: 'User wird eingeloggt ...', status};
     case 400:
       return 'User konnte nicht eingeloggt werden!';
     case 500:
@@ -49,9 +49,9 @@ export function messageForLogin(status) {
 export function messageForRegistry(status) {
   switch (status) {
     case 200:
-      return 'User wurde erstellt';
+      return { message: 'User wurde erstellt', status};
     case 400:
-      return 'User konnte nicht eingeloggt werden!';
+      return { message: 'User konnte nicht eingeloggt werden!', status};
     default:
       return null;
   }

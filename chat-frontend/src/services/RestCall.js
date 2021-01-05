@@ -48,10 +48,8 @@ export default {
     return httpClient
       .post(apiInterfaces.user.register, newUserInfo)
       .then((response) => {
-        const {data} = response;
-        if(data && !!data){
-          return data;
-        }
+        const {data, status} = response;
+        return {data, status};
       })
       .catch((error) => {
         console.log("NEWACCOUNT()", error);

@@ -37,10 +37,11 @@ const userModule = {
     },
 
     async act_registerUser({commit}, newUser){
-      return ResCall.newAccount(newUser).then((response) => {
-        commit("MUT_SAVE_USER", response);
-        const {message} = response;
-        return message;
+      return ResCall.newAccount(newUser).then(({data, status}) => {
+        if(checkUser(data) !== null){
+          commit("MUT_SAVE_USER", data);
+        }
+        return messageBasedOnReturnValue(status, "register")
       }).catch((error) => {
         console.error("act_logUserIn()", error)
       })
