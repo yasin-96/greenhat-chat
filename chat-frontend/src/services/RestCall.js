@@ -6,8 +6,7 @@ import http from 'http';
  * Defines Information about server
  */
 const serverConfig = {
-  
-  apiAddress: process.env.VUE_APP_BACKEND_API
+  apiAddress: process.env.VUE_APP_BACKEND_API,
 };
 
 /* Set: Axios Instance
@@ -25,22 +24,22 @@ const httpClient = new axios.create({
 const apiInterfaces = {
   user: {
     login: '/user/authenticate',
-    register: '/user/register'
+    register: '/user/register',
   },
+  message: '/message',
 };
 
 export default {
-  
-  async login({username, password}) {
+  async login({ username, password }) {
     return httpClient
-      .get(apiInterfaces.user.login, { params: {username, password}})
+      .get(apiInterfaces.user.login, { params: { username, password } })
       .then((response) => {
-        console.log(response)
-        const {data, status} = response;
-        return {data, status};
+        console.log(response);
+        const { data, status } = response;
+        return { data, status };
       })
       .catch((error) => {
-        console.log("LOGIN()", error);
+        console.log('LOGIN()', error);
       });
   },
 
@@ -48,11 +47,24 @@ export default {
     return httpClient
       .post(apiInterfaces.user.register, newUserInfo)
       .then((response) => {
-        const {data, status} = response;
-        return {data, status};
+        const { data, status } = response;
+        return { data, status };
       })
       .catch((error) => {
-        console.log("NEWACCOUNT()", error);
+        console.log('NEWACCOUNT()', error);
+      });
+  },
+
+  async sendMessage(newMessage) {
+    return httpClient
+      .post(apiInterfaces.message, newMessage)
+      .then((response) => {
+        console.log("send msg",response)
+        const { status } = response;
+        return status;
+      })
+      .catch((error) => {
+        console.log('SENDMESSAGE()', error);
       });
   },
 };

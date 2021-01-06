@@ -1,5 +1,5 @@
 import groupModule from "@/store/modules/chatModule/groups";
-import ResCall from "@/services/RestCall";
+import RestCall from "@/services/RestCall";
 import {checkUser, messageBasedOnReturnValue} from "@/utils/util";
 
 
@@ -10,6 +10,7 @@ const userModule = {
   },
   state: () => ({
     user: {},
+    activeGroupID:'',
     activeGroup: {
 
     },
@@ -23,7 +24,7 @@ const userModule = {
       commit('MUT_LOAD_GROUP_INFO', payload);
     },
     async act_logUserIn({commit}, userLoginCred){
-      return ResCall.login(userLoginCred).then(({data, status}) => {
+      return RestCall.login(userLoginCred).then(({data, status}) => {
         
         if(checkUser(data) === null){
           return messageBasedOnReturnValue(status, "login")
@@ -37,7 +38,7 @@ const userModule = {
     },
 
     async act_registerUser({commit}, newUser){
-      return ResCall.newAccount(newUser).then(({data, status}) => {
+      return RestCall.newAccount(newUser).then(({data, status}) => {
         if(checkUser(data) !== null){
           commit("MUT_SAVE_USER", data);
         }
