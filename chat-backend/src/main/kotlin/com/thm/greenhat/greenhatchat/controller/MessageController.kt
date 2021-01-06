@@ -6,6 +6,7 @@ import com.thm.greenhat.greenhatchat.service.MessageService
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 
+@CrossOrigin
 @RestController
 class MessageController(
         private val messageService: MessageService

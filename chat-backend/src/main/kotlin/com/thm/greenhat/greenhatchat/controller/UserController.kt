@@ -6,7 +6,7 @@ import com.thm.greenhat.greenhatchat.service.UserService
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 
-
+@CrossOrigin
 @RestController
 class UserController(
   private val userService: UserService

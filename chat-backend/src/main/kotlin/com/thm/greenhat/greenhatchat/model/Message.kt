@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.time.Instant
 import java.util.*
 
-@Document("message")
+@Document("messages")
 data class Message(
         @Id var id: String = ObjectId.get().toString(),
         var content: String,
