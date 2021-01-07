@@ -17,27 +17,14 @@ services:
       - gitlab
 
   gitlab-runner:
-#    build: ./gitlab-runner
-    image: gitlab/gitlab-runner:alpine
+    build: ./gitlab-runner
+#    image: gitlab/gitlab-runner:alpine
     restart: always
-    environment:
-      GITLAB: gitlab:80
     depends_on:
       - gitlab
     volumes:
       - $HOME/gitlab_server/gitlab-runner:/etc/gitlab-runner
       - gitlab-runner:/var/run/docker.sock
-    command:
-      gitlab-runner register \
-      --non-interactive \
-      --registration-token LmuyK5zd1QFfcPfuKWms \
-      --locked=false \
-      --description docker-stable \
-      --url $${GITLAB} \
-      --executor docker \
-      --docker-image docker:stable \
-      --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" \
-      --docker-network-mode gitlab
     networks:
       - gitlab
 
