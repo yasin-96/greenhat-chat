@@ -1,5 +1,6 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://root:example@localhost:27017/admin
+      uri: mongodb://root:example@localhost:27017/mydb?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false
+
 

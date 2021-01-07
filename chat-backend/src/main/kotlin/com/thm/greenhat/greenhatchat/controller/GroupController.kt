@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
+@CrossOrigin
 @RestController
 class GroupController(
         private val groupService: GroupService
@@ -19,7 +20,7 @@ class GroupController(
     }
 
     @GetMapping("/{group}/messages")
-    fun findAllGroupMessages(@PathVariable group:String) : Flux<Message> {
+    fun findAllGroupMessages(@PathVariable group:String) : Mono<Group> {
         return groupService.findAllGroupMessages(group)
     }
 
