@@ -20,6 +20,8 @@ services:
     build: ./gitlab-runner
 #    image: gitlab/gitlab-runner:alpine
     restart: always
+    environment:
+      GITLAB: gitlab:80
     depends_on:
       - gitlab
     volumes:
