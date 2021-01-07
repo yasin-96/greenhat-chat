@@ -15,7 +15,6 @@ import java.util.*
 class MessageService(
         private val messageRepository: MessageRepository,
         private val kafkaTemplate: KafkaTemplate<String, String>,
-        private val groupService: GroupService
 ) {
     private val topicName: String = "mytopic"
 
