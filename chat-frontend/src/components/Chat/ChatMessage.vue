@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-timeline>
       <v-timeline-item v-for="n in 10" :key="n" large>
         <template v-slot:icon>

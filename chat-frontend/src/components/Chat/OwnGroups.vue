@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-avatar
+    <!-- <v-avatar
       v-for="group in ownGroups"
       :key="group._id"
       class="d-block text-center mx-auto mb-9"
@@ -10,6 +10,17 @@
       @click="loadGroup(group._id)"
     >
       <img :src="`http://i.pravatar.cc/${group + 10}`" />
+    </v-avatar>  -->
+    <v-avatar
+      v-for="i in 20"
+      :key="i"
+      class="d-block text-center mx-auto mb-9"
+      color="grey lighten-1"
+      size="28"
+      rounded
+      @click="loadGroup(i)"
+    >
+      <img :src="`http://i.pravatar.cc/${i + 10}`" />
     </v-avatar>
   </div>
 </template>
