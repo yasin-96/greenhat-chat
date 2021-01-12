@@ -1,0 +1,13 @@
+listen_address = ""
+
+[[runners]]
+  name = "Docker runner"
+  url = "http://10.48.19.45"
+  token = "LmuyK5zd1QFfcPfuKWms"
+  limit = 0
+  executor = "docker"
+  [runners.docker]
+    network_mode = "gitlab"
+    host = ""
+    image = "ubuntu:20.04"
+    volumes = ["/var/run/docker.sock:/var/run/docker.sock"]
