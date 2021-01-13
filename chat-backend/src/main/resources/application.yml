@@ -3,4 +3,15 @@ spring:
     mongodb:
       uri: mongodb://root:example@localhost:27017/mydb?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false
 
+  #sollte angepasst werden
+  websocketSetting:
+    path: "/fromKafka"
 
+  kafkaSettings:
+    groupId: test-consumer-group
+    topic: mytopic
+
+  kafka:
+    consumer:
+      group-id: test-consumer-group
+      topics: mytopic
