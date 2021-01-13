@@ -20,7 +20,7 @@ class GroupController(
     }
 
     @GetMapping("/{group}/messages")
-    fun findAllGroupMessages(@PathVariable group:String) : Flux<Message> {
+    fun findAllGroupMessages(@PathVariable group:String) : Mono<Group> {
         return groupService.findAllGroupMessages(group)
     }
 

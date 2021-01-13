@@ -1,6 +1,6 @@
 import groupModule from "@/store/modules/chatModule/groups";
 import RestCall from "@/services/RestCall";
-import {checkUser, messageBasedOnReturnValue} from "@/utils/util";
+import {checkUser, messageBasedOnReturnValue, createAvatar} from "@/utils/util";
 
 
 const userModule = {
@@ -9,6 +9,7 @@ const userModule = {
     allGroups: groupModule
   },
   state: () => ({
+    avatar:"",
     user: {},
     activeGroupID:'',
     activeGroup: {
@@ -26,11 +27,11 @@ const userModule = {
     async act_logUserIn({commit}, userLoginCred){
       return RestCall.login(userLoginCred).then(({data, status}) => {
         
+        commit("MUT_SAVE_USER", data);
         if(checkUser(data) === null){
           return messageBasedOnReturnValue(status, "login")
         }
         
-        commit("MUT_SAVE_USER", data);
         return messageBasedOnReturnValue(status, "login")
       }).catch((error) => {
         console.error("act_logUserIn()", error)
@@ -57,6 +58,7 @@ const userModule = {
 
     MUT_SAVE_USER(state, userCred){
       state.user = userCred;
+      state.avatar = createAvatar(userCred.email);
     }
   },
   getters:{

@@ -7,6 +7,7 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.KafkaHeaders
 import org.springframework.messaging.support.GenericMessage
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.util.*
 
@@ -14,7 +15,6 @@ import java.util.*
 class MessageService(
         private val messageRepository: MessageRepository,
         private val kafkaTemplate: KafkaTemplate<String, String>,
-        private val groupService: GroupService
 ) {
     private val topicName: String = "mytopic"
 
@@ -28,8 +28,8 @@ class MessageService(
         kafkaTemplate.send(GenericMessage<Message>(message, headers))
     }
 
-    fun addMessageToSpecificDB(message: Message) {
-        //TODO
+    fun findMessageByGroupId(groupId:String) : Flux<Message> {
+        return messageRepository.findMessageByGroupId(groupId)
     }
 
 
