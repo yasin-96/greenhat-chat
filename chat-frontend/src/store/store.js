@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist'
+import VueSocketIO from 'vue-socket.io'
 
 import sidePanelModule from "@/store/modules/sidePanelModule/panel";
 import userModule from "@/store/modules/userModule/user";
@@ -29,5 +30,15 @@ const store = new Vuex.Store({
   plugins: [vuexLocal.plugin]
 });
 
+Vue.use(new VueSocketIO({
+    debug: true,
+    connection: process.env.VUE_APP_BACKEND_API,
+    vuex: {
+        store,
+        actionPrefix: 'act_socket_',
+        mutationPrefix: 'MUT_SOCKET_'
+    },
+    options: { path: "/message" }
+}))
 
 export default store;

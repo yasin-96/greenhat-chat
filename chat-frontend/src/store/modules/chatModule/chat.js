@@ -19,6 +19,18 @@ const chatModule = {
   },
   mutations: {
     // MUT_CREATE_NEW_MESSAGE(state, messageToSave) {},
+  state: () => ({
+   messages:[]
+  }),
+  actions: {
+    act_socket_(){
+
+    }
+  },
+  mutations: {
+    MUT_SOCKET_CONNECT(state, payload){
+      console.log("Connected",payload)
+    }
   },
 };
 
