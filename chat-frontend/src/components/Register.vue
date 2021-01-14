@@ -1,5 +1,5 @@
 <template>
-  <div>
+    <div>
     <v-container class="ma-10">
       <Info />
     </v-container>
@@ -119,6 +119,7 @@ export default {
   }),
   methods: {
     async registerUser() {
+      this.user.email = this.user.email + this.domainName
       const { message, status } = await this.$store.dispatch('user/act_registerUser', this.user);
       if (status !== 200) {
         this.setNotification(message, 'error', 'mdi-alert-circle');

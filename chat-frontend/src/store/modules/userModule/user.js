@@ -11,7 +11,7 @@ const userModule = {
   state: () => ({
     avatar:"",
     user: {},
-    activeGroupID:'',
+    activeGroupId:'asdadasd',
     activeGroup: {
 
     },

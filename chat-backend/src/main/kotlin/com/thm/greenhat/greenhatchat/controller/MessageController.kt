@@ -13,10 +13,7 @@ import reactor.core.publisher.Mono
 @RestController
 class MessageController(
         private val messageService: MessageService
-)
-
-
-{
+) {
 
     @GetMapping("/message/{id}")
     fun findById(@PathVariable id: String): Mono<Message> {
@@ -26,12 +23,12 @@ class MessageController(
 
 
     @PostMapping("/message")
-    fun addMessage(@RequestBody message: Message){
+    fun addMessage(@RequestBody message: Message) {
         messageService.addMessage(message)
     }
 
     @GetMapping("{groupId}/message")
-    fun findMessageByGroupId(@PathVariable groupId:String) : Flux<Message>{
+    fun findMessageByGroupId(@PathVariable groupId: String): Flux<Message> {
         return messageService.findMessageByGroupId(groupId)
     }
 

@@ -9,25 +9,26 @@ import reactor.core.publisher.Mono
 @CrossOrigin
 @RestController
 class UserController(
-  private val userService: UserService
+        private val userService: UserService
 ) {
     @GetMapping("/user/name/{username}")
-    fun findByUsername(@PathVariable username:String) : Mono<User>
-    { return userService.findUserByUsername(username)
-            .switchIfEmpty(Mono.error(BadRequestException("There is no user with such a name")))
+    fun findByUsername(@PathVariable username: String): Mono<User> {
+        return userService.findUserByUsername(username)
+                .switchIfEmpty(Mono.error(BadRequestException("There is no user with such a name")))
     }
 
     @GetMapping("/user/id/{id}")
-    fun findUserById(@PathVariable id:String) : Mono<User>
-    {return userService.findById(id)}
+    fun findUserById(@PathVariable id: String): Mono<User> {
+        return userService.findById(id)
+    }
 
     @PostMapping("/user/register")
-    fun addNewUser(@RequestBody user:User) : Mono<User>{
+    fun addNewUser(@RequestBody user: User): Mono<User> {
         return userService.addUser(user)
     }
 
     @GetMapping("/user/authenticate")
-    fun login(@RequestParam username:String, @RequestParam password:String) : Mono<User>{
-        return userService.login(username,password)
+    fun login(@RequestParam username: String, @RequestParam password: String): Mono<User> {
+        return userService.login(username, password)
     }
 }

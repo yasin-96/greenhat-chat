@@ -8,28 +8,35 @@ const chatModule = {
   modules: {
     groupModule,
   },
-  state: () => ({}),
-  actions: {
-    act_createNewMessage({commit}, newMessage) {
-      RestCall.sendMessage(newMessage).then((status) => {
-        console.log(status);
-        commit("");
-      });
-    },
-  },
-  mutations: {
-    // MUT_CREATE_NEW_MESSAGE(state, messageToSave) {},
   state: () => ({
-   messages:[]
+    messages: [],
+    socketInfo: {
+      clientConnected: false,
+      recievedMessages: "",
+    },
   }),
   actions: {
-    act_socket_(){
+    async act_createNewMessage({ commit }, newMessage) {
+      await RestCall.sendMessage(newMessage).then((status) => {
+        console.log(status);
+        commit('');
+      });
+    },
 
+    act_addNewMessagesFromWS({commit}, messageFromWS){
+      commit("MUT_ADD_MESSAGE_FROM_WEBSOCKET", messageFromWS)
     }
+  //   act_socket_CONNECTED({ commit }) {
+  //     commit('MUT_SOCKET_CONNECT');
+  //   },
+  //   act_socket_DISCONNECTED({ commit }) {
+  //     commit('MUT_SOCKET_DISCONNECT');
+  //   },
   },
+
   mutations: {
-    MUT_SOCKET_CONNECT(state, payload){
-      console.log("Connected",payload)
+    MUT_ADD_MESSAGE_FROM_WEBSOCKET(state, messageObject){
+      state.messages.push(messageObject)
     }
   },
 };

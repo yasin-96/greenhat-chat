@@ -14,6 +14,7 @@
           rounded
           solo
           clearable
+          @keyup.enter="sendMessage"
         >
           <template v-slot:prepend>
             <v-icon @click="openEmojiDialog">mdi-emoticon-happy-outline</v-icon>
