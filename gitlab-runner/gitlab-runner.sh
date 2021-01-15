@@ -7,7 +7,7 @@ gitlab-runner register \
   --registration-token ${registration_token} \
   --locked=false \
   --description docker-runner \
-  --url http://gitlab:80 \
+  --url http://10.48.19.45:80 \
   --executor docker \
   --docker-image alpine:latest \
   --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" \

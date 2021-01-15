@@ -17,14 +17,14 @@ services:
       - gitlab
 
   gitlab-runner:
-#    build: ./gitlab-runner
-    image: gitlab/gitlab-runner:alpine
+    build: ./gitlab-runner
+#    image: gitlab/gitlab-runner:alpine
     restart: always
     depends_on:
       - gitlab
     volumes:
       - $HOME/gitlab_server/gitlab-runner:/etc/gitlab-runner
-      - /srv/gitlab-runner/config:/var/run/docker.sock
+      - gitlab-runner:/var/run/docker.sock
     networks:
       - gitlab
 
@@ -37,7 +37,7 @@ services:
 
 volumes:
   nexus-data:
-#  gitlab-runner:
+  gitlab-runner:
 
 networks:
   gitlab:
