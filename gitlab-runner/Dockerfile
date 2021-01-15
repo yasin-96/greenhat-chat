@@ -1,5 +1,5 @@
 FROM gitlab/gitlab-runner:alpine
-RUN gitlab-runner register \
+CMD gitlab-runner register \
       --non-interactive \
       --registration-token LmuyK5zd1QFfcPfuKWms \
       --locked=false \
