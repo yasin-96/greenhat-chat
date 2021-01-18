@@ -6,6 +6,7 @@ import VueNativeSock from 'vue-native-websocket';
 import sidePanelModule from '@/store/modules/sidePanelModule/panel';
 import userModule from '@/store/modules/userModule/user';
 import chatModule from '@/store/modules/chatModule/chat';
+import groupModule from '@/store/modules/chatModule/groups';
 import notifyModule from '@/store/modules/notificationModule/notify';
 import gameModule from '@/store/modules/gameModule/game';
 import settingsModule from '@/store/modules/settingsModule/settings';
@@ -27,6 +28,7 @@ const store = new Vuex.Store({
     sidePanel: sidePanelModule,
     user: userModule,
     chat: chatModule,
+    group: groupModule,
     notify: notifyModule,
     game: gameModule,
     settings: settingsModule,

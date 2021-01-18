@@ -1,8 +1,21 @@
-POST http://localhost:8080/message
+# POST http://localhost:8080/message
+# Content-Type: application/json
+
+# {
+#     "content":"Das ist neu",
+#     "userId":"aj",
+#     "groupId":"ghfsdhfgjkhasgfhjkasdghjkfgjkahgfjkhagsdfhagk"
+# }
+
+##
+
+POST http://localhost:8080/group
 Content-Type: application/json
 
 {
-    "content":"Das ist neu",
-    "userId":"aj",
-    "groupId":"ghfsdhfgjkhasgfhjkasdghjkfgjkahgfjkhagsdfhagk"
+    "name":"Das ist neu",
+    "admin":"",
+    "users": [
+       
+    ]
 }

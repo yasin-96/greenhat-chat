@@ -15,4 +15,5 @@ interface UserRepository : ReactiveCrudRepository<User, String> {
     fun findByEmail(email: String): Mono<User>
 
     fun findByUsernameAndEmail(username: String, email: String): Flux<User>
+    fun findAllById(ids: List<String>): Mono<List<User>>
 }

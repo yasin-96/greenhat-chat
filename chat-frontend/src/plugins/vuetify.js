@@ -18,6 +18,7 @@ export default new Vuetify({
         yellow: colors.amber.accent3, //#FFEA00
         send: colors.lightGreen.accent4,
         transparent: colors.transparent,
+        blueGrey: colors.blueGrey.darken4
       },
     },
   },
