@@ -1,6 +1,7 @@
 package com.thm.greenhat.greenhatchat.repository
 
 import com.thm.greenhat.greenhatchat.model.User
+import com.thm.greenhat.greenhatchat.model.UserToDisplay
 import org.springframework.data.mongodb.repository.Query
 import java.util.*
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
@@ -15,5 +16,5 @@ interface UserRepository : ReactiveCrudRepository<User, String> {
     fun findByEmail(email: String): Mono<User>
 
     fun findByUsernameAndEmail(username: String, email: String): Flux<User>
-    fun findAllById(ids: List<String>): Mono<List<User>>
+//    fun findAllById(ids: MutableList<String>): Flux<UserToDisplay>
 }
