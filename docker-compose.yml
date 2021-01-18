@@ -17,22 +17,13 @@ services:
       - gitlab
 
   gitlab-runner:
-#    build: ./gitlab-runner
     image: gitlab/gitlab-runner:alpine
     restart: always
     depends_on:
       - gitlab
     volumes:
       - $HOME/gitlab_server/gitlab-runner:/etc/gitlab-runner
-      - gitlab-runner:/var/run/docker.sock
-    command:
-      gitlab-runner register \
-      --non-interactive \
-      --registration-token LmuyK5zd1QFfcPfuKWms \
-      --description docker-runner-1 \
-      --url http://10.48.19.45 \
-      --executor docker \
-      --docker-image alpine:latest \
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - gitlab
 
@@ -45,7 +36,6 @@ services:
 
 volumes:
   nexus-data:
-  gitlab-runner:
 
 networks:
   gitlab:
