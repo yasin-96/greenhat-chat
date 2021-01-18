@@ -2,8 +2,10 @@ package com.thm.greenhat.greenhatchat.controller
 
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
 import com.thm.greenhat.greenhatchat.model.User
+import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.service.UserService
 import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @CrossOrigin
@@ -22,6 +24,11 @@ class UserController(private val userService: UserService) {
     @GetMapping("/user/id/{id}")
     fun findUserById(@PathVariable id: String): Mono<User> {
         return userService.findById(id)
+    }
+
+    @GetMapping("/allUsers")
+    fun findAllUsers() : Flux<UserToAddIntoGroup> {
+        return userService.findallUsers()
     }
 
     /**

@@ -7,11 +7,11 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 
 @Document("group")
-data class Group(
+data class GroupRequest(
         @Id var _id: String = ObjectId.get().toString(),
         var name:String,
         var admin:String,
-        var users:MutableList<User> = mutableListOf()
+        var users:MutableList<String> = mutableListOf()
 )
 {
     @Transient

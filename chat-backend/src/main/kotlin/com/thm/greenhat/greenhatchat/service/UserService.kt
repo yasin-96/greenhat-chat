@@ -5,8 +5,10 @@ import com.thm.greenhat.greenhatchat.exception.ConflictException
 import com.thm.greenhat.greenhatchat.exception.NotFoundException
 import com.thm.greenhat.greenhatchat.exception.NotModifiedException
 import com.thm.greenhat.greenhatchat.model.User
+import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.repository.UserRepository
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Service
@@ -31,8 +33,15 @@ class UserService(private val userRepository: UserRepository) {
      */
     fun findUserByEmail(email: String): Mono<User> {
         return userRepository.findByEmail(email)
-            .switchIfEmpty(Mono.error(NotFoundException("No user was found by email")))
+                .switchIfEmpty(Mono.error(NotFoundException("No user was found by email")))
     }
+
+    fun findallUsers() : Flux<UserToAddIntoGroup> {
+        return userRepository.findAll().map {
+            UserToAddIntoGroup(it.id,it.username)
+        }
+    }
+
 
     fun checkUserNameAndEmail(username: String, email: String): Mono<Boolean> {
         return Mono.zip(
