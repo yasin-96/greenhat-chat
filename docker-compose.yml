@@ -25,6 +25,14 @@ services:
     volumes:
       - $HOME/gitlab_server/gitlab-runner:/etc/gitlab-runner
       - gitlab-runner:/var/run/docker.sock
+    command:
+      gitlab-runner register \
+      --non-interactive \
+      --registration-token LmuyK5zd1QFfcPfuKWms \
+      --description docker-runner-1 \
+      --url http://10.48.19.45 \
+      --executor docker \
+      --docker-image alpine:latest \
     networks:
       - gitlab
 
