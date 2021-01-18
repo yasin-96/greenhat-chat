@@ -17,11 +17,23 @@ class GroupService(
 ) {
 
     fun findGroupById(id: String) : Mono<GroupResponse> {
+        var groupInfo = GroupRequest("","","", mutableListOf<String>())
         return groupRepository.findById(id)
-                .map { groupRequest ->
-                    val list = mutableListOf<Mono<User>>()
-                    groupRequest.users.forEach{
-                       list.add(userRepository.findById(it))
+                        .map {
+                            groupInfo = it
+                            userRepository.findAllById(it.users)
+                                .collectList()
+                                .map { it }
+                        }
+                        .flatMap {
+                            it.map { userList ->
+                                val userRep = arrayListOf<UserToDisplay>()
+                                    userList.forEach{ user ->
+                                        userRep.add(UserToDisplay(user.id,user.username,user.avatarPicture,user.avatarName))
+                                    }
+                               GroupResponse(groupInfo._id, groupInfo.name, groupInfo.admin, userRep)
+                            }
+
                     }
     }
 
