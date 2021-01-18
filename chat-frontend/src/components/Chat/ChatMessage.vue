@@ -1,10 +1,10 @@
 <template>
   <v-container fluid class="overflow-y-auto mb-72">
     <v-timeline>
-      <v-timeline-item v-for="(msg, n) in messages" :key="msg.id" large>
+      <v-timeline-item v-for="(msg) in messages" :key="msg.id" large>
         <template v-slot:icon>
           <v-avatar>
-            <img :src="`http://i.pravatar.cc/${n}`" />
+            <!-- <img :src="`http://i.pravatar.cc/${n}`" /> -->
           </v-avatar>
         </template>
         <template v-slot:opposite>

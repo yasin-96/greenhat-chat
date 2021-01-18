@@ -51,18 +51,18 @@ export default {
     closeDialog(value) {
       this.$store.dispatch('settings/act_openSettingsDialogWithValue', value);
     },
-    computed: {
-      ...mapState({
-        settingsDialog: (state) => state.settings.enableDialog,
-        user: (state) => state.user.user,
-      }),
-      dialog: {
-        get() {
-          return this.settingsDialog;
-        },
-        set(value) {
-          this.closeDialog(value);
-        },
+  },
+  computed: {
+    ...mapState({
+      settingsDialog: (state) => state.settings.enableDialog,
+      user: (state) => state.user.user,
+    }),
+    dialog: {
+      get() {
+        return this.settingsDialog;
+      },
+      set(value) {
+        this.closeDialog(value);
       },
     },
   },

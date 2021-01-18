@@ -8,6 +8,7 @@
       </v-navigation-drawer>
       
       <Group />
+      <v-spacer class="my-100"></v-spacer>
       <UserPanelInfo />
     </v-navigation-drawer> 
   </div>

@@ -7,5 +7,4 @@ class BadRequestException : ResponseStatusException{
     constructor() : super(HttpStatus.BAD_REQUEST)
     constructor(reason: String?) : super(HttpStatus.BAD_REQUEST, reason)
     constructor(reason: String?, cause: Throwable?) : super(HttpStatus.BAD_REQUEST, reason, cause)
-
 }

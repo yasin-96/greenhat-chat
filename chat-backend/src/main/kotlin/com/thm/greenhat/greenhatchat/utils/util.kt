@@ -10,6 +10,6 @@ fun createAvatarName(email: String): String{
     }
     fn = rawName.split(".")?.get(0).toCharArray().firstOrNull()?.toUpperCase().toString()
 
-    println("${fn}${ln}")
+//    println("${fn}${ln}")
     return "${fn}${ln}"
 }

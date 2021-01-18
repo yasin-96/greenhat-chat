@@ -19,7 +19,7 @@ Vue.use(Vuex);
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
   key: 'greenhat-chat',
-  // asyncStorage: true
+  // asyncStorage: true    
 });
 
 const store = new Vuex.Store({

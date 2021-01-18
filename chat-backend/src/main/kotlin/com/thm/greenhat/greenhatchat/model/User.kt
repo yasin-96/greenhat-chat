@@ -12,8 +12,7 @@ data class User(
         var username: String,
         var password: String,
         var email: String,
-
-        ) {
-    var hasAvatarPicture: Boolean = false
-    var avatarname: String = createAvatarName(email)
-}
+        var hasAvatarPicture: Boolean = false,
+        var avatarName: String = createAvatarName(email),
+        var avatarPicture: String = ""
+)

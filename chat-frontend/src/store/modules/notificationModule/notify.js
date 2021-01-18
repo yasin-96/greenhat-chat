@@ -24,9 +24,9 @@ const notifyModule = {
       state.notfication.color = color;
       state.notfication.toggle = true;
 
-      setTimeout(() => {
-        state.notfication.toggle = false;
-      }, state.notfication.timeOut);
+      // setTimeout(() => {
+      //   state.notfication.toggle = false;
+      // }, state.notfication.timeOut);
     },
   },
 };

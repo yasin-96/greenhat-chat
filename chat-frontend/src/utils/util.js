@@ -56,19 +56,3 @@ export function messageForRegistry(status) {
       return null;
   }
 }
-
-export function createAvatar(email) {
-  if(email){
-    const rawName = email.split("@")[0];
-    const sizeOfMail = rawName.split(".").length;
-    let fn, ln = "";
-    if(sizeOfMail == 2){
-      ln = rawName.split(".")[1].charAt(0).toUpperCase();
-    } 
-    fn = rawName.split(".")[0].charAt(0).toUpperCase();
-
-    return `${fn}${ln}`
-  }
-
-  return "UN"
-}

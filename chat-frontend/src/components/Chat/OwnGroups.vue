@@ -20,7 +20,7 @@
       rounded
       @click="loadGroup(i)"
     >
-      <img :src="`http://i.pravatar.cc/${i + 10}`" />
+      <!-- <img :src="`http://i.pravatar.cc/${i + 10}`" /> -->
     </v-avatar>
   </div>
 </template>

@@ -119,15 +119,17 @@ export default {
   }),
   methods: {
     async registerUser() {
-      this.user.email = this.user.email + this.domainName
-      const { message, status } = await this.$store.dispatch('user/act_registerUser', this.user);
+      let copyOfUser = Object.assign({}, this.user);
+      copyOfUser.email = copyOfUser.email + this.domainName
+      const { message, status } = await this.$store.dispatch('user/act_registerUser', copyOfUser);
       if (status !== 200) {
         this.setNotification(message, 'error', 'mdi-alert-circle');
       } else {
         this.setNotification(message, 'success', 'mdi-alert-circle');
-        setTimeout(() => {
-          this.$router.push({ path: '/chat' });
-        }, 3500);
+        this.$router.push({ path: '/chat' });
+        // setTimeout(() => {
+          
+        // }, 3500);
       }
     },
     checkPassword() {

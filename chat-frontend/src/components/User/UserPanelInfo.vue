@@ -1,12 +1,15 @@
 <template>
-  <v-bottom-navigation dense class="pl-14" color="danger" height="40px">
+  <v-bottom-navigation  dense class="pl-14" color="danger" height="40px">
     <v-btn disabled
-      ><v-avatar>
+      ><v-avatar v-if="user.hasAvatarPicture">
         <img
-          src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+          :src="avatarPic"
           alt="User"
           class="elevation-6"
         />
+      </v-avatar>
+      <v-avatar v-else>
+        {{user.avatarName}}
       </v-avatar>
     </v-btn>
 
@@ -19,8 +22,8 @@
                 <v-list-item-title>
                   <h3>{{ username }}</h3>
                 </v-list-item-title>
-                <v-list-item-subtitle>
-                  <h6 class="">{{ shortUserId }}</h6>
+                <v-list-item-subtitle >
+                  <h6 class="">{{ shortUserId  }}</h6>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -49,10 +52,18 @@ export default {
   },
   computed: {
     ...mapState({
+      user: (state) => state.user.user,
+      avatarName: (state) => state.user.user.avatarName,
+      avatarPic: (state) => state.user.user.avatarPicture,
       username: (state) => state.user.user.username || '',
       userId: (state) => state.user.user.id || '',
-      shortUserId: (state) => `#${state.user.user.id.substring(0, 9)} . . .`,
     }),
+    shortUserId(){
+      if(this.user && this.user.id) {
+        return `#${this.user.id.substring(0, 9)} . . .`
+      }
+      return ""
+    }
   },
 };
 </script>

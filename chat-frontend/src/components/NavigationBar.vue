@@ -72,15 +72,16 @@ export default {
       this.$store.dispatch('game/act_toggleGameWindowWithValue', true);
     },
     changeGameBellColor() {
-      setTimeout(() => {
-        if (this.count < this.colors.length) {
+      if (this.count < this.colors.length) {
           this.count++;
         } else {
           this.count = 0;
         }
          this.bellIcon = this.bellIcon == this.icons.notRing ? this.icons.ring : this.icons.notRing;
         this.gameBell = this.colors[this.count];
-      }, 2000);
+      // setTimeout(() => {
+        
+      // }, 2000);
     },
   },
   computed: {

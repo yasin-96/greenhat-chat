@@ -1,40 +1,156 @@
 package com.thm.greenhat.greenhatchat.service
 
-import com.thm.greenhat.greenhatchat.controller.UserController
+import com.thm.greenhat.greenhatchat.exception.BadRequestException
+import com.thm.greenhat.greenhatchat.exception.ConflictException
+import com.thm.greenhat.greenhatchat.exception.NotFoundException
+import com.thm.greenhat.greenhatchat.exception.NotModifiedException
 import com.thm.greenhat.greenhatchat.model.User
 import com.thm.greenhat.greenhatchat.repository.UserRepository
-import org.springframework.lang.UsesJava7
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.RequestParam
 import reactor.core.publisher.Mono
 
 @Service
-class UserService(
-        private val userRepository: UserRepository
-) {
+class UserService(private val userRepository: UserRepository) {
 
-    fun findUserByUsername(username :String) : Mono<User> {
+    /**
+     * Try to find user on the username
+     * @param username String
+     * @return Mono<User> or
+     *         Mono<NotFoundException> user not exist
+     */
+    fun findUserByUsername(username: String): Mono<User> {
         return userRepository.findByUsername(username)
+            .switchIfEmpty(Mono.error(NotFoundException("No user was found by username")))
     }
 
-    fun findById(id:String) : Mono<User>{
+    /**
+     * Try to find user on the email address
+     * @param username String
+     * @return Mono<User>
+     *         Mono<NotFoundException> user not exist
+     */
+    fun findUserByEmail(email: String): Mono<User> {
+        return userRepository.findByEmail(email)
+            .switchIfEmpty(Mono.error(NotFoundException("No user was found by email")))
+    }
+
+    fun checkUserNameAndEmail(username: String, email: String): Mono<Boolean> {
+        return Mono.zip(
+            findUserByUsername(username),
+            findUserByEmail(email)
+        ).flatMap {
+            println("checkUserNameAndEmail ${it.t1.id}, ${it.t2.id}")
+            if (it.t1.id.isNullOrBlank() && it.t2.id.isNullOrBlank()) {
+                Mono.just(true)
+            }
+            Mono.just(false)
+        }
+    }
+
+    /**
+     * Try to find user on the id
+     * @param id String
+     * @return Mono<User>
+     *         Mono<NotFoundException> user not exist
+     */
+    fun findById(id: String): Mono<User> {
         return userRepository.findById(id)
+            .switchIfEmpty(Mono.error(NotFoundException("No user was found based on the id")))
     }
 
-    fun addUser(user:User) : Mono<User> {
-        return userRepository.save(user)
-                .map{it}
-    }
-
-    fun login(username: String, password:String) : Mono<User> {
-        return userRepository.findByUsername(username)
-                .flatMap {
-                    if(it.password == password){
-                        Mono.just(it)
-                    }
-                    else {
-                        Mono.empty<User>()
-                    }
+    /**
+     * It will check, if the username and email already exist
+     * @param username String
+     * @param email String
+     * @return Mono<Boolean>
+     *         true if not found
+     *         false user was found
+     */
+    fun checkUserNameAndEmailIfExist(username: String, email: String): Mono<Boolean> {
+        return userRepository.findByUsernameAndEmail(username, email).collectList()
+            .map {
+                if (it.size > 0 && it != null ) {
+                    false
+                } else {
+                    true
                 }
+            }
+    }
+
+    /**
+     * Add User to database
+     * @param user User
+     * @return Mono<User> or  ConflictException if username/ email was found in database
+     */
+    fun addUser(user: User): Mono<User> {
+        return checkUserNameAndEmailIfExist(user.username, user.email)
+            .flatMap {
+                print("user : ${it} ")
+                if(it){
+                    userRepository.save(user)
+                        .switchIfEmpty(Mono.error(NotModifiedException("Could not add user")))
+                        .map { it }
+                } else {
+                    Mono.error(ConflictException("This username/email already exists"))
+                }
+
+            }
+    }
+
+    /**
+     * Try to log User in
+     * @param username String
+     * @param password String
+     * @return Mono<User> or
+     *         Mono<NotFoundException> if user not exist with username+password or
+     *         Mono<BadRequestException> if username or password are invalid
+     */
+    fun login(username: String, password: String): Mono<User> {
+        return findUserByUsername(username)
+            .flatMap {
+                if (it.password == password) {
+                    Mono.just(it)
+                } else {
+                    Mono.error(BadRequestException("Invalid Password or Username"))
+                }
+            }
+    }
+
+    /**
+     *
+     * @param userId String
+     * @param specficInformation Map<String, Object>
+     * @return Mono<User>
+     */
+    fun updateOnSpecificProperties(userId: String, specficInformation: Map<String, Object>): Mono<User> {
+        return findById(userId)
+            .map { user ->
+                val userCopy = user.copy()
+                println(specficInformation)
+                for (specs in specficInformation!!) {
+                    println(specs)
+                    when (specs.key) {
+                        "username" -> user.username = specs.value.toString() ?: user.username
+                        "email" -> user.email = specs.value.toString() ?: user.email
+                        "avatarPicture" -> user.avatarPicture = specs.value.toString() ?: user.avatarPicture
+                        "hasAvatarPicture" -> user.hasAvatarPicture =  true ?: user.hasAvatarPicture //wieder abaendern
+                    }
+                    println("const = ${userCopy}, updated = ${user}")
+                }
+                println("const = ${userCopy}, updated = ${user}")
+                arrayListOf(userCopy, user);
+            }
+            .flatMap {
+                checkUserNameAndEmail(it[0].username, it[1].email)
+                    .map { resultOfQuery -> resultOfQuery }
+                    .filter { it ?: false }
+                    .switchIfEmpty(Mono.error(ConflictException("Email or Username exist")))
+
+                userRepository.save(it[1])
+                    .switchIfEmpty(Mono.error(NotModifiedException("Could not update User information")))
+                    .map {
+                        it
+                    }
+            }
     }
 }
