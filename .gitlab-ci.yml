@@ -15,7 +15,7 @@ stages:
 #  - build_backend_docker
 
 build_frontend:
-  image: node:6
+  image: node:14
   stage: build_frontend
   script:
     - cd chat-frontend
