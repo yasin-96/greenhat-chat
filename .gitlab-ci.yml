@@ -1,15 +1,37 @@
-#build frontend:
-#  image: node:6
-#  stage: build
-#  script:
-#    - cd chat-frontend
-#    - npm install --progress=false
-#    - npm run build
-#  artifacts:
-#    paths:
-#      - dist
+image: docker:latest
 
-build-job:
-  stage: build
+services:
+  - name: docker:dind
+    command: [ "--insecure-registry=some.host:port" ]
+
+before_script:
+  - docker info
+  - docker login -u admin -p greenhat http://10.48.19.45:8089
+
+stages:
+  - build_frontend
+  - build_frontend_docker
+#  - build_backend
+#  - build_backend_docker
+
+build_frontend:
+  image: node:6
+  stage: build_frontend
   script:
-    - echo "Hello World"
+    - cd chat-frontend
+    - npm install --progress=false
+    - npm run build
+  artifacts:
+    paths:
+      - dist
+
+build_frontend_docker:
+  stage: build_frontend_docker
+  script:
+    - cd chat-frontend
+    - docker build -t http://10.48.19.45:8089/frontend:latest .
+    - docker push http://10.48.19.45:8089/frontend:latest
+#  only:
+#    - master
+#  when: manual
+
