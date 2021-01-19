@@ -1,12 +1,12 @@
-image: docker:latest
+#image: docker:latest
 
 services:
   - name: docker:dind
-    command: [ "--insecure-registry=some.host:port" ]
+    command: [ "--insecure-registry=http://10.48.19.45:8089" ]
 
-before_script:
-  - docker info
-  - docker login -u admin -p greenhat http://10.48.19.45:8089
+#before_script:
+#  - docker info
+#  - docker login -u admin -p greenhat http://10.48.19.45:8089
 
 stages:
   - build_frontend
@@ -28,6 +28,8 @@ build_frontend:
 build_frontend_docker:
   stage: build_frontend_docker
   script:
+    - docker info
+    - docker login -u admin -p greenhat http://10.48.19.45:8089
     - cd chat-frontend
     - docker build -t http://10.48.19.45:8089/frontend:latest .
     - docker push http://10.48.19.45:8089/frontend:latest
