@@ -37,7 +37,7 @@ const store = new Vuex.Store({
   actions:{
     SOCKET_ONOPEN(){
       console.log("act SOCKET_ONOPEN")
-    }
+    } 
   },
   mutations: {
     SOCKET_ONOPEN(state, event) {
@@ -77,7 +77,7 @@ const store = new Vuex.Store({
 Vue.use(VueNativeSock, process.env.VUE_APP_BACKEND_WS, {
   store: store,
   format: 'json',
-  reconnection: false, //reconnect automatically (false)
+  reconnection: true, //reconnect automatically (false)
   reconnectionDelay: 30000, // wait before reconnect
 });
 

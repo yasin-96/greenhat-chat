@@ -26,7 +26,7 @@ class UserController(private val userService: UserService) {
         return userService.findById(id)
     }
 
-    @GetMapping("/allUsers")
+    @GetMapping("/user/allUsers")
     fun findAllUsers() : Flux<UserToAddIntoGroup> {
         return userService.findallUsers()
     }

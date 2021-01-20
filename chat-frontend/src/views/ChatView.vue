@@ -21,9 +21,31 @@ export default {
     ChatSidePanel,
     ChatInput,
     ChatMessage,
-    Settings
+    Settings,
   },
-  data: () => ({ drawer: null }),
+  mounted() {
+    this.pollingData();
+    this.loadAllUsers();
+  },
+  update() {
+    this.trigger = this.pollingData();
+  },
+  beforeDestroy() {
+    this.trgger = null
+  },
+  data: () => ({ trigger: null, drawer: null }),
+  methods: {
+    loadAllUsers(){
+      console.log("trigger user data")
+      this.$store.dispatch("user/act_getAllUserWithIdAndUserName");
+      // this.$store.dispatch("user/act_getAllGroupsFromUser");
+    },
+    pollingData(){
+      setTimeout(async()=>{
+        this.loadAllUsers()
+      }, 60000);
+    }
+  },
 };
 </script>
 

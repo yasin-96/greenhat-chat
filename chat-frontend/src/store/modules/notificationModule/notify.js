@@ -2,7 +2,7 @@ const notifyModule = {
   namespaced: true,
   state: () => ({
     notfication: {
-      timeOut: 5000,
+      timeOut: 10000,
       message: '',
       toggle: false,
       icon: '',
@@ -24,9 +24,10 @@ const notifyModule = {
       state.notfication.color = color;
       state.notfication.toggle = true;
 
-      // setTimeout(() => {
-      //   state.notfication.toggle = false;
-      // }, state.notfication.timeOut);
+      setTimeout(() => {
+        state.notfication.toggle = false;
+        state.notfication.message = ""
+      }, state.notfication.timeOut);
     },
   },
 };

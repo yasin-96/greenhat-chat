@@ -30,6 +30,7 @@ export default {
   }),
   computed: {
     ...mapState({
+      activeGroup: (state) => state.user.activeGroup,
       messages: (state) => state.chat.messages,
     }),
   },

@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation  dense class="pl-14" color="danger" height="40px">
+  <v-bottom-navigation app dense class="ml-14 elevation-0" color="danger" height="60px" width="245px">
     <v-btn disabled
       ><v-avatar v-if="user.hasAvatarPicture">
         <img
@@ -33,7 +33,7 @@
       <span>{{ userId }}</span>
     </v-tooltip>
 
-    <v-btn>
+    <v-btn @click="openSettingsDialog">
       <v-icon @click="openSettingsDialog" color="danger">mdi-cog-outline</v-icon>
     </v-btn>
   </v-bottom-navigation>

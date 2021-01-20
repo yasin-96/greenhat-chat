@@ -38,13 +38,13 @@ export default {
     winwheel: GameWinWheel,
   },
   mounted(){
-    this.changeGameBellColor()
+    //this.changeGameBellColor()
   },
   updated() {
-    this.changeGameBellColor();
+    //this.changeGameBellColor();
   },
   data: () => ({
-    gameBell: 'white',
+    gameBell: '#424242',
     bellIcon: 'mdi-bell',
     icons: {
       notRing: 'mdi-bell',
@@ -106,7 +106,7 @@ export default {
       return true;
     },
     gameIsActive() {
-      return !this.gameStatus;
+      return this.gameStatus;
     },
   },
 };

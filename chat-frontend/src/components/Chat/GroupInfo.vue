@@ -3,7 +3,7 @@
     <v-list>
       <v-list-item class="grow">
         <v-list-item-content>
-          <h2 class="text-center">{{ groupInfo.groupName }}</h2>
+          <h2 class="text-center">{{ groupInfo.name }}</h2>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="grow">
@@ -30,7 +30,7 @@ export default {
   name: 'GroupInfo',
   computed: {
     ...mapState({
-      groupInfo: (state) => state.user.activeGroup,
+      groupInfo: (state) => state.group.activeGroup,
     }),
   },
 };

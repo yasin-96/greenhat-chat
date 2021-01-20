@@ -12,22 +12,11 @@
           </h1></v-toolbar-title
         >
         <v-spacer></v-spacer>
-
-        <!-- <v-toolbar-items>
-              <v-btn dark text @click="dialog = false">
-                Speichern
-              </v-btn>
-            </v-toolbar-items> -->
       </v-toolbar>
       <v-card-title>
         <v-container>
           <UserInfo />
         </v-container>
-        <div class="mx-auto text-center">
-          <v-btn depressed rounded text>
-            Edit Account
-          </v-btn>
-        </div>
         <v-sheet class="pl-14" color="grey lighten-4" height="" width="100%"> </v-sheet>
       </v-card-title>
       <v-card-text> </v-card-text>

@@ -22,7 +22,15 @@
                 required
               ></v-text-field>
 
-              <v-combobox v-model="selectedUser" :items="items" :label="label.addUser" outlined multiple chips>
+              <v-combobox 
+                v-model="selectedUser" 
+                :items="userList" 
+                item-text="userName"
+                :label="label.addUser" 
+                outlined 
+                multiple 
+                chips
+              >
                 <template v-slot:selection="data">
                   <v-chip
                     :key="JSON.stringify(data.item)"
@@ -31,8 +39,8 @@
                     :disabled="data.disabled"
                     @click:close="data.parent.selectItem(data.item)"
                   >
-                    <v-avatar class="accent white--text" left v-text="data.item.slice(0, 1).toUpperCase()"></v-avatar>
-                    {{ data.item }}
+                    <v-avatar class="accent white--text" left v-text="data.item.userName.slice(0, 1).toUpperCase()"></v-avatar>
+                    {{ data.item.userName }}
                   </v-chip>
                 </template>
               </v-combobox>
@@ -59,8 +67,7 @@ export default {
   name: 'NewGroupDialog',
   data: () => ({
     validOfFormular: false,
-    selectedUser: ['Vuetify', 'Programming'],
-    items: ['Programming', 'Design', 'Vue', 'Vuetify'],
+    selectedUser: [],
     newGroupName: '',
     label: {
       groupTitle: 'New Group',
@@ -71,6 +78,7 @@ export default {
     ...mapState({
       enableDialog: (state) => state.group.enableWindow,
       userId: (state) => state.user.user.id,
+      userList: (state) => state.user.allRegisterdUsers
     }),
     dialog: {
       get() {
@@ -83,13 +91,14 @@ export default {
   },
   methods: {
     async createNewGroup() {
+      const userInGroup = this.selectedUser.map((item) => item.userId)
       const newGroup = {
         name: this.newGroupName,
         admin: this.userId,
-        users: this.selectedUser,
+        users: userInGroup,
       };
       await this.$store.dispatch("group/act_createNewGroup", newGroup)
-      this.$store.dispatch('group/act_CloseNewGroupWindow');
+      this.$store.dispatch('group/act_toggleNewGroupWindow', false);
     },
   },
 };

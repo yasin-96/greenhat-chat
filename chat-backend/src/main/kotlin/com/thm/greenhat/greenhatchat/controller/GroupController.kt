@@ -10,24 +10,27 @@ import reactor.core.publisher.Mono
 @CrossOrigin
 @RestController
 class GroupController(
-        private val groupService: GroupService
+    private val groupService: GroupService
 ) {
-    @GetMapping("/group/{id}")
-    fun findGroupById(@PathVariable id:String) : Mono<GroupResponse> {
+    @GetMapping("/group/id/{id}")
+    fun findGroupById(@PathVariable id: String): Mono<GroupResponse> {
         return groupService.findGroupById(id)
-                .switchIfEmpty(Mono.error(BadRequestException("There is no group with such an id")))
+            .switchIfEmpty(Mono.error(BadRequestException("There is no group with such an id")))
     }
 
-    @GetMapping("/{group}/messages")
-    fun findAllGroupMessages(@PathVariable group:String) : Mono<GroupRequest> {
-        return groupService.findAllGroupMessages(group)
+    @GetMapping("/group/messages/{id}")
+    fun findAllGroupMessages(@PathVariable id: String): Mono<GroupRequest> {
+        return groupService.findAllGroupMessages(id)
     }
 
-    @PostMapping("/group")
-    fun addGroup(@RequestBody groupRequest:GroupRequest) : Mono<GroupRequest> {
+    @PostMapping("/group/new")
+    fun addGroup(@RequestBody groupRequest: GroupRequest): Mono<GroupRequest> {
         return groupService.addGroup(groupRequest)
     }
 
-
+//    @GetMapping("/group/user/{id}")
+//    fun findAllGroupsFromUser(@PathVariable id: String): Mono<GroupRequest> {
+//        return groupService.findGroupsFromUser(id)
+//    }
 
 }

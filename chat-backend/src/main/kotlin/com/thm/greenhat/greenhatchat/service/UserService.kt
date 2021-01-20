@@ -139,10 +139,10 @@ class UserService(private val userRepository: UserRepository) {
                 for (specs in specficInformation!!) {
                     println(specs)
                     when (specs.key) {
-                        "username" -> user.username = specs.value.toString() ?: user.username
-                        "email" -> user.email = specs.value.toString() ?: user.email
-                        "avatarPicture" -> user.avatarPicture = specs.value.toString() ?: user.avatarPicture
-                        "hasAvatarPicture" -> user.hasAvatarPicture =  true ?: user.hasAvatarPicture //wieder abaendern
+                        "username" -> user.username = specs.value.toString()
+                        "email" -> user.email = specs.value.toString()
+                        "avatarPicture" -> user.avatarPicture = specs.value.toString()
+                        "hasAvatarPicture" -> user.hasAvatarPicture = specs.value as Boolean
                     }
                     println("const = ${userCopy}, updated = ${user}")
                 }

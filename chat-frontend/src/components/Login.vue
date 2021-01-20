@@ -99,9 +99,9 @@ export default {
         this.setNotification(message, 'error', 'mdi-alert-circle');
       } else {
         this.setNotification(message, 'success', 'mdi-alert-circle');
-        setTimeout(() => {
-          this.$router.push({ path: '/chat' });
-        }, 3500);
+        this.$router.push({ path: '/chat' });
+        // setTimeout(() => {
+        // }, 3500);
       }
     },
   },

@@ -30,7 +30,7 @@ const apiInterfaces = {
 };
 
 
-async function rcGet(restPath, params) {
+async function rcGet(restPath, params, pathParam) {
   if (params) {
     return httpClient
       .get(restPath, { params: params })
@@ -42,6 +42,17 @@ async function rcGet(restPath, params) {
       .catch((error) => {
         console.log("RCGET()", error);
       });
+  } else if(pathParam){
+    return httpClient
+    .get(`${restPath}/${pathParam._id}`)
+    .then((response) => {
+      console.log(response);
+      const { data, status } = response;
+      return { data, status };
+    })
+    .catch((error) => {
+      console.log("RCGET()", error);
+    });
   } else {
     return httpClient
       .get(restPath)
@@ -164,15 +175,17 @@ export default {
         console.log('SENDMESSAGE()', error);
       });
   },
-  async rcRequest(restPath, methodType, hasParams, hasBody) {
+  async rcRequest(restPath, methodType, hasParams, hasBody, hasPathVariable) {
     switch (String(methodType).toLowerCase()) {
       case "get":
         if (restPath && hasParams) {
           return await rcGet(restPath, hasParams);
-        }
-
-        if (restPath) {
-          return await rcGet(restPath);
+        } 
+        if (restPath && hasPathVariable) {
+          return await rcGet(restPath, null, hasPathVariable);
+        }  
+        if(restPath) {
+          return await rcGet(restPath, null, null);
         }
         break;
       case "post":

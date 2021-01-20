@@ -2,9 +2,10 @@
   <div>
     <!-- <v-footer class="mb-72" app color="transparent" inset>
     </v-footer> -->
-    <v-footer app color="transparent" inset>
+    <emoji v-show="enableEmojiDialog" @select="selectEmoji" class="ml-4 mb-2" />
+    <v-bottom-navigation app dense class="elevation-0" color="danger" height="60px">
+    <!-- <v-footer app color="transparent" inset> -->
       <v-container fluid>
-        <emoji v-show="enableEmojiDialog" @select="selectEmoji" class="ml-4 mb-2" />
         <v-text-field
           v-model="message"
           background-color="grey lighten-1"
@@ -28,7 +29,8 @@
           </template>
         </v-text-field>
       </v-container>
-    </v-footer>
+    <!-- </v-footer> -->
+    </v-bottom-navigation>
   </div>
 </template>
 
@@ -69,7 +71,7 @@ export default {
   computed: {
     ...mapState({
       userId: (state) => state.user.user.id,
-      groupId: (state) => state.user.activeGroupId,
+      groupId: (state) => state.group.activeGroupId,
     }),
   },
 };

@@ -2,13 +2,7 @@
   <v-container>
     <div class="d-flex flex-no-wrap justify-center">
       <v-card max-height="200px" max-width="180px" v-if="user.hasAvatarPicture">
-        <v-img
-          max-height="180px"
-          max-width="180px"
-          alt=""
-          :src="user.avatarPicture"
-        >
-        </v-img>
+        <v-img max-height="180px" max-width="180px" alt="" :src="user.avatarPicture"> </v-img>
         <v-card-title primary-title style="position: relative">
           <div>
             <v-btn
@@ -109,9 +103,10 @@
               </v-list-item-content>
               <v-list-item-action>
                 <v-switch
+                  :disabled="!user.hasAvatarPicture"
                   v-model="enableOrDisbleUserAvatarPicture"
                   flat
-                  :label="enableOrDisbleUserAvatarPicture ? 'disable' : 'enable'"
+                  :label="user.hasAvatarPicture ? 'enable' : 'disabled'"
                 ></v-switch>
               </v-list-item-action>
             </v-list-item>
@@ -141,11 +136,28 @@ export default {
       this.$store.dispatch('user/act_setEditWindowSettingsBasedOnType', userInfo);
       this.$store.dispatch('user/act_toggleEditWindowForUserWithValue', true);
     },
+    async removeAvatarPicture() {
+      await this.$store.dispatch('user/act_updateSpecificUserInformationen', {
+        _id: this.user.id,
+        update: {
+          avatarPicture: '',
+          hasAvatarPicture: false,
+        },
+      });
+      this.enableOrDisbleUserAvatarPicture = ''
+    },
   },
   computed: {
     ...mapState({
       user: (state) => state.user.user,
     }),
+  },
+  watch: {
+    enableOrDisbleUserAvatarPicture() {
+      if (this.enableOrDisbleUserAvatarPicture) {
+        this.removeAvatarPicture();
+      }
+    },
   },
 };
 </script>

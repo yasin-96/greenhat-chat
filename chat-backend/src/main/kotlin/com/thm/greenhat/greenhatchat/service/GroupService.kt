@@ -49,4 +49,61 @@ class GroupService(
     fun addGroup(group:GroupRequest) : Mono<GroupRequest> {
         return groupRepository.save(group)
     }
+
+//    fun findGroupsFromUser(userId: String): Mono<GroupResponse>{
+//        var groupReponses = arrayListOf<GroupRequest>()
+//        return groupRepository.findAll().collectList()
+//            .map{ allGroups ->
+//                var userInGroup = arrayListOf<GroupRequest>()
+//                allGroups.map { group ->
+//                    if(group.users.find { it == userId }.toString().isNotEmpty()){
+//                        userInGroup.add(group)
+//                    }
+//
+//                }
+//                groupReponses = userInGroup
+//                userInGroup
+//            }
+//            .map { userGroups ->
+//                userGroups.map {
+//                    userRepository.findAllById(it.users)
+//                        .collectList()
+//                        .map { it }
+//                }
+//            }
+//            .map {
+//
+//            }
+//
+//
+//
+////
+////                    gList ->
+////                var groupResult = arrayListOf<GroupResponse>()
+////                gList.map { uList ->
+////
+////                    uList.map {
+////
+////                    val userRep = arrayListOf<UserToDisplay>()
+////                    userList.forEach{ user ->
+////                        userRep.add(UserToDisplay(user.id,user.username,user.avatarPicture,user.avatarName))
+////                    }
+////                    GroupResponse(groupInfo._id, groupInfo.name, groupInfo.admin, userRep)
+////                }
+////
+////                }
+////
+////                it.map {
+////
+////
+////                        userList ->
+////                    val userRep = arrayListOf<UserToDisplay>()
+////                    userList.forEach{ user ->
+////                        userRep.add(UserToDisplay(user.id,user.username,user.avatarPicture,user.avatarName))
+////                    }
+////                    GroupResponse(groupInfo._id, groupInfo.name, groupInfo.admin, userRep)
+////                }
+//
+//            }
+//    }
 }

@@ -1,26 +1,17 @@
 <template>
-  <div>
-    <!-- <v-avatar
-      v-for="group in ownGroups"
-      :key="group._id"
-      class="d-block text-center mx-auto mb-9"
-      color="grey lighten-1"
-      size="28"
-      rounded
-      @click="loadGroup(group._id)"
-    >
-      <img :src="`http://i.pravatar.cc/${group + 10}`" />
-    </v-avatar>  -->
+  <div class="ml-2">
     <v-avatar
-      v-for="i in 20"
-      :key="i"
-      class="d-block text-center mx-auto mb-9"
-      color="grey lighten-1"
-      size="28"
-      rounded
-      @click="loadGroup(i)"
+
+      v-for="group in userGroups"
+      :key="group._id"
+      :class="activeGroupID == group._id ? 'mb-5 text-white': 'mb-5' "
+      :color="activeGroupID == group._id ? 'lightGreen': 'grey lighten-1' "
+      size="38"
+      :rounded="activeGroupID == group._id ? false : true" 
+      @click="loadGroup(group._id)"
+
+      v-text="String(group.name).slice(0, 2).toUpperCase()"
     >
-      <!-- <img :src="`http://i.pravatar.cc/${i + 10}`" /> -->
     </v-avatar>
   </div>
 </template>
@@ -36,21 +27,22 @@ export default {
     },
   },
   methods: {
-    async loadGroup(groupId) {
+    loadGroup(groupId) {
       console.log(groupId);
-      await this.$store.dispatch('user/act_loadGroupInfos', groupId);
+      const groupToLoad = {
+        _id: groupId
+      }
+      this.$store.dispatch('group/act_loadGroupInfos', groupToLoad);
     },
   },
   computed: {
     ...mapState({
-      ownGroups: (state) => state.user.ownGroups,
+      userGroups: (state) => state.group.userGroups,
+      activeGroupID: (state) => state.group.activeGroupId
     }),
     ...mapGetters({
       usersGroups: 'usersGroups',
     }),
-    ownGroups() {
-      return null;//this.usersGroups(),
-    },
   }
 };
 </script>

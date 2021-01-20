@@ -10,7 +10,7 @@ import java.util.*
 @Document("messages")
 @Serializable
 data class Message(
-        @Id var id: String = ObjectId.get().toString(),
+        @Id var _id: String = ObjectId.get().toString(),
         var content: String,
         var created:Long = Instant.now().epochSecond * 1000,
         var userId:String,

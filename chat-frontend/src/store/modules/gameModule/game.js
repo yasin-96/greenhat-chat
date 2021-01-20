@@ -64,9 +64,7 @@ const gameModule = {
         }
     },
     MUT_TOOGLE_GAME_WINDOW_WITH_VALUE(state, value){
-        if(!state.gameWasPlayed) {
-            state.openDialog = value; 
-        }
+        state.openDialog = value; 
     },
     MUT_GAME_WAS_PLAYED(state){
         state.gameWasPlayed = true
