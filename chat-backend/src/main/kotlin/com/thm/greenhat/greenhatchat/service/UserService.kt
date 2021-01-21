@@ -78,11 +78,7 @@ class UserService(private val userRepository: UserRepository) {
     fun checkUserNameAndEmailIfExist(username: String, email: String): Mono<Boolean> {
         return userRepository.findByUsernameAndEmail(username, email).collectList()
             .map {
-                if (it.size > 0 && it != null ) {
-                    false
-                } else {
-                    true
-                }
+                !(it.size > 0 && it != null)
             }
     }
 

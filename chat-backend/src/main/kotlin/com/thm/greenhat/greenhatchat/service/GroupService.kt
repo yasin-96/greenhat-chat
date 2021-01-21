@@ -1,6 +1,8 @@
 package com.thm.greenhat.greenhatchat.service
 
 import com.thm.greenhat.greenhatchat.controller.GroupController
+import com.thm.greenhat.greenhatchat.exception.ConflictException
+import com.thm.greenhat.greenhatchat.exception.NotModifiedException
 import com.thm.greenhat.greenhatchat.model.*
 import com.thm.greenhat.greenhatchat.repository.GroupRepository
 import com.thm.greenhat.greenhatchat.repository.MessageRepository
@@ -33,8 +35,7 @@ class GroupService(
                                     }
                                GroupResponse(groupInfo._id, groupInfo.name, groupInfo.admin, userRep)
                             }
-
-                    }
+                        }
     }
 
    fun findAllGroupMessages(id:String) : Mono<GroupRequest> {
@@ -47,8 +48,28 @@ class GroupService(
 
 
     fun addGroup(group:GroupRequest) : Mono<GroupRequest> {
-        return groupRepository.save(group)
+        return checkIfGroupNameExists(group.name)
+                .flatMap{
+                    if(it){
+                        groupRepository.save(group)
+                                .switchIfEmpty(Mono.error(NotModifiedException("Could not add group")))
+                                .map { it }
+                    }
+                    else {
+                        Mono.error(ConflictException("This groupname already exists."))
+                    }
+                }
     }
+
+    fun checkIfGroupNameExists(name:String) : Mono<Boolean>{
+        return groupRepository.findByName(name)
+                .map {
+                    it == null
+                }
+
+    }
+
+
 
 //    fun findGroupsFromUser(userId: String): Mono<GroupResponse>{
 //        var groupReponses = arrayListOf<GroupRequest>()
