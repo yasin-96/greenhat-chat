@@ -2,9 +2,9 @@ image: docker:latest
 
 #image: gitlab:dind
 
-#services:
-#  - docker:dind
-#    command: [ "--insecure-registry=http://10.48.19.45:8089" ]
+services:
+  - name: docker:dind
+    command: [ "--insecure-registry=http://10.48.19.45:8089" ]
 
 before_script:
   - docker --version
