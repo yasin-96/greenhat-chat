@@ -2,9 +2,9 @@ image: docker:latest
 
 #image: gitlab:dind
 
-services:
-  - name: docker:dind
-    command: [ "--insecure-registry=http://10.48.19.45:8089" ]
+#services:
+#  - name: docker:dind
+#    command: [ "--insecure-registry=http://10.48.19.45:8089" ]
 
 before_script:
   - docker --version
@@ -30,6 +30,7 @@ stages:
 build_frontend_docker:
   stage: build_frontend_docker
   script:
+    - docker ps -a
     - docker info
     - docker login -u admin -p greenhat http://10.48.19.45:8089
     - cd chat-frontend
