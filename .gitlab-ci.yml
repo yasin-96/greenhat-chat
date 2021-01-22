@@ -1,11 +1,5 @@
 image: docker:latest
 
-#image: gitlab:dind
-
-#services:
-#  - name: docker:dind
-#    command: [ "--insecure-registry=http://10.48.19.45:8089" ]
-
 before_script:
   - docker --version
 #  - docker login -u admin -p greenhat http://10.48.19.45:8089
