@@ -1,4 +1,4 @@
-image: gitlab:dind
+#image: gitlab:dind
 
 services:
   - docker:dind
@@ -28,7 +28,7 @@ stages:
 build_frontend_docker:
   stage: build_frontend_docker
   script:
-    - docker info
+    - sudo docker info
     - docker login -u admin -p greenhat http://10.48.19.45:8089
     - cd chat-frontend
     - docker build -t http://10.48.19.45:8089/frontend:latest .
