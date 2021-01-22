@@ -26,6 +26,7 @@ services:
     volumes:
       - $HOME/gitlab_server/gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
+      - /snap/bin/docker:/usr/bin/docker # Find out through command ">which docker"
     networks:
       - gitlab
 
