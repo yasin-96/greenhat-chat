@@ -18,8 +18,9 @@ class GroupService(
         private val userRepository: UserRepository
 ) {
 
-    fun findGroupById(id: String) : Mono<GroupResponse> {
+    fun findGroupById(id: String) : Mono<GroupResponse>{
         var groupInfo = GroupRequest("","","", mutableListOf<String>())
+        
         return groupRepository.findById(id)
                         .map {
                             groupInfo = it
@@ -33,9 +34,11 @@ class GroupService(
                                     userList.forEach{ user ->
                                         userRep.add(UserToDisplay(user.id,user.username,user.avatarPicture,user.avatarName))
                                     }
-                               GroupResponse(groupInfo._id, groupInfo.name, groupInfo.admin, userRep)
-                            }
-                        }
+                                userRep
+                            }.zipWith(userRepository.findById(groupInfo.admin))
+                        }.map {
+                    GroupResponse(groupInfo._id,groupInfo.name,it.t2.username,it.t1)
+                }
     }
 
    fun findAllGroupMessages(id:String) : Mono<GroupRequest> {

@@ -1,6 +1,7 @@
 package com.thm.greenhat.greenhatchat.controller
 
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
+import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
 import com.thm.greenhat.greenhatchat.model.User
 import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.service.UserService
@@ -51,6 +52,32 @@ class UserController(private val userService: UserService) {
     fun login(@RequestParam username: String, @RequestParam password: String): Mono<User> {
         return userService.login(username, password)
     }
+
+    @DeleteMapping("/user/{id}")
+    fun deleteAccount(@PathVariable id:String) : Mono<Void> {
+        return userService.deleteAccount(id)
+    }
+
+    @PutMapping("/user/{id}")
+    fun changePassword(@PathVariable id:String,@RequestBody request:ChangePasswordRequest) : Mono<User> {
+       return Mono.zip(checkIfOldPasswordCorrect(id,request.oldPassInput),userService.findById(id))
+               .filter {
+                   it.t1
+               }
+               .flatMap {
+                   userService.changePassword(it.t2,request.newPass)
+               }
+
+    }
+
+    fun checkIfOldPasswordCorrect(id:String,oldPass:String) : Mono<Boolean>{
+        return userService.findById(id)
+                .map {
+                    it.password == oldPass
+                }
+    }
+
+
 
     /**
      * Update Specific information from user

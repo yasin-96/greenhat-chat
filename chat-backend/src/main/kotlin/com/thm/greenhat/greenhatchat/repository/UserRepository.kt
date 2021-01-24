@@ -14,7 +14,7 @@ import kotlin.collections.ArrayList
 interface UserRepository : ReactiveCrudRepository<User, String> {
     fun findByUsername(username: String): Mono<User>
     fun findByEmail(email: String): Mono<User>
-
+    fun findUserNameById(id:String) :Mono<String>
     fun findByUsernameAndEmail(username: String, email: String): Flux<User>
 //    fun findAllById(ids: MutableList<String>): Flux<UserToDisplay>
 }
