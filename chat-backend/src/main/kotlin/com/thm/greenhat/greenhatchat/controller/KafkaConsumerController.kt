@@ -1,8 +1,9 @@
 package com.thm.greenhat.greenhatchat.controller
 
+import com.google.gson.Gson
 import com.thm.greenhat.greenhatchat.model.Message
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
+//import kotlinx.serialization.*
+//import kotlinx.serialization.json.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.KafkaListener
@@ -18,6 +19,10 @@ import reactor.core.publisher.Sinks
 import reactor.core.publisher.SynchronousSink
 import reactor.kotlin.core.publisher.toFlux
 import java.time.Duration
+import com.google.gson.GsonBuilder
+
+
+
 
 //@CrossOrigin
 @Configuration
@@ -54,8 +59,9 @@ class KafkaConsumerController {
 
     @KafkaListener(topics = ["mytopic"], groupId = "test-consumer-group")
     fun receiveData(message: Message) {
+        val gson = GsonBuilder().serializeNulls().create()
         this.sink.tryEmitNext(
-                Json.encodeToString(message)
+            gson.toJson(message)
         )
     }
 }
