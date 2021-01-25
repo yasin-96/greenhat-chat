@@ -5,29 +5,35 @@ before_script:
   - docker login -u docker-user -p greenhat 10.48.19.45:8090
 
 stages:
-#  - build_frontend
+  - build_frontend
   - build_frontend_docker
 #  - build_backend
 #  - build_backend_docker
+#  - deploy
 
-#build_frontend:
-#  image: node:14
-#  stage: build_frontend
-#  script:
-#    - cd chat-frontend
-#    - npm install --progress=false
-#    - npm run build
-#  artifacts:
-#    paths:
-#      - dist
+build-chat-frontend:
+  image: node:alpine
+  stage: build_frontend
+  script:
+    - cd chat-frontend
+    - npm install
+    - npm run build
+  cache:
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      # build folder
+      - dist/
+    expire_in: 1 hour
 
-build_frontend_docker:
+build-docker-chat-frontend:
   stage: build_frontend_docker
   script:
     - cd chat-frontend
     - docker build -t 10.48.19.45:8090/chat-frontend:latest .
     - docker push 10.48.19.45:8090/chat-frontend:latest
-#  only:
-#    - master
-#  when: manual
+  only:
+    - master
+  when: manual
 
