@@ -17,6 +17,8 @@ services:
       - $HOME/gitlab_server/settings/data:/var/opt/gitlab
     networks:
       - gitlab
+    depends_on:
+      - logstash
     logging:
       driver: "gelf"
       options:
@@ -29,6 +31,7 @@ services:
     restart: always
     depends_on:
       - gitlab
+      - logstash
     volumes:
       - $HOME/gitlab_server/gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
@@ -49,6 +52,8 @@ services:
       - "8090:8090"
     volumes:
       - nexus-data:/nexus-data
+    depends_on:
+      - logstash
     logging:
       driver: "gelf"
       options:
@@ -75,11 +80,6 @@ services:
         hard: -1
     networks:
       - elk
-    logging:
-      driver: "gelf"
-      options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
-        tag: "elasticsearch"
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.10.2
@@ -100,11 +100,6 @@ services:
       - elasticsearch
     networks:
       - elk
-    logging:
-      driver: "gelf"
-      options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
-        tag: "logstash"
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.10.2
@@ -116,6 +111,7 @@ services:
       ELASTICSEARCH_URL: http://elasticsearch:9200/
     depends_on:
       - elasticsearch
+      - logstash
     networks:
       - elk
     logging:
