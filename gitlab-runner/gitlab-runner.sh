@@ -1,7 +1,9 @@
 #!/bin/sh
 
-# verify docker service restart after gitlab-runner user assignment "> sudo snap restart docker"
 usermod -aG docker gitlab-runner
+
+# verify docker service restart after gitlab-runner user assignment
+snap restart docker
 
 registration_token=LmuyK5zd1QFfcPfuKWms
 
