@@ -84,11 +84,11 @@ services:
   logstash:
     image: docker.elastic.co/logstash/logstash:7.10.2
     restart: always
-#    volumes:
-#      - type: bind
-#        source: ./logstash/pipeline
-#        target: /usr/share/logstash/pipeline
-#        read_only: true
+    volumes:
+      - type: bind
+        source: ./logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
     ports:
       - "5000:5000/tcp"
       - "5000:5000/udp"
