@@ -16,6 +16,6 @@ interface UserRepository : ReactiveCrudRepository<User, String> {
     fun findByEmail(email: String): Mono<User>
     fun findUserNameById(id:String) :Mono<String>
     fun findByUsernameAndEmail(username: String, email: String): Flux<User>
-    fun existsByNameAndEmail(username: String,email: String) : Mono<Boolean>
+    fun existsByUsernameAndEmail(username: String,email: String) : Mono<Boolean>
 //    fun findAllById(ids: MutableList<String>): Flux<UserToDisplay>
 }

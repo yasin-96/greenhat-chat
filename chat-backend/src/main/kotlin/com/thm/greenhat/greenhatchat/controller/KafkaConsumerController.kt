@@ -45,6 +45,7 @@ class KafkaConsumerController {
 
     fun wsHandler(): WebSocketHandler {
         return WebSocketHandler { session ->
+            println(session)
             session.send(
                 this.sink.asFlux().map {
                     println("Session: ${session.id}, \t Message> ${it}")

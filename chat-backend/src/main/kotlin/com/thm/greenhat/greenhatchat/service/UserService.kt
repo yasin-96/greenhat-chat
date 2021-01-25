@@ -81,7 +81,7 @@ class UserService(private val userRepository: UserRepository) {
      *         false user was found
      */
     fun checkUserNameAndEmailIfExist(username: String, email: String): Mono<Boolean> {
-        return userRepository.existsByNameAndEmail(username,email)
+        return userRepository.existsByUsernameAndEmail(username,email)
                 .map {
                     it
                 }
