@@ -1,0 +1,35 @@
+stages:
+  - build_frontend
+  - build_frontend_docker
+#  - build_backend
+#  - build_backend_docker
+#  - deploy
+
+build-chat-frontend:
+  image: node:alpine
+  stage: build_frontend
+  script:
+    - cd chat-frontend
+    - npm install
+    - npm run build
+  cache:
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      # build folder
+      - dist/
+    expire_in: 1 hour
+
+build-docker-chat-frontend:
+  image: docker:latest
+  stage: build_frontend_docker
+  script:
+    - docker login -u docker-user -p greenhat 10.48.19.45:8090
+    - cd chat-frontend
+    - docker build -t 10.48.19.45:8090/chat-frontend:latest .
+    - docker push 10.48.19.45:8090/chat-frontend:latest
+  only:
+    - master
+  when: manual
+

@@ -3,8 +3,10 @@ version: '3.2'
 services:
   gitlab:
     image: gitlab/gitlab-ce:latest
+    restart: always
     environment:
       GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://10.48.19.45'
         gitlab_rails['gitlab_shell_ssh_port'] = 8822
     ports:
       - "80:80"
@@ -17,27 +19,29 @@ services:
       - gitlab
 
   gitlab-runner:
-    build: ./gitlab-runner
-#    image: gitlab/gitlab-runner:alpine
+    image: gitlab/gitlab-runner:alpine
+    container_name: gitlab-runner
     restart: always
     depends_on:
       - gitlab
     volumes:
       - $HOME/gitlab_server/gitlab-runner:/etc/gitlab-runner
-      - gitlab-runner:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /snap/bin/docker:/usr/bin/docker # Find out through command ">which docker"
     networks:
       - gitlab
 
   nexus:
     image: sonatype/nexus3
+    restart: always
     ports:
       - "8089:8081"
+      - "8090:8090"
     volumes:
       - nexus-data:/nexus-data
 
 volumes:
   nexus-data:
-  gitlab-runner:
 
 networks:
   gitlab:
