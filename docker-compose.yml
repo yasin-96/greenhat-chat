@@ -19,11 +19,11 @@ services:
       - gitlab
     depends_on:
       - logstash
-    logging:
-      driver: "gelf"
-      options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
-        tag: "gitlab"
+#    logging:
+#      driver: "gelf"
+#      options:
+#        gelf-address: "udp://10.48.19.0.0.1:5000"
+#        tag: "gitlab"
 
   gitlab-runner:
     image: gitlab/gitlab-runner:alpine
