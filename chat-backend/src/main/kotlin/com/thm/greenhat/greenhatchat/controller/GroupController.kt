@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 class GroupController(
     private val groupService: GroupService
 ) {
-    @GetMapping("/group/id/{id}")
+    @GetMapping("/group/{id}")
     fun findGroupById(@PathVariable id: String): Mono<GroupResponse> {
         return groupService.findGroupById(id)
             .switchIfEmpty(Mono.error(BadRequestException("There is no group with such an id")))

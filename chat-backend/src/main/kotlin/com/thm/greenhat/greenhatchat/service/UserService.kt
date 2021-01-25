@@ -67,6 +67,11 @@ class UserService(private val userRepository: UserRepository) {
             .switchIfEmpty(Mono.error(NotFoundException("No user was found based on the id")))
     }
 
+    fun deleteAccount(id:String) : Mono<Void> {
+        return userRepository.deleteById(id)
+    }
+
+
     /**
      * It will check, if the username and email already exist
      * @param username String
@@ -78,13 +83,16 @@ class UserService(private val userRepository: UserRepository) {
     fun checkUserNameAndEmailIfExist(username: String, email: String): Mono<Boolean> {
         return userRepository.findByUsernameAndEmail(username, email).collectList()
             .map {
-                if (it.size > 0 && it != null ) {
-                    false
-                } else {
-                    true
-                }
+                !(it.size > 0 && it != null)
             }
     }
+
+    fun changePassword(user:User,newPass:String) : Mono<User> {
+        return userRepository.save(
+                User(user.id,user.username,user.password,user.email,user.hasAvatarPicture,user.avatarName,user.avatarPicture)
+        )
+    }
+
 
     /**
      * Add User to database

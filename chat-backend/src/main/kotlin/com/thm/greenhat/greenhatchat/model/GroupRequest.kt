@@ -16,4 +16,6 @@ data class GroupRequest(
 {
     @Transient
     var messages: MutableList<Message> = mutableListOf()
+    @Transient
+    var private: Boolean = false
 }
