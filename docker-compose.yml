@@ -17,6 +17,13 @@ services:
       - $HOME/gitlab_server/settings/data:/var/opt/gitlab
     networks:
       - gitlab
+    depends_on:
+      - logstash
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.0.0.1:5000"
+        tag: "gitlab"
 
   gitlab-runner:
     image: gitlab/gitlab-runner:alpine
@@ -24,12 +31,18 @@ services:
     restart: always
     depends_on:
       - gitlab
+      - logstash
     volumes:
       - $HOME/gitlab_server/gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
       - /snap/bin/docker:/usr/bin/docker # Find out through command ">which docker"
     networks:
       - gitlab
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.45:5000"
+        tag: "gitlab-runner"
 
   nexus:
     image: sonatype/nexus3
@@ -39,9 +52,75 @@ services:
       - "8090:8090"
     volumes:
       - nexus-data:/nexus-data
+    depends_on:
+      - logstash
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.45:5000"
+        tag: "nexus"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    restart: always
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - cluster.initial_master_nodes=elasticsearch
+      - action.auto_create_index=*
+      - network.host=0.0.0.0
+      - http.port=9200
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - elk
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.10.2
+    restart: always
+    entrypoint: logstash -e 'input { gelf { type => docker      port => 5000}}  output{ stdout{} elasticsearch { hosts => ["http://elasticsearch:9200"]         index => "logstash-%{+YYYY-MM-dd}"}}'
+    ports:
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+      - "5044:5044/tcp"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.2
+    restart: always
+    ports:
+      - "5601:5601"
+    environment:
+      SERVER_NAME: 10.48.19.45
+      ELASTICSEARCH_URL: http://elasticsearch:9200/
+    depends_on:
+      - elasticsearch
+      - logstash
+    networks:
+      - elk
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.45:5000"
+        tag: "kibana"
 
 volumes:
   nexus-data:
+  elastic-data:
+    driver: local
 
 networks:
   gitlab:
+  elk:

@@ -14,11 +14,11 @@ build-chat-frontend:
     - npm run build
   cache:
     paths:
-      - node_modules/
+      - chat-frontend/node_modules/
   artifacts:
     paths:
       # build folder
-      - dist/
+      - chat-frontend/dist/
     expire_in: 1 hour
 
 build-docker-chat-frontend:
@@ -31,5 +31,3 @@ build-docker-chat-frontend:
     - docker push 10.48.19.45:8090/chat-frontend:latest
   only:
     - master
-  when: manual
-

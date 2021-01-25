@@ -8,6 +8,11 @@ services:
       - "8081:80"
     networks:
       - greenhat-chat
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.45:5000"
+        tag: "chat-frontend"
 
 #  chat-backend:
 #    image: 10.48.19.45:8090/chat-backend:latest
@@ -25,6 +30,11 @@ services:
       - "2181:2181"
     networks:
       - greenhat-chat
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.45:5000"
+        tag: "zookeeper"
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -43,6 +53,11 @@ services:
       - "9092:9092"
     networks:
       - greenhat-chat
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.45:5000"
+        tag: "kafka"
 
   mongo-db:
     image: mongo:latest
@@ -54,6 +69,11 @@ services:
       - "27017:27017"
     networks:
       - greenhat-chat
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.45:5000"
+        tag: "mongo-db"
 
   kafka-connector:
     image: confluentinc/cp-kafka-connect:latest
@@ -87,6 +107,11 @@ services:
       CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connector"
       CONNECT_ZOOKEEPER_CONNECT: zookeeper:2181
       CONNECT_PLUGIN_PATH: /usr/share/java/
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.45:5000"
+        tag: "kafka-connector"
 
 networks:
   greenhat-chat:
