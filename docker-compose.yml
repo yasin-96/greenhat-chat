@@ -41,7 +41,7 @@ services:
     logging:
       driver: "gelf"
       options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
+        gelf-address: "udp://10.48.19.45:5000"
         tag: "gitlab-runner"
 
   nexus:
@@ -57,7 +57,7 @@ services:
     logging:
       driver: "gelf"
       options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
+        gelf-address: "udp://10.48.19.45:5000"
         tag: "nexus"
 
   elasticsearch:
@@ -117,7 +117,7 @@ services:
     logging:
       driver: "gelf"
       options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
+        gelf-address: "udp://10.48.19.45:5000"
         tag: "kibana"
 
 volumes:
