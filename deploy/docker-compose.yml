@@ -11,7 +11,7 @@ services:
     logging:
       driver: "gelf"
       options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
+        gelf-address: "udp://10.48.19.45:5000"
         tag: "chat-frontend"
 
 #  chat-backend:
@@ -33,7 +33,7 @@ services:
     logging:
       driver: "gelf"
       options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
+        gelf-address: "udp://10.48.19.45:5000"
         tag: "zookeeper"
 
   kafka:
@@ -56,7 +56,7 @@ services:
     logging:
       driver: "gelf"
       options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
+        gelf-address: "udp://10.48.19.45:5000"
         tag: "kafka"
 
   mongo-db:
@@ -72,7 +72,7 @@ services:
     logging:
       driver: "gelf"
       options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
+        gelf-address: "udp://10.48.19.45:5000"
         tag: "mongo-db"
 
   kafka-connector:
@@ -110,7 +110,7 @@ services:
     logging:
       driver: "gelf"
       options:
-        gelf-address: "udp://10.48.19.0.0.1:5000"
+        gelf-address: "udp://10.48.19.45:5000"
         tag: "kafka-connector"
 
 networks:

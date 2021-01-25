@@ -19,11 +19,11 @@ services:
       - gitlab
     depends_on:
       - logstash
-#    logging:
-#      driver: "gelf"
-#      options:
-#        gelf-address: "udp://10.48.19.0.0.1:5000"
-#        tag: "gitlab"
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.0.0.1:5000"
+        tag: "gitlab"
 
   gitlab-runner:
     image: gitlab/gitlab-runner:alpine
@@ -84,11 +84,7 @@ services:
   logstash:
     image: docker.elastic.co/logstash/logstash:7.10.2
     restart: always
-    volumes:
-      - type: bind
-        source: ./logstash/pipeline
-        target: /usr/share/logstash/pipeline
-        read_only: true
+    entrypoint: logstash -e 'input { gelf { type => docker      port => 5000}}  output{ stdout{} elasticsearch { hosts => ["http://elasticsearch:9200"]         index => "logstash-%{+YYYY-MM-dd}"}}'
     ports:
       - "5000:5000/tcp"
       - "5000:5000/udp"
