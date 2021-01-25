@@ -1,7 +1,7 @@
 image: docker:latest
 
 before_script:
-  - docker info
+  - docker --version
   - docker login -u docker-user -p greenhat 10.48.19.45:8090
 
 stages:
