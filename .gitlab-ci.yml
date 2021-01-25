@@ -1,8 +1,8 @@
 image: docker:latest
 
 before_script:
-  - docker --version
-#  - docker login -u admin -p greenhat http://10.48.19.45:8089
+  - docker info
+  - docker login -u docker-user -p greenhat 10.48.19.45:8090
 
 stages:
 #  - build_frontend
@@ -24,12 +24,9 @@ stages:
 build_frontend_docker:
   stage: build_frontend_docker
   script:
-    - docker info
-#    - docker login -u admin -p greenhat http://10.48.19.45:8089
-    - docker login -u docker-user -p greenhat 10.48.19.45:8090
     - cd chat-frontend
-    - docker build -t 10.48.19.45:8090/frontend:latest .
-    - docker push 10.48.19.45:8090/frontend:latest
+    - docker build -t 10.48.19.45:8090/chat-frontend:latest .
+    - docker push 10.48.19.45:8090/chat-frontend:latest
 #  only:
 #    - master
 #  when: manual
