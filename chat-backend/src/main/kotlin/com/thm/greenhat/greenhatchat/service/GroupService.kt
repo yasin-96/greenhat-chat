@@ -10,6 +10,8 @@ import com.thm.greenhat.greenhatchat.repository.UserRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.switchIfEmpty
+import reactor.kotlin.extra.bool.not
 
 @Service
 class GroupService(
@@ -52,24 +54,18 @@ class GroupService(
 
     fun addGroup(group:GroupRequest) : Mono<GroupRequest> {
         return checkIfGroupNameExists(group.name)
+                .switchIfEmpty(Mono.error(ConflictException("test")))
                 .flatMap{
-                    if(it){
-                        groupRepository.save(group)
+                    if(it) Mono.error(ConflictException("This groupname already exists."))
+                    else groupRepository.save(group)
                                 .switchIfEmpty(Mono.error(NotModifiedException("Could not add group")))
-                                .map { it }
-                    }
-                    else {
-                        Mono.error(ConflictException("This groupname already exists."))
-                    }
                 }
     }
 
     fun checkIfGroupNameExists(name:String) : Mono<Boolean>{
-        return groupRepository.findByName(name)
-                .map {
-                    it == null
-                }
-
+       return groupRepository.existsByName(name).map {
+           it
+       }
     }
 
 

@@ -81,10 +81,11 @@ class UserService(private val userRepository: UserRepository) {
      *         false user was found
      */
     fun checkUserNameAndEmailIfExist(username: String, email: String): Mono<Boolean> {
-        return userRepository.findByUsernameAndEmail(username, email).collectList()
-            .map {
-                !(it.size > 0 && it != null)
-            }
+        return userRepository.existsByNameAndEmail(username,email)
+                .map {
+                    it
+                }
+
     }
 
     fun changePassword(user:User,newPass:String) : Mono<User> {
@@ -102,15 +103,10 @@ class UserService(private val userRepository: UserRepository) {
     fun addUser(user: User): Mono<User> {
         return checkUserNameAndEmailIfExist(user.username, user.email)
             .flatMap {
-                print("user : ${it} ")
-                if(it){
-                    userRepository.save(user)
-                        .switchIfEmpty(Mono.error(NotModifiedException("Could not add user")))
-                        .map { it }
-                } else {
-                    Mono.error(ConflictException("This username/email already exists"))
-                }
-
+                if(it) Mono.error(ConflictException("This username/email already exists"))
+                else userRepository.save(user)
+                            .switchIfEmpty(Mono.error(NotModifiedException("Could not add user")))
+                            .map { it }
             }
     }
 

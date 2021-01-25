@@ -10,5 +10,6 @@ import reactor.core.publisher.Mono
 interface GroupRepository : ReactiveCrudRepository<GroupRequest,String> {
 
     fun findByName(name:String) : Mono<GroupRequest>
+    fun existsByName(name:String) : Mono<Boolean>
 
 }
