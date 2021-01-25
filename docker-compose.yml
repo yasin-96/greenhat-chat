@@ -17,6 +17,11 @@ services:
       - $HOME/gitlab_server/settings/data:/var/opt/gitlab
     networks:
       - gitlab
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.0.0.1:5000"
+        tag: "gitlab"
 
   gitlab-runner:
     image: gitlab/gitlab-runner:alpine
@@ -30,6 +35,11 @@ services:
       - /snap/bin/docker:/usr/bin/docker # Find out through command ">which docker"
     networks:
       - gitlab
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.0.0.1:5000"
+        tag: "gitlab-runner"
 
   nexus:
     image: sonatype/nexus3
@@ -39,9 +49,14 @@ services:
       - "8090:8090"
     volumes:
       - nexus-data:/nexus-data
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.0.0.1:5000"
+        tag: "nexus"
 
   elasticsearch:
-    image: elasticsearch:7.10.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
     restart: always
     environment:
       - node.name=elasticsearch
@@ -50,6 +65,7 @@ services:
       - cluster.initial_master_nodes=elasticsearch
       - action.auto_create_index=*
       - network.host=0.0.0.0
+      - http.port=9200
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
       - elastic-data:/usr/share/elasticsearch/data
@@ -59,6 +75,11 @@ services:
         hard: -1
     networks:
       - elk
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.0.0.1:5000"
+        tag: "elasticsearch"
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.10.2
@@ -79,19 +100,29 @@ services:
       - elasticsearch
     networks:
       - elk
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.0.0.1:5000"
+        tag: "logstash"
 
   kibana:
-    image: kibana:7.10.2
+    image: docker.elastic.co/kibana/kibana:7.10.2
     restart: always
     ports:
       - "5601:5601"
     environment:
       SERVER_NAME: 10.48.19.45
-      ELASTICSEARCH_URL: http://elasticsearch1:9200/
+      ELASTICSEARCH_URL: http://elasticsearch:9200/
     depends_on:
       - elasticsearch
     networks:
       - elk
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.48.19.0.0.1:5000"
+        tag: "kibana"
 
 volumes:
   nexus-data:
