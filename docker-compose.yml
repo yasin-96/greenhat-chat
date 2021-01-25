@@ -40,8 +40,64 @@ services:
     volumes:
       - nexus-data:/nexus-data
 
+  elasticsearch:
+    image: elasticsearch:7.10.2
+    restart: always
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - cluster.initial_master_nodes=elasticsearch
+      - action.auto_create_index=*
+      - network.host=0.0.0.0
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - elk
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.10.2
+    restart: always
+#    volumes:
+#      - type: bind
+#        source: ./logstash/pipeline
+#        target: /usr/share/logstash/pipeline
+#        read_only: true
+    ports:
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+      - "5044:5044/tcp"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+  kibana:
+    image: kibana:7.10.2
+    restart: always
+    ports:
+      - "5601:5601"
+    environment:
+      SERVER_NAME: 10.48.19.45
+      ELASTICSEARCH_URL: http://elasticsearch1:9200/
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
 volumes:
   nexus-data:
+  elastic-data:
+    driver: local
 
 networks:
   gitlab:
+  elk:
