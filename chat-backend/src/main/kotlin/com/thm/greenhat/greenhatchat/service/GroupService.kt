@@ -7,10 +7,12 @@ import com.thm.greenhat.greenhatchat.model.*
 import com.thm.greenhat.greenhatchat.repository.GroupRepository
 import com.thm.greenhat.greenhatchat.repository.MessageRepository
 import com.thm.greenhat.greenhatchat.repository.UserRepository
+import kotlinx.coroutines.flow.asFlow
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.switchIfEmpty
+import reactor.kotlin.core.publisher.toFlux
 import reactor.kotlin.extra.bool.not
 
 @Service
@@ -69,61 +71,14 @@ class GroupService(
     }
 
 
-
-//    fun findGroupsFromUser(userId: String): Mono<GroupResponse>{
-//        var groupReponses = arrayListOf<GroupRequest>()
-//        return groupRepository.findAll().collectList()
-//            .map{ allGroups ->
-//                var userInGroup = arrayListOf<GroupRequest>()
-//                allGroups.map { group ->
-//                    if(group.users.find { it == userId }.toString().isNotEmpty()){
-//                        userInGroup.add(group)
-//                    }
-//
-//                }
-//                groupReponses = userInGroup
-//                userInGroup
-//            }
-//            .map { userGroups ->
-//                userGroups.map {
-//                    userRepository.findAllById(it.users)
-//                        .collectList()
-//                        .map { it }
-//                }
-//            }
-//            .map {
-//
-//            }
-//
-//
-//
-////
-////                    gList ->
-////                var groupResult = arrayListOf<GroupResponse>()
-////                gList.map { uList ->
-////
-////                    uList.map {
-////
-////                    val userRep = arrayListOf<UserToDisplay>()
-////                    userList.forEach{ user ->
-////                        userRep.add(UserToDisplay(user.id,user.username,user.avatarPicture,user.avatarName))
-////                    }
-////                    GroupResponse(groupInfo._id, groupInfo.name, groupInfo.admin, userRep)
-////                }
-////
-////                }
-////
-////                it.map {
-////
-////
-////                        userList ->
-////                    val userRep = arrayListOf<UserToDisplay>()
-////                    userList.forEach{ user ->
-////                        userRep.add(UserToDisplay(user.id,user.username,user.avatarPicture,user.avatarName))
-////                    }
-////                    GroupResponse(groupInfo._id, groupInfo.name, groupInfo.admin, userRep)
-////                }
-//
-//            }
-//    }
+    fun findGroupsFromUser(userId: String): Mono<List<GroupRequest>> {
+        return groupRepository.findAll().collectList()
+            .map { allGroups ->
+                allGroups.filter { group ->
+                    group.admin == userId ||
+                            group.users.contains(userId)
+                            
+                }
+            }
+    }
 }
