@@ -35,7 +35,7 @@ async function rcGet(restPath, params, pathParam) {
     return httpClient
       .get(restPath, { params: params })
       .then((response) => {
-        console.log(response);
+        console.log("RCGET()",response);
         const { data, status } = response;
         return { data, status };
       })
@@ -46,7 +46,7 @@ async function rcGet(restPath, params, pathParam) {
     return httpClient
     .get(`${restPath}/${pathParam._id}`)
     .then((response) => {
-      console.log(response);
+      console.log("RCGET()",response);
       const { data, status } = response;
       return { data, status };
     })
@@ -57,7 +57,7 @@ async function rcGet(restPath, params, pathParam) {
     return httpClient
       .get(restPath)
       .then((response) => {
-        console.log(response);
+        console.log("RCGET()", response);
         const { data, status } = response;
         return { data, status };
       })
