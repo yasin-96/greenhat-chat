@@ -9,6 +9,7 @@ const API_PATHS = {
     create: API_BASE_PATHS.group + '/new',
     groupInfo: API_BASE_PATHS.group + '/id',
     groupMessages: API_BASE_PATHS.group + '/messages',
+    userGroups: API_BASE_PATHS.group + "/user",
   },
 };
 
@@ -54,16 +55,17 @@ const groupModule = {
           console.log('act_createNewGroup(): ', error);
         });
     },
-    act_getAllGroupsFromUser({ commit, rootState }) {
-      const groups = {
+    async act_getAllGroupsFromUser({ commit, rootState }) {
+      const userId = {
         _id: rootState.user.user.id
       }
-      console.log('act_getAllGroupsFromUser');
-      RestCall.rcRequest(API_PATHS.user.allUser, 'get', null, null, groups)
-        .then(({ data }) => {
+      console.log('act_getAllGroupsFromUser', userId);
+      await RestCall.rcRequest(API_PATHS.group.userGroups, 'get', null, null, userId)
+        .then(({data}) => {
           console.log('act_getAllGroupsFromUser() res: ', data);
           if (data !== null) {
             commit('MUT_LOAD_ALL_GROUPS_FROM_USER', data);
+
           }
         })
         .catch((error) => {
@@ -92,15 +94,18 @@ const groupModule = {
 
       // }
       let found = false
-      state.userGroups.map((ig) => {
+      let indexOfGroup = null
+      state.userGroups.map((ig, index) => {
         if (ig._id === loadGroupInfo._id) {
           ig = loadGroupInfo;
           found = true
+          indexOfGroup = index
         }
       });
 
       if(found){
         state.activeGroupId = loadGroupInfo._id;
+        state.userGroups[indexOfGroup] = loadGroupInfo
       } else {
         state.userGroups.push(loadGroupInfo)
       }
