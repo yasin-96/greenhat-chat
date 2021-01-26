@@ -3,7 +3,6 @@ package com.thm.greenhat.greenhatchat.controller
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
 import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
 import com.thm.greenhat.greenhatchat.model.User
-import com.thm.greenhat.greenhatchat.model.UserGroups
 import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.service.UserService
 import org.springframework.web.bind.annotation.*

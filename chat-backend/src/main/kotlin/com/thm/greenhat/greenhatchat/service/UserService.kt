@@ -5,7 +5,6 @@ import com.thm.greenhat.greenhatchat.exception.ConflictException
 import com.thm.greenhat.greenhatchat.exception.NotFoundException
 import com.thm.greenhat.greenhatchat.exception.NotModifiedException
 import com.thm.greenhat.greenhatchat.model.User
-import com.thm.greenhat.greenhatchat.model.UserGroups
 import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.repository.GroupRepository
 import com.thm.greenhat.greenhatchat.repository.UserRepository
