@@ -11,8 +11,7 @@ import notifyModule from '@/store/modules/notificationModule/notify';
 import gameModule from '@/store/modules/gameModule/game';
 import settingsModule from '@/store/modules/settingsModule/settings';
 
-
-console.log('WS', process.env.VUE_APP_BACKEND_WS), {store};
+console.log('WS', process.env.VUE_APP_BACKEND_WS), { store };
 
 Vue.use(Vuex);
 // console.log('WS', process.env.VUE_APP_BACKEND_WS, process.env.VUE_APP_BACKEND_WEBSOCKET_INTERFACE);
@@ -20,7 +19,7 @@ Vue.use(Vuex);
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
   key: 'greenhat-chat',
-  // asyncStorage: true    
+  // asyncStorage: true
 });
 
 const store = new Vuex.Store({
@@ -34,14 +33,17 @@ const store = new Vuex.Store({
     settings: settingsModule,
     // socket: chatModule.socket
   },
-  actions:{
-    SOCKET_ONOPEN(){
-      console.log("act SOCKET_ONOPEN")
-    } 
+  actions: {
+    SOCKET_ONOPEN() {
+      console.log('act SOCKET_ONOPEN');
+    },
+    act_sendWSMessageToServer({ state }, message) {
+      state.socket.send(message);
+    },
   },
   mutations: {
     SOCKET_ONOPEN(state, event) {
-      Vue.prototype.$socket = event.currentTarget
+      Vue.prototype.$socket = event.currentTarget;
       console.log('SOCKET_ONOPEN', event);
       state.chat.socketInfo.clientConnected = true;
     },
@@ -54,12 +56,13 @@ const store = new Vuex.Store({
     },
     // default handler called for all methods
     SOCKET_ONMESSAGE(state, message) {
-      console.log("SOCKET_ONMESSAGE",message, state)
-      state.chat.socketInfo.recievedMessages = message
-      if(state.chat.messages === null ){
-        state.chat.messages = []
-      } 
-      state.chat.messages.push(message)
+      //TODO: Check if message is empty or null
+      console .log('SOCKET_ONMESSAGE', message, state);
+        state.chat.socketInfo.recievedMessages = message;
+        if (state.chat.messages === null) {
+          state.chat.messages = [];
+        }
+        state.chat.messages.push(message);
     },
     // mutations for reconnect methods
     SOCKET_RECONNECT(state, count) {
@@ -72,14 +75,11 @@ const store = new Vuex.Store({
   plugins: [vuexLocal.plugin],
 });
 
-
-
 Vue.use(VueNativeSock, process.env.VUE_APP_BACKEND_WS, {
   store: store,
   format: 'json',
   reconnection: true, //reconnect automatically (false)
-  reconnectionDelay: 30000, // wait before reconnect
+  reconnectionDelay: 5000, // wait before reconnect
 });
-
 
 export default store;
