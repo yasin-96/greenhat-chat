@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="overflow-y-auto mb-72">
-    <v-timeline>
+    <v-timeline v-if="messages && !!messages && messages.length">
       <v-timeline-item v-for="(msg) in messages" :key="msg.id" large>
         <template v-slot:icon>
           <v-avatar>

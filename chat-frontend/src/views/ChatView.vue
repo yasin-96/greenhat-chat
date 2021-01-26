@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import ChatSidePanel from '@/components/Chat/ChatSidePanel';
 import ChatInput from '@/components/Chat/ChatInput';
 import ChatMessage from '@/components/Chat/ChatMessage';
@@ -24,28 +25,51 @@ export default {
     Settings,
   },
   mounted() {
-    this.pollingData();
     this.loadAllUsers();
+    this.loadAllGroupsFromUser()
+    this.pollingData();
+    // const wsInfo = {"userId": this.userId, "group": this.userGroups}
+    // this.$socket.send("asda")
+    // console.log(JSON.stringify(wsInfo))
+    // let wsString = JSON.stringify(wsInfo)
+    this.$socket.send(JSON.stringify({"userId": this.userId, "group": this.userGroups}))
   },
   update() {
     this.trigger = this.pollingData();
+     if(this.userGroups && this.userId && this.clientConnected ) {
+        const wsInfo = {userId: this.userId, group: this.userGroups}
+          this.$socket.send(JSON.stringify(wsInfo))
+      }
   },
   beforeDestroy() {
     this.trgger = null
   },
-  data: () => ({ trigger: null, drawer: null }),
+  data: () => ({ trigger: null }),
   methods: {
     loadAllUsers(){
       console.log("trigger user data")
       this.$store.dispatch("user/act_getAllUserWithIdAndUserName");
-      // this.$store.dispatch("user/act_getAllGroupsFromUser");
+    },
+    loadAllGroupsFromUser(){
+      console.log("trigger user groups")
+      this.$store.dispatch("group/act_getAllGroupsFromUser");
+      // this.$store.dispatch('act_sendWSMessageToServer', "aaaa")
+      
     },
     pollingData(){
-      setTimeout(async()=>{
+      setTimeout(()=>{
         this.loadAllUsers()
-      }, 60000);
+        this.loadAllGroupsFromUser()
+      }, 5000);
     }
   },
+  computed:{
+    ...mapState({
+      userGroups: (state) => state.group.userGroups,
+      userId: (state) => state.user.user.id,
+      clientConnected: (state) => state.chat.socketInfo.clientConnected
+    })
+  }
 };
 </script>
 
