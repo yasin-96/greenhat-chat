@@ -3,6 +3,7 @@ package com.thm.greenhat.greenhatchat.controller
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
 import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
 import com.thm.greenhat.greenhatchat.model.User
+import com.thm.greenhat.greenhatchat.model.UserGroups
 import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.service.UserService
 import org.springframework.web.bind.annotation.*
@@ -69,6 +70,12 @@ class UserController(private val userService: UserService) {
                }
 
     }
+
+    @GetMapping("/user/{id}/groups")
+    fun getGroupsFromUser(@PathVariable id:String) : Flux<String> {
+        return userService.getGroupsFromUser(id)
+    }
+
 
     fun checkIfOldPasswordCorrect(id:String,oldPass:String) : Mono<Boolean>{
         return userService.findById(id)

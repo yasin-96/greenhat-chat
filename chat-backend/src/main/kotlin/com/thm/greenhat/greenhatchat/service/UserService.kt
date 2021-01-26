@@ -5,14 +5,20 @@ import com.thm.greenhat.greenhatchat.exception.ConflictException
 import com.thm.greenhat.greenhatchat.exception.NotFoundException
 import com.thm.greenhat.greenhatchat.exception.NotModifiedException
 import com.thm.greenhat.greenhatchat.model.User
+import com.thm.greenhat.greenhatchat.model.UserGroups
 import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
+import com.thm.greenhat.greenhatchat.repository.GroupRepository
 import com.thm.greenhat.greenhatchat.repository.UserRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toFlux
 
 @Service
-class UserService(private val userRepository: UserRepository) {
+class UserService(
+        private val userRepository: UserRepository,
+        private val groupRepository: GroupRepository
+) {
 
     /**
      * Try to find user on the username
@@ -166,4 +172,18 @@ class UserService(private val userRepository: UserRepository) {
                     }
             }
     }
+
+    fun getGroupsFromUser(id: String): Flux<String> {
+        val list = mutableListOf<String>()
+        return groupRepository.findAll()
+                .flatMapIterable  { group ->
+                    group.users.forEach {
+
+                        if(it==id) list.add(group._id)
+                        println(list)
+                    }
+                    list
+                }
+    }
+
 }

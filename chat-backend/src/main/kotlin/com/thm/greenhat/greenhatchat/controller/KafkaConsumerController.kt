@@ -113,7 +113,7 @@ class KafkaConsumerController {
                                     val check = groupInfo.getValue(group._id).isEmpty()
                                     if(check){
                                         group
-                                        groupInfo[group._id] .add(session.id)
+                                        groupInfo[group._id]!!.add(session.id)
                                     } else {
                                         groupInfo.getValue(group._id).add(session.id)
                                     }
