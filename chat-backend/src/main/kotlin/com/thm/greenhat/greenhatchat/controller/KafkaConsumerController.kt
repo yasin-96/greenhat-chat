@@ -20,6 +20,7 @@ import reactor.core.publisher.SynchronousSink
 import reactor.kotlin.core.publisher.toFlux
 import java.time.Duration
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.thm.greenhat.greenhatchat.model.GroupRequest
 import com.thm.greenhat.greenhatchat.model.WSUserAndGRoupInfo
 import org.springframework.boot.json.GsonJsonParser
@@ -37,6 +38,7 @@ import java.util.concurrent.ConcurrentHashMap
 @EnableWebFlux
 //@Controller
 class KafkaConsumerController {
+    val mutableListOfString = object : TypeToken<MutableList<String>>() {}.type
     companion object {
         var onlineSessions = hashMapOf<String, WebSocketSession>()
         var userSessions = hashMapOf<String, String>()
@@ -44,8 +46,7 @@ class KafkaConsumerController {
         lateinit var tmpData: Message
     }
 
-    val sink = Sinks.many().multicast().onBackpressureBuffer<String>()
-
+    var sink = Sinks.many().multicast().onBackpressureBuffer<String>()
 
     @Bean
     fun wsHandlerAdapter() = WebSocketHandlerAdapter()
@@ -72,7 +73,7 @@ class KafkaConsumerController {
                     println("GroupInfo: ${groupInfo.toString()}")
 
                     // val userID = userSessions.getValue(session.id)
-
+                    println("Current Session = ${session.id}")
                     try {
                         if (currentGroup.contains(session.id)) {
                             session.textMessage(it)
@@ -89,25 +90,33 @@ class KafkaConsumerController {
                     session.receive().map {
                         println("Get Message from Client")
                         println("RAW: ${it.payloadAsText}")
-
+                        var test = ""
                         try {
-                            val allGroupsFromUser: ArrayList<String> = Gson().fromJson(it.payloadAsText, ArrayList::class.java)
+                            val allGroupsFromUser: MutableList<String> = Gson().fromJson(it.payloadAsText, mutableListOfString)
                             println(">> ${allGroupsFromUser.toString()}")
-
+                            test = allGroupsFromUser.toString()
                             onlineSessions.put(session.id, session)
-                            // userSessions.put(session.id, wsUserAndGRoupInfo.userId)
+                            
                             allGroupsFromUser.forEach { groupId ->
-                                val check = groupInfo.getValue(groupId).isEmpty()
-                                if (check) {
+                                println("GID: ${groupId}")
+                                // val check = groupInfo.keys.contains(groupId)
+
+
+                                if(groupInfo.isNullOrEmpty()) {
                                     groupInfo.put(groupId, mutableSetOf<String>(session.id))
-//                                  //  groupInfo[groupId]!!.add(session.id)
                                 } else {
-                                    groupInfo.getValue(groupId).add(session.id)
+
+                                    if (!groupInfo.keys.contains(groupId)) {
+                                        groupInfo.put(groupId, mutableSetOf<String>(session.id))
+                                    } else {
+                                        groupInfo.getValue(groupId).add(session.id)
+                                    }
                                 }
 
                             }
 
                         } catch (e: Exception) {
+                            println("Bin direk hier, ${test}")
                             println(e)
                         }
                     }

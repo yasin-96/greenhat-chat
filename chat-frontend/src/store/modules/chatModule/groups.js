@@ -2,6 +2,7 @@ import RestCall from '@/services/RestCall';
 
 const API_BASE_PATHS = {
   group: '/group',
+  user: '/user'
 };
 
 const API_PATHS = {
@@ -11,6 +12,9 @@ const API_PATHS = {
     groupMessages: API_BASE_PATHS.group + '/messages',
     userGroups: API_BASE_PATHS.group + "/user",
   },
+  user: {
+    groups: API_BASE_PATHS.user + '/groups'
+  }
 };
 
 const groupModule = {
@@ -20,6 +24,7 @@ const groupModule = {
     activeGroupId: 'asdadasd',
     activeGroup: {},
     userGroups: [],
+    allGroupIDS: []
   }),
   actions: {
     act_loadGroupInfos({ commit }, payload) {
@@ -73,6 +78,27 @@ const groupModule = {
           return null
         });
     },
+
+    async act_getAllGroupIdsFromUser({ commit, rootState }) {
+      const userId = {
+        _id: rootState.user.user.id
+      }
+      console.log('act_getAllGroupIdsFromUser', userId);
+      await RestCall.rcRequest(API_PATHS.user.groups, 'get', null, null, userId)
+        .then(({data}) => {
+          console.log('act_getAllGroupIdsFromUser() res: ', data);
+          if (data !== null) {
+            commit('MUT_LOAD_ALL_IDS_FROM_GROUPS', data);
+
+          }
+        })
+        .catch((error) => {
+          console.log('act_getAllGroupIdsFromUser(): ', error);
+          return null
+        });
+    },
+
+
   },
   mutations: {
     MUT_SET_ACTIVE_GROUP(state, id) {
@@ -115,6 +141,12 @@ const groupModule = {
         state.userGroups = new Array()
       }
       state.userGroups = userGroups
+    },
+    MUT_LOAD_ALL_IDS_FROM_GROUPS(state, groupIds){
+      if(state.allGroupIDS && !!state.allGroupIDS && state.allGroupIDS.length){
+        state.allGroupIDS = new Array()
+      }
+      state.allGroupIDS = groupIds
     }
   },
 };

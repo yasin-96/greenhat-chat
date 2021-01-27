@@ -70,12 +70,13 @@ class UserController(private val userService: UserService) {
 
     }
 
+    /*
     @GetMapping("/user/groups/{id}")
     fun getGroupsFromUser(@PathVariable id:String) : Mono<MutableSet<String>> {
         return userService.getGroupsFromUser(id)
     }*/
 
-    @GetMapping("/user/{id}/groups")
+    @GetMapping("/user/groups/{id}")
     fun getGroupsFromUser(@PathVariable id: String) : Mono<MutableSet<String>>{
         return userService.getGroupsFromUser(id)
     }

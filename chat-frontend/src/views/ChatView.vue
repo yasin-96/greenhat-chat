@@ -32,7 +32,7 @@ export default {
     // this.$socket.send("asda")
     // console.log(JSON.stringify(wsInfo))
     // let wsString = JSON.stringify(wsInfo)
-    this.$socket.send(JSON.stringify({"userId": this.userId, "group": this.userGroups}))
+    this.$socket.send(JSON.stringify(this.allGroupIDS))
   },
   update() {
     this.trigger = this.pollingData();
@@ -53,6 +53,7 @@ export default {
     loadAllGroupsFromUser(){
       console.log("trigger user groups")
       this.$store.dispatch("group/act_getAllGroupsFromUser");
+      this.$store.dispatch("group/act_getAllGroupIdsFromUser");
       // this.$store.dispatch('act_sendWSMessageToServer', "aaaa")
       
     },
@@ -65,7 +66,7 @@ export default {
   },
   computed:{
     ...mapState({
-      userGroups: (state) => state.group.userGroups,
+      allGroupIDS: (state) => state.group.allGroupIDS,
       userId: (state) => state.user.user.id,
       clientConnected: (state) => state.chat.socketInfo.clientConnected
     })

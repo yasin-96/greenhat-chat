@@ -45,6 +45,7 @@ const store = new Vuex.Store({
     SOCKET_ONOPEN(state, event) {
       Vue.prototype.$socket = event.currentTarget;
       console.log('SOCKET_ONOPEN', event);
+      Vue.prototype.$socket.send(JSON.stringify(state.group.allGroupIDS))
       state.chat.socketInfo.clientConnected = true;
     },
     SOCKET_ONCLOSE(state, event) {
@@ -66,7 +67,7 @@ const store = new Vuex.Store({
     },
     // mutations for reconnect methods
     SOCKET_RECONNECT(state, count) {
-      console.info(state, count);
+      console.info("SOCKET_RECONNECT",state.socket, count);
     },
     SOCKET_RECONNECT_ERROR(state) {
       state.chat.socketInfo.reconnectError = true;
