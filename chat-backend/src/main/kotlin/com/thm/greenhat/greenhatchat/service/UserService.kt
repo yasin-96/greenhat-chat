@@ -172,6 +172,7 @@ class UserService(
             }
     }
 
+    /*
     fun getGroupsFromUser(id: String): Mono<MutableSet<String>> {
         return groupRepository.findAll().collectList()
                 .map { groups ->
@@ -187,6 +188,19 @@ class UserService(
                     }
                     list
                 }
-    }
+    }*/
 
+    fun getGroupsFromUser(id:String):Mono<MutableSet<String>>{
+        return groupRepository.findAll().collectList()
+                .map { groups ->
+                    val list = mutableSetOf<String>()
+                    groups.map { group ->
+                        group.users.filter { it == id }
+                                .map {
+                                    list.add(group._id)
+                                }
+                }
+                list
+                }
+    }
 }
