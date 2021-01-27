@@ -71,12 +71,12 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping("/user/{id}/groups")
-    fun getGroupsFromUser(@PathVariable id:String) : Flux<String> {
+    fun getGroupsFromUser(@PathVariable id:String) : Mono<MutableSet<String>> {
         return userService.getGroupsFromUser(id)
     }
 
 
-    fun checkIfOldPasswordCorrect(id:String,oldPass:String) : Mono<Boolean>{
+    fun checkIfOldPasswordCorrect(id:String, oldPass:String) : Mono<Boolean>{
         return userService.findById(id)
                 .map {
                     it.password == oldPass

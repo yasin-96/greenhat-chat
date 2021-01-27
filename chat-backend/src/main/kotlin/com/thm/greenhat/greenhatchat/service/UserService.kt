@@ -172,14 +172,18 @@ class UserService(
             }
     }
 
-    fun getGroupsFromUser(id: String): Flux<String> {
-        val list = mutableListOf<String>()
-        return groupRepository.findAll()
-                .flatMapIterable  { group ->
-                    group.users.forEach {
-
-                        if(it==id) list.add(group._id)
-                        println(list)
+    fun getGroupsFromUser(id: String): Mono<MutableSet<String>> {
+        return groupRepository.findAll().collectList()
+                .map { groups ->
+                    var list = mutableSetOf<String>()
+                    groups.map { group ->
+                        group.users
+                        .map { it == id }
+                        .map{
+                            if(it){
+                                list.add(group._id)
+                            }
+                        }
                     }
                     list
                 }
