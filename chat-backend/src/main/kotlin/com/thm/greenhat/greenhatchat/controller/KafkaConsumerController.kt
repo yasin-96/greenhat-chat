@@ -32,11 +32,6 @@ import reactor.util.function.Tuple3
 import java.util.concurrent.ConcurrentHashMap
 
 
-
-
-
-
-
 //@CrossOrigin
 @Configuration
 @EnableWebFlux
@@ -48,6 +43,7 @@ class KafkaConsumerController {
         var groupInfo = hashMapOf<String, MutableSet<String>>()
         lateinit var tmpData: Message
     }
+
     val sink = Sinks.many().multicast().onBackpressureBuffer<String>()
 
 
@@ -57,8 +53,8 @@ class KafkaConsumerController {
     @Bean
     fun handlerMapping(): HandlerMapping {
         return SimpleUrlHandlerMapping(
-                mapOf("/fromKafka" to wsHandler()),
-                -1
+            mapOf("/fromKafka" to wsHandler()),
+            -1
         )
     }
 
@@ -76,56 +72,47 @@ class KafkaConsumerController {
                     println("GroupInfo: ${groupInfo.toString()}")
 
                     // val userID = userSessions.getValue(session.id)
-                    
+
                     try {
-                        if(currentGroup.contains(session.id)) {
+                        if (currentGroup.contains(session.id)) {
                             session.textMessage(it)
-                        } else{
+                        } else {
                             session.textMessage("")
                         }
-                    }
-                    catch(e: Exception) {
+                    } catch (e: Exception) {
                         println(e)
                         session.textMessage("")
                     }
                 }
             )
                 .and(
-                        session.receive().map {
-                            println("Get Message from Client")
-                            println("RAW: ${it.payloadAsText}")
+                    session.receive().map {
+                        println("Get Message from Client")
+                        println("RAW: ${it.payloadAsText}")
 
-                            try{
-                                val wsUserAndGRoupInfo: WSUserAndGRoupInfo = Gson().fromJson(it.payloadAsText, WSUserAndGRoupInfo::class.java )
-                                println(">> ${wsUserAndGRoupInfo.toString()}")
+                        try {
+                            val allGroupsFromUser: ArrayList<String> = Gson().fromJson(it.payloadAsText, ArrayList::class.java)
+                            println(">> ${allGroupsFromUser.toString()}")
 
-//                                val userAndGroups = Gson().fromJson(it.getPayloadAsText(), WSUserAndGRoupInfo::class.java)
-//                                println("Converted JSOn ${userAndGroups}")
-
-
-                                onlineSessions.put(session.id, session)
-                                // userSessions.put(session.id, wsUserAndGRoupInfo.userId)
-                                wsUserAndGRoupInfo.group.forEach { group ->
-                                    // val allIds = group.users.map {
-                                    //     it
-                                    // }.toSet()
-                                    
-                                    val check = groupInfo.getValue(group._id).isEmpty()
-                                    if(check){
-                                        group
-                                        groupInfo[group._id]!!.add(session.id)
-                                    } else {
-                                        groupInfo.getValue(group._id).add(session.id)
-                                    }
-                                    
+                            onlineSessions.put(session.id, session)
+                            // userSessions.put(session.id, wsUserAndGRoupInfo.userId)
+                            allGroupsFromUser.forEach { groupId ->
+                                val check = groupInfo.getValue(groupId).isEmpty()
+                                if (check) {
+                                    groupInfo.put(groupId, mutableSetOf<String>(session.id))
+//                                  //  groupInfo[groupId]!!.add(session.id)
+                                } else {
+                                    groupInfo.getValue(groupId).add(session.id)
                                 }
 
-                            }catch (e: Exception){
-                                println(e)
                             }
+
+                        } catch (e: Exception) {
+                            println(e)
                         }
-                    )
-            .then()
+                    }
+                )
+                .then()
         };
     }
 
