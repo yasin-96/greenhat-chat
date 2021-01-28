@@ -27,22 +27,13 @@ export default {
   mounted() {
     this.loadAllUsers();
     this.loadAllGroupsFromUser()
-    this.pollingData();
-    // const wsInfo = {"userId": this.userId, "group": this.userGroups}
-    // this.$socket.send("asda")
-    // console.log(JSON.stringify(wsInfo))
-    // let wsString = JSON.stringify(wsInfo)
-    this.$socket.send(JSON.stringify(this.allGroupIDS))
-  },
-  update() {
     this.trigger = this.pollingData();
-     if(this.userGroups && this.userId && this.clientConnected ) {
-        const wsInfo = {userId: this.userId, group: this.userGroups}
-          this.$socket.send(JSON.stringify(wsInfo))
-      }
+  },
+  updated() {
+    this.trigger = this.pollingData();
   },
   beforeDestroy() {
-    this.trgger = null
+    clearInterval(this.trigger);
   },
   data: () => ({ trigger: null }),
   methods: {
@@ -54,22 +45,32 @@ export default {
       console.log("trigger user groups")
       this.$store.dispatch("group/act_getAllGroupsFromUser");
       this.$store.dispatch("group/act_getAllGroupIdsFromUser");
-      // this.$store.dispatch('act_sendWSMessageToServer', "aaaa")
-      
+      if(this.clientConnected && this.userId && this.allGroupIDS) {
+        this.$socket.send(JSON.stringify(this.allGroupIDS))
+      }
     },
     pollingData(){
-      setTimeout(()=>{
+      return setTimeout(()=>{
+        console.info("Load All Users, Groups from User")
         this.loadAllUsers()
         this.loadAllGroupsFromUser()
-      }, 5000);
+      }, 15000);
     }
   },
   computed:{
     ...mapState({
       allGroupIDS: (state) => state.group.allGroupIDS,
+      activeGroupId: (state) => state.group.activeGroupId,
       userId: (state) => state.user.user.id,
-      clientConnected: (state) => state.chat.socketInfo.clientConnected
+      clientConnected: (state) => state.chat.socketInfo.clientConnected,
+      wsMessage: (state) => state.chat.socketInfo.recievedMessages
     })
+  },
+  watch: {
+    wsMessage(){
+      console.log("Incomming WS Message", this.wsMessage)
+      this.$store.dispatch("chat/act_addNewMessagesFromWS", this.activeGroupId)
+    }
   }
 };
 </script>

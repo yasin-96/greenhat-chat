@@ -1,12 +1,12 @@
 <template>
-  <div class="ml-2">
+  <div class="text-center">
     <v-avatar
 
       v-for="group in userGroups"
       :key="group._id"
       :class="activeGroupID == group._id ? 'mb-5 text-white': 'mb-5' "
       :color="activeGroupID == group._id ? 'lightGreen': 'grey lighten-1' "
-      size="38"
+      size="32"
       :rounded="activeGroupID == group._id ? false : true" 
       @click="loadGroup(group._id)"
 
@@ -33,6 +33,7 @@ export default {
         _id: groupId
       }
       this.$store.dispatch('group/act_loadGroupInfos', groupToLoad);
+      this.$store.dispatch("chat/act_loadAllMessagesFromGroup", groupToLoad)
     },
   },
   computed: {

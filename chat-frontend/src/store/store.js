@@ -45,7 +45,7 @@ const store = new Vuex.Store({
     SOCKET_ONOPEN(state, event) {
       Vue.prototype.$socket = event.currentTarget;
       console.log('SOCKET_ONOPEN', event);
-      Vue.prototype.$socket.send(JSON.stringify(state.group.allGroupIDS))
+      Vue.prototype.$socket.send(JSON.stringify(state.group.allGroupIDS));
       state.chat.socketInfo.clientConnected = true;
     },
     SOCKET_ONCLOSE(state, event) {
@@ -57,17 +57,18 @@ const store = new Vuex.Store({
     },
     // default handler called for all methods
     SOCKET_ONMESSAGE(state, message) {
-      //TODO: Check if message is empty or null
-      console .log('SOCKET_ONMESSAGE', message, state);
-        state.chat.socketInfo.recievedMessages = message;
-        if (state.chat.messages === null) {
-          state.chat.messages = [];
+      if (message) {
+        console.log('SOCKET_ONMESSAGE', message, state);
+        if (message && message._id) {
+          state.chat.socketInfo.recievedMessages = message;
+          console.log('Nachricht ist nicht leer', message);
         }
-        state.chat.messages.push(message);
+      }
     },
     // mutations for reconnect methods
     SOCKET_RECONNECT(state, count) {
-      console.info("SOCKET_RECONNECT",state.socket, count);
+      console.info('SOCKET_RECONNECT', state, count);
+      state.chat.socketInfo.reconnectionCounter = count;
     },
     SOCKET_RECONNECT_ERROR(state) {
       state.chat.socketInfo.reconnectError = true;
@@ -80,7 +81,7 @@ Vue.use(VueNativeSock, process.env.VUE_APP_BACKEND_WS, {
   store: store,
   format: 'json',
   reconnection: true, //reconnect automatically (false)
-  reconnectionDelay: 5000, // wait before reconnect
+  reconnectionDelay: 10000, // wait before reconnect
 });
 
 export default store;

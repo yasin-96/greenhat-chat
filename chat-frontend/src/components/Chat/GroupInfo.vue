@@ -3,7 +3,8 @@
     <v-list>
       <v-list-item class="grow">
         <v-list-item-content>
-          <h2 class="text-center">{{ groupInfo.name }}</h2>
+          <h2 class="text-center"> {{ groupInfo.name }}</h2>
+          <h4 class="text-center caption"> Groupe</h4>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="grow">

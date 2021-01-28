@@ -2,7 +2,7 @@ import RestCall from '@/services/RestCall';
 
 const API_BASE_PATHS = {
   group: '/group',
-  user: '/user'
+  user: '/user',
 };
 
 const API_PATHS = {
@@ -10,21 +10,21 @@ const API_PATHS = {
     create: API_BASE_PATHS.group + '/new',
     groupInfo: API_BASE_PATHS.group + '/id',
     groupMessages: API_BASE_PATHS.group + '/messages',
-    userGroups: API_BASE_PATHS.group + "/user",
+    userGroups: API_BASE_PATHS.group + '/user',
   },
   user: {
-    groups: API_BASE_PATHS.user + '/groups'
-  }
+    groups: API_BASE_PATHS.user + '/groups',
+  },
 };
 
 const groupModule = {
   namespaced: true,
   state: () => ({
     enableWindow: false,
-    activeGroupId: 'asdadasd',
+    activeGroupId: '',
     activeGroup: {},
     userGroups: [],
-    allGroupIDS: []
+    allGroupIDS: [],
   }),
   actions: {
     act_loadGroupInfos({ commit }, payload) {
@@ -53,7 +53,7 @@ const groupModule = {
           console.log('act_createNewGroup() res: ', data);
           if (data !== null) {
             // commit('MUT_SAVE_GROUP', data);
-            dispatch("act_loadGroupInfos", data)
+            dispatch('act_loadGroupInfos', data);
           }
         })
         .catch((error) => {
@@ -62,43 +62,39 @@ const groupModule = {
     },
     async act_getAllGroupsFromUser({ commit, rootState }) {
       const userId = {
-        _id: rootState.user.user.id
-      }
+        _id: rootState.user.user.id,
+      };
       console.log('act_getAllGroupsFromUser', userId);
       await RestCall.rcRequest(API_PATHS.group.userGroups, 'get', null, null, userId)
-        .then(({data}) => {
+        .then(({ data }) => {
           console.log('act_getAllGroupsFromUser() res: ', data);
           if (data !== null) {
             commit('MUT_LOAD_ALL_GROUPS_FROM_USER', data);
-
           }
         })
         .catch((error) => {
           console.log('act_getAllGroupsFromUser(): ', error);
-          return null
+          return null;
         });
     },
 
     async act_getAllGroupIdsFromUser({ commit, rootState }) {
       const userId = {
-        _id: rootState.user.user.id
-      }
+        _id: rootState.user.user.id,
+      };
       console.log('act_getAllGroupIdsFromUser', userId);
       await RestCall.rcRequest(API_PATHS.user.groups, 'get', null, null, userId)
-        .then(({data}) => {
+        .then(({ data }) => {
           console.log('act_getAllGroupIdsFromUser() res: ', data);
           if (data !== null) {
             commit('MUT_LOAD_ALL_IDS_FROM_GROUPS', data);
-
           }
         })
         .catch((error) => {
           console.log('act_getAllGroupIdsFromUser(): ', error);
-          return null
+          return null;
         });
     },
-
-
   },
   mutations: {
     MUT_SET_ACTIVE_GROUP(state, id) {
@@ -119,35 +115,36 @@ const groupModule = {
       // if(state.groups && !!state.groups){
 
       // }
-      let found = false
-      let indexOfGroup = null
+      let found = false;
+      let indexOfGroup = null;
       state.userGroups.map((ig, index) => {
         if (ig._id === loadGroupInfo._id) {
           ig = loadGroupInfo;
-          found = true
-          indexOfGroup = index
+          found = true;
+          indexOfGroup = index;
         }
       });
 
-      if(found){
+      if (found) {
         state.activeGroupId = loadGroupInfo._id;
-        state.userGroups[indexOfGroup] = loadGroupInfo
+        state.userGroups[indexOfGroup] = loadGroupInfo;
       } else {
-        state.userGroups.push(loadGroupInfo)
+        state.userGroups.push(loadGroupInfo);
       }
     },
-    MUT_LOAD_ALL_GROUPS_FROM_USER(state, userGroups){
-      if(state.userGroups && !!state.userGroups && state.userGroups.length){
-        state.userGroups = new Array()
+    MUT_LOAD_ALL_GROUPS_FROM_USER(state, userGroups) {
+      console.log('Load USER GROUPS', userGroups);
+      if (state.userGroups && !!state.userGroups && state.userGroups.length) {
+        state.userGroups = new Array();
       }
-      state.userGroups = userGroups
+      state.userGroups = userGroups;
     },
-    MUT_LOAD_ALL_IDS_FROM_GROUPS(state, groupIds){
-      if(state.allGroupIDS && !!state.allGroupIDS && state.allGroupIDS.length){
-        state.allGroupIDS = new Array()
+    MUT_LOAD_ALL_IDS_FROM_GROUPS(state, groupIds) {
+      if (state.allGroupIDS && !!state.allGroupIDS && state.allGroupIDS.length) {
+        state.allGroupIDS = new Array();
       }
-      state.allGroupIDS = groupIds
-    }
+      state.allGroupIDS = groupIds;
+    },
   },
 };
 
