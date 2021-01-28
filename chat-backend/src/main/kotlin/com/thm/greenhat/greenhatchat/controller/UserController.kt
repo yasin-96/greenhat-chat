@@ -12,13 +12,13 @@ import reactor.core.publisher.Mono
 @CrossOrigin
 @RestController
 class UserController(private val userService: UserService) {
-    
+
     //Do we really need this
     @GetMapping("/user/name/{username}")
     fun findByUsername(@PathVariable username: String): Mono<User> {
         return userService
-                .findUserByUsername(username)
-                .switchIfEmpty(Mono.error(BadRequestException("There is no user with such a name")))
+            .findUserByUsername(username)
+            .switchIfEmpty(Mono.error(BadRequestException("There is no user with such a name")))
     }
 
     //Do we really need this
@@ -28,8 +28,8 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping("/user/allUsers")
-    fun findAllUsers() : Flux<UserToAddIntoGroup> {
-        return userService.findallUsers()
+    fun findAllUsers(): Flux<UserToAddIntoGroup> {
+        return userService.findAllUsers()
     }
 
     /**
@@ -53,42 +53,56 @@ class UserController(private val userService: UserService) {
         return userService.login(username, password)
     }
 
+    /**
+     *
+     * @param id String
+     * @return Mono<Void>
+     */
     @DeleteMapping("/user/{id}")
-    fun deleteAccount(@PathVariable id:String) : Mono<Void> {
+    fun deleteAccount(@PathVariable id: String): Mono<Void> {
         return userService.deleteAccount(id)
     }
 
+    /**
+     *
+     * @param id String
+     * @param request ChangePasswordRequest
+     * @return Mono<User>
+     */
     @PutMapping("/user/{id}")
-    fun changePassword(@PathVariable id:String,@RequestBody request:ChangePasswordRequest) : Mono<User> {
-       return Mono.zip(checkIfOldPasswordCorrect(id,request.oldPassInput),userService.findById(id))
-               .filter {
-                   it.t1
-               }
-               .flatMap {
-                   userService.changePassword(it.t2,request.newPass)
-               }
+    fun changePassword(@PathVariable id: String, @RequestBody request: ChangePasswordRequest): Mono<User> {
+        return Mono.zip(checkIfOldPasswordCorrect(id, request.oldPassInput), userService.findById(id))
+            .filter {
+                it.t1
+            }
+            .flatMap {
+                userService.changePassword(it.t2, request.newPass)
+            }
 
     }
 
-    /*
+    /**
+     *
+     * @param id String
+     * @return Mono<MutableSet<String>>
+     */
     @GetMapping("/user/groups/{id}")
-    fun getGroupsFromUser(@PathVariable id:String) : Mono<MutableSet<String>> {
-        return userService.getGroupsFromUser(id)
-    }*/
-
-    @GetMapping("/user/groups/{id}")
-    fun getGroupsFromUser(@PathVariable id: String) : Mono<MutableSet<String>>{
+    fun getGroupsFromUser(@PathVariable id: String): Mono<MutableSet<String>> {
         return userService.getGroupsFromUser(id)
     }
 
-
-    fun checkIfOldPasswordCorrect(id:String, oldPass:String) : Mono<Boolean>{
+    /**
+     *
+     * @param id String
+     * @param oldPass String
+     * @return Mono<Boolean>
+     */
+    fun checkIfOldPasswordCorrect(id: String, oldPass: String): Mono<Boolean> {
         return userService.findById(id)
-                .map {
-                    it.password == oldPass
-                }
+            .map {
+                it.password == oldPass
+            }
     }
-
 
 
     /**
@@ -98,7 +112,10 @@ class UserController(private val userService: UserService) {
      * @return Mono<User>
      */
     @PatchMapping("/user/specs/{userId}")
-    fun patchSpecificUserInformation(@PathVariable userId: String, @RequestBody newUserSpecs: Map<String, Object>): Mono<User> {
+    fun patchSpecificUserInformation(
+        @PathVariable userId: String,
+        @RequestBody newUserSpecs: Map<String, Object>
+    ): Mono<User> {
         return userService.updateOnSpecificProperties(userId, newUserSpecs)
     }
 

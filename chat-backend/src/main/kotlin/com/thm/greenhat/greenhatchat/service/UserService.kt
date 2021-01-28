@@ -11,12 +11,11 @@ import com.thm.greenhat.greenhatchat.repository.UserRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toFlux
 
 @Service
 class UserService(
-        private val userRepository: UserRepository,
-        private val groupRepository: GroupRepository
+    private val userRepository: UserRepository,
+    private val groupRepository: GroupRepository
 ) {
 
     /**
@@ -31,30 +30,39 @@ class UserService(
     }
 
     /**
-     * Try to find user on the email address
-     * @param username String
+     *
+     * @param email String
      * @return Mono<User>
-     *         Mono<NotFoundException> user not exist
      */
     fun findUserByEmail(email: String): Mono<User> {
         return userRepository.findByEmail(email)
-                .switchIfEmpty(Mono.error(NotFoundException("No user was found by email")))
+            .switchIfEmpty(Mono.error(NotFoundException("No user was found by email")))
     }
 
-    fun findallUsers() : Flux<UserToAddIntoGroup> {
+    /**
+     *
+     * @return Flux<UserToAddIntoGroup>
+     */
+    fun findAllUsers(): Flux<UserToAddIntoGroup> {
         return userRepository.findAll().map {
-            UserToAddIntoGroup(it.id,it.username)
+            UserToAddIntoGroup(it.id, it.username)
         }
     }
 
 
+    /**
+     *
+     * @param username String
+     * @param email String
+     * @return Mono<Boolean>
+     */
     fun checkUserNameAndEmail(username: String, email: String): Mono<Boolean> {
         return Mono.zip(
             findUserByUsername(username),
             findUserByEmail(email)
         ).flatMap {
             println("checkUserNameAndEmail ${it.t1.id}, ${it.t2.id}")
-            if (it.t1.id.isNullOrBlank() && it.t2.id.isNullOrBlank()) {
+            if (it.t1.id.isBlank() && it.t2.id.isBlank()) {
                 Mono.just(true)
             }
             Mono.just(false)
@@ -72,7 +80,12 @@ class UserService(
             .switchIfEmpty(Mono.error(NotFoundException("No user was found based on the id")))
     }
 
-    fun deleteAccount(id:String) : Mono<Void> {
+    /**
+     *
+     * @param id String
+     * @return Mono<Void>
+     */
+    fun deleteAccount(id: String): Mono<Void> {
         return userRepository.deleteById(id)
     }
 
@@ -86,16 +99,30 @@ class UserService(
      *         false user was found
      */
     fun checkUserNameAndEmailIfExist(username: String, email: String): Mono<Boolean> {
-        return userRepository.existsByUsernameAndEmail(username,email)
-                .map {
-                    it
-                }
+        return userRepository.existsByUsernameAndEmail(username, email)
+            .map {
+                it
+            }
 
     }
 
-    fun changePassword(user:User,newPass:String) : Mono<User> {
+    /**
+     *
+     * @param user User
+     * @param newPass String
+     * @return Mono<User>
+     */
+    fun changePassword(user: User, newPass: String): Mono<User> {
         return userRepository.save(
-                User(user.id,user.username,user.password,user.email,user.hasAvatarPicture,user.avatarName,user.avatarPicture)
+            User(
+                user.id,
+                user.username,
+                user.password,
+                user.email,
+                user.hasAvatarPicture,
+                user.avatarName,
+                user.avatarPicture
+            )
         )
     }
 
@@ -108,10 +135,10 @@ class UserService(
     fun addUser(user: User): Mono<User> {
         return checkUserNameAndEmailIfExist(user.username, user.email)
             .flatMap {
-                if(it) Mono.error(ConflictException("This username/email already exists"))
+                if (it) Mono.error(ConflictException("This username/email already exists"))
                 else userRepository.save(user)
-                            .switchIfEmpty(Mono.error(NotModifiedException("Could not add user")))
-                            .map { it }
+                    .switchIfEmpty(Mono.error(NotModifiedException("Could not add user")))
+                    .map { it }
             }
     }
 
@@ -137,15 +164,15 @@ class UserService(
     /**
      *
      * @param userId String
-     * @param specficInformation Map<String, Object>
+     * @param specificInformation Map<String, Object>
      * @return Mono<User>
      */
-    fun updateOnSpecificProperties(userId: String, specficInformation: Map<String, Object>): Mono<User> {
+    fun updateOnSpecificProperties(userId: String, specificInformation: Map<String, Any>): Mono<User> {
         return findById(userId)
             .map { user ->
                 val userCopy = user.copy()
-                println(specficInformation)
-                for (specs in specficInformation!!) {
+                println(specificInformation)
+                for (specs in specificInformation) {
                     println(specs)
                     when (specs.key) {
                         "username" -> user.username = specs.value.toString()
@@ -153,10 +180,10 @@ class UserService(
                         "avatarPicture" -> user.avatarPicture = specs.value.toString()
                         "hasAvatarPicture" -> user.hasAvatarPicture = specs.value as Boolean
                     }
-                    println("const = ${userCopy}, updated = ${user}")
+                    println("const = ${userCopy}, updated = $user")
                 }
-                println("const = ${userCopy}, updated = ${user}")
-                arrayListOf(userCopy, user);
+                println("const = ${userCopy}, updated = $user")
+                arrayListOf(userCopy, user)
             }
             .flatMap {
                 checkUserNameAndEmail(it[0].username, it[1].email)
@@ -172,35 +199,22 @@ class UserService(
             }
     }
 
-    /*
+    /**
+     *
+     * @param id String
+     * @return Mono<MutableSet<String>>
+     */
     fun getGroupsFromUser(id: String): Mono<MutableSet<String>> {
         return groupRepository.findAll().collectList()
-                .map { groups ->
-                    var list = mutableSetOf<String>()
-                    groups.map { group ->
-                        group.users
-                        .map { it == id }
-                        .map{
-                            if(it){
-                                list.add(group._id)
-                            }
+            .map { groups ->
+                val list = mutableSetOf<String>()
+                groups.map { group ->
+                    group.users.filter { it == id }
+                        .map {
+                            list.add(group._id)
                         }
-                    }
-                    list
-                }
-    }*/
-
-    fun getGroupsFromUser(id:String):Mono<MutableSet<String>>{
-        return groupRepository.findAll().collectList()
-                .map { groups ->
-                    val list = mutableSetOf<String>()
-                    groups.map { group ->
-                        group.users.filter { it == id }
-                                .map {
-                                    list.add(group._id)
-                                }
                 }
                 list
-                }
+            }
     }
 }

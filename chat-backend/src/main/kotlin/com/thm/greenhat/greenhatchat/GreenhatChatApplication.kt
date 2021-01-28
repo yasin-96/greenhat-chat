@@ -10,39 +10,55 @@ import org.springframework.web.client.RestTemplate
 
 @SpringBootApplication
 class GreenhatChatApplication
-	private const val uri = "http://localhost:8083/connectors"
+//TODO: auslagern
+private const val uri = "http://localhost:8083/connectors"
 
-	fun main(args: Array<String>) {
-		runApplication<GreenhatChatApplication>(*args)
-		if(!checkIfConnectorExist()) makeFirstCall()
-	}
+/**
+ *
+ * @param args Array<String>
+ */
+fun main(args: Array<String>) {
+    runApplication<GreenhatChatApplication>(*args)
 
-	fun makeFirstCall() {
-		val headers = HttpHeaders()
-		headers.contentType = MediaType.APPLICATION_JSON
-		val jsonObject = JSONObject()
-		jsonObject.put("name", "mongo-sink")
-		val jsonobjectConfKeys = JSONObject()
-		jsonobjectConfKeys.put("connector.class", "com.mongodb.kafka.connect.MongoSinkConnector")
-		jsonobjectConfKeys.put("tasks.max", "1")
-		jsonobjectConfKeys.put("topics", "mytopic")
-		jsonobjectConfKeys.put("connection.uri", "mongodb://root:example@mongo-db:27017/")
-		jsonobjectConfKeys.put("database", "mydb")
-		jsonobjectConfKeys.put("collection", "messages")
-		jsonobjectConfKeys.put("key.converter", "org.apache.kafka.connect.storage.StringConverter")
-		jsonobjectConfKeys.put("value.converter", "org.apache.kafka.connect.json.JsonConverter")
-		jsonobjectConfKeys.put("value.converter.schemas.enable", "false")
-		jsonObject.put("config", jsonobjectConfKeys)
+    if (!checkIfConnectorExist()) {
+        makeFirstCall()
+    }
+}
 
-		val request = HttpEntity<String>(jsonObject.toString(), headers)
-		val restTemplate = RestTemplate()
-		restTemplate.postForObject(uri, request, String::class.java)
+/**
+ *
+ */
+//TODO: auslagern
+fun makeFirstCall() {
+    val headers = HttpHeaders()
+    headers.contentType = MediaType.APPLICATION_JSON
+    val jsonObject = JSONObject()
+    jsonObject.put("name", "mongo-sink")
+    val jsonobjectConfKeys = JSONObject()
+    jsonobjectConfKeys.put("connector.class", "com.mongodb.kafka.connect.MongoSinkConnector")
+    jsonobjectConfKeys.put("tasks.max", "1")
+    jsonobjectConfKeys.put("topics", "mytopic")
+    jsonobjectConfKeys.put("connection.uri", "mongodb://root:example@mongo-db:27017/")
+    jsonobjectConfKeys.put("database", "mydb")
+    jsonobjectConfKeys.put("collection", "messages")
+    jsonobjectConfKeys.put("key.converter", "org.apache.kafka.connect.storage.StringConverter")
+    jsonobjectConfKeys.put("value.converter", "org.apache.kafka.connect.json.JsonConverter")
+    jsonobjectConfKeys.put("value.converter.schemas.enable", "false")
+    jsonObject.put("config", jsonobjectConfKeys)
 
-	}
+    val request = HttpEntity<String>(jsonObject.toString(), headers)
+    val restTemplate = RestTemplate()
+    restTemplate.postForObject(uri, request, String::class.java)
 
-	fun checkIfConnectorExist() : Boolean {
-		val restTemplate = RestTemplate()
-		val result = restTemplate.getForObject(uri,String::class.java)
-		if(result!!.length < 3) return false
-		return true
-	}
+}
+
+/**
+ *
+ * @return Boolean
+ */
+fun checkIfConnectorExist(): Boolean {
+    val restTemplate = RestTemplate()
+    val result = restTemplate.getForObject(uri, String::class.java)
+    if (result!!.length < 3) return false
+    return true
+}

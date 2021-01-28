@@ -18,7 +18,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<kotlin.version>1.4.21</kotlin.version>
+		<kotlin.version>1.4.30-RC</kotlin.version>
 		<serialization.version>1.0.0</serialization.version>
 	</properties>
 
@@ -98,8 +98,35 @@
 			<artifactId>gson</artifactId>
 			<version>2.8.6</version>
 		</dependency>
-	</dependencies>
-	<pluginRepositories>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray.kotlin.eap</id>
+            <name>Bintray Kotlin EAP Repository</name>
+            <url>https://dl.bintray.com/kotlin/kotlin-eap</url>
+        </repository>
+    </repositories>
+
+
+    <pluginRepositories>
 		<pluginRepository>
 			<id>kotlin-bintray</id>
 			<name>Kotlin Bintray</name>
@@ -111,11 +138,22 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</pluginRepository>
-	</pluginRepositories>
+        <pluginRepository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray.kotlin.eap</id>
+            <name>Bintray Kotlin EAP Repository</name>
+            <url>https://dl.bintray.com/kotlin/kotlin-eap</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 	<build>
-		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+		<sourceDirectory>src/main/kotlin</sourceDirectory>
+		<testSourceDirectory>src/test/kotlin</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -138,7 +176,8 @@
 					<option>all-open:annotation=com.my.Annotation</option>
 					<option>all-open:annotation=com.their.AnotherAnnotation</option>
 				</pluginOptions>
-			</configuration>
+                <jvmTarget>1.8</jvmTarget>
+            </configuration>
 				<executions>
 					<execution>
 						<id>compile-kotlin</id>
@@ -152,7 +191,21 @@
 							<goal>test-compile</goal>
 						</goals>
 					</execution>
-				</executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
 
 			<dependencies>
 				<dependency>

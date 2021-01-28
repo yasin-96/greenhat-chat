@@ -8,14 +8,14 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("group")
 data class GroupRequest(
-        @Id var _id: String = ObjectId.get().toString(),
-        var name:String,
-        var admin:String,
-        var users:MutableList<String> = mutableListOf()
-)
-{
+    @Id var _id: String = ObjectId.get().toString(),
+    var name: String,
+    var admin: String,
+    var users: MutableList<String> = mutableListOf()
+) {
     @Transient
     var messages: MutableList<Message> = mutableListOf()
+
     @Transient
     var private: Boolean = false
 }
