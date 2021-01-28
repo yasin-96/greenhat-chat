@@ -5,7 +5,7 @@
       v-for="group in userGroups"
       :key="group._id"
       :class="activeGroupID == group._id ? 'mb-5 text-white': 'mb-5' "
-      :color="activeGroupID == group._id ? 'lightGreen': 'grey lighten-1' "
+      :color="activeGroupID == group._id ? 'sidebarMiniActiveGroup': 'sidebarMiniNotActiveGroups' "
       size="32"
       :rounded="activeGroupID == group._id ? false : true" 
       @click="loadGroup(group._id)"

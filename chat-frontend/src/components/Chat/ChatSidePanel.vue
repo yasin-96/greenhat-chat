@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer v-if="true" hideOverlay app v-model="uidrawer" width="300">
-      <v-navigation-drawer hideOverlay v-model="uidrawer" absolute color="grey lighten-3" mini-variant>
+      <v-navigation-drawer hideOverlay v-model="uidrawer" absolute color="sidebarMiniBackGround" mini-variant>
         <User />
         <AddGroup />
         <v-divider class="mx-3 my-5"></v-divider>

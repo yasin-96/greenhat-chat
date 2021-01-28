@@ -1,14 +1,11 @@
 <template>
   <div>
-    <!-- <v-footer class="mb-72" app color="transparent" inset>
-    </v-footer> -->
     <emoji v-show="enableEmojiDialog" @select="selectEmoji" class="ml-4 mb-2" />
     <v-bottom-navigation app dense class="elevation-0" color="danger" height="60px">
-    <!-- <v-footer app color="transparent" inset> -->
       <v-container fluid>
         <v-text-field
           v-model="message"
-          background-color="grey lighten-1"
+          background-color="chatInputTextMessage"
           dense
           flat
           hide-details
@@ -22,14 +19,13 @@
           </template>
           <template v-slot:append-outer>
             <div>
-              <v-icon @click="sendMessage" @keyup.enter="sendMessage" color="send" :disabled="!message"
+              <v-icon @click="sendMessage" @keyup.enter="sendMessage" color="chatInputSendButton" :disabled="!message"
                 >mdi-send</v-icon
               >
             </div>
           </template>
         </v-text-field>
       </v-container>
-    <!-- </v-footer> -->
     </v-bottom-navigation>
   </div>
 </template>

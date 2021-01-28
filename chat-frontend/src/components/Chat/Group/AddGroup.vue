@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-avatar class="d-block tile mx-auto rounded mt-4" color="blueGrey" size="36">
-      <v-icon color="white" @click="openDialog">mdi-plus</v-icon>
+    <v-avatar class="d-block tile mx-auto rounded mt-4" color="sidebarMiniAddGroupButton" size="36">
+      <v-icon color="sidebarMiniAddGroupButtonIcon" @click="openDialog">mdi-plus</v-icon>
     </v-avatar>
     <NewGroupDialog />
   </div>

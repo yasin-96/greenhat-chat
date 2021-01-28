@@ -7,7 +7,6 @@
           <div>
             <v-btn
               color="warning"
-              dark
               small
               absolute
               top
@@ -32,7 +31,6 @@
           <div>
             <v-btn
               color="warning"
-              dark
               small
               absolute
               top
@@ -114,6 +112,16 @@
         </v-list>
       </v-card>
     </div>
+    <v-divider class="mt-5"></v-divider>
+    <v-container>
+       <v-switch
+        v-model="$vuetify.theme.dark"
+        hint="Switch to Dark Theme"
+        inset
+        label="Change Theme from light to dark"
+        persistent-hint
+      ></v-switch>
+    </v-container>
     <EditValue />
   </v-container>
 </template>

@@ -19,8 +19,49 @@ export default new Vuetify({
         send: colors.lightGreen.accent4,
         transparent: colors.transparent,
         blueGrey: colors.blueGrey.darken4,
-        lightGreen: colors.green.lighten1
+        lightGreen: colors.green.lighten1,
+
+        //Navbar
+        navbarBackground: colors.grey.lighten3,
+        navbarSearchbar: colors.lightGreen.accent4, 
+
+        //SIDEBAR MINI
+        sidebarMiniBackGround: colors.grey.lighten3,
+        sidebarMiniGroupUsersAvatarBackGround: colors.blueGrey,
+        sidebarMiniAddGroupButton: colors.blueGrey,
+        sidebarMiniAddGroupButtonIcon: colors.white,
+
+        sidebarMiniActiveGroup: colors.lightGreen,
+        sidebarMiniNotActiveGroups: colors.grey.lighten1,
+        
+        //SIDEBAR GROUP
+        sidebarGroupInfoHeader: colors.grey.lighten3,
+
+        //CHAT INPUT
+        chatInputSendButton: colors.lightGreen.accent4,
+        chatInputTextMessage: colors.grey.lighten1
       },
+      dark: {
+        //Navbar
+        navbarBackground: colors.grey.darken4,
+        navbarSearchbar: colors.lightGreen.accent4,
+
+        //SIDEBAR MINI
+        sidebarMiniBackGround: colors.grey.darken4,
+        sidebarMiniGroupUsersAvatarBackGround: colors.grey,
+        sidebarMiniAddGroupButton: colors.blueGrey.lighten1,
+        sidebarMiniAddGroupButtonIcon: colors.black,
+
+        sidebarMiniActiveGroup: colors.lightGreen,
+        sidebarMiniNotActiveGroups: colors.grey.darken3,
+
+        //SIDEBAR GROUP
+        sidebarGroupInfoHeader: colors.grey.darken4,
+
+        //CHAT INPUT
+        chatInputSendButton: colors.lightGreen.accent4,
+        chatInputTextMessage: colors.grey.darken3
+      }
     },
   },
 });
