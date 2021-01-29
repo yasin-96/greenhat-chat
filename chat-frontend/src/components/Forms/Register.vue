@@ -7,7 +7,7 @@
       <v-card elevation="2" class="mx-auto my-auto" max-width="400">
         <v-card-title>
           <v-container>
-            <h2 class="text-center display-1">{{ title }}</h2>
+            <h2 class="text-center display-1">{{ $t('registrieView.title') }}</h2>
           </v-container>
         </v-card-title>
 
@@ -16,7 +16,7 @@
             <v-form ref="reg_form" v-model="valid">
               <v-text-field
                 v-model="user.username"
-                :label="label.username"
+                :label="$t('registrieView.user.username')"
                 outlined
                 prepend-inner-icon="mdi-account-circle"
                 clearable
@@ -25,7 +25,7 @@
               ></v-text-field>
               <v-text-field
                 v-model="user.email"
-                :label="label.email"
+                :label="$t('registrieView.user.email')"
                 outlined
                 prepend-inner-icon="mdi-account-circle"
                 clearable
@@ -35,7 +35,7 @@
               ></v-text-field>
               <v-text-field
                 v-model="user.password"
-                :label="label.password"
+                :label="$t('registrieView.user.password')"
                 type="password"
                 outlined
                 prepend-inner-icon="mdi-lock"
@@ -46,7 +46,7 @@
                 clearable
                 outlined
                 v-model="repeatPasswd"
-                label="Password Wiederholen"
+                :label="$t('registrieView.user.repeatPassword')"
                 type="password"
                 prepend-inner-icon="mdi-lock-alert"
                 :rules="[rules.required, rules.password(repeatPasswd, user.password)]"
@@ -57,11 +57,11 @@
         </v-card-text>
         <v-card-actions>
           <v-btn dense small color="primary" text :link="true" to="/login">
-            {{ label.logIn }}
+            {{ $t('registrieView.signIn') }}
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn color="success" :disabled="!valid && !isPasswordValid" @click="registerUser">
-            {{ label.createAccount }}
+            {{ $t('actions.create') }}
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -1,6 +1,5 @@
 <template>
   <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-    <!-- <SettingsSidePanel /> -->
     <v-card class="pl-14">
       <v-toolbar flat dark color="dark">
         <v-btn icon dark @click="closeDialog(false)">
@@ -8,7 +7,7 @@
         </v-btn>
         <v-toolbar-title>
           <h1 class="headline">
-            Mein Konto
+            {{ $t('chatView.settings.title') }}
           </h1></v-toolbar-title
         >
         <v-spacer></v-spacer>
@@ -16,8 +15,11 @@
       <v-card-title>
         <v-container>
           <UserDetails />
-          <v-divider class="mt-5"></v-divider>
+            <v-divider class="mt-10 mb-10 mx-auto"></v-divider>
           <ThemeSwitcher />
+            <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
+          <LanguageSwitcher />
+            <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
         </v-container>
         <v-sheet class="pl-14" color="grey lighten-4" height="" width="100%"> </v-sheet>
       </v-card-title>
@@ -32,11 +34,13 @@
 import { mapState } from 'vuex';
 import UserDetails from '@/components/User/UserDetails';
 import ThemeSwitcher from '@/components/Settings/Theme/ThemeSwitcher';
+import LanguageSwitcher from '@/components/Settings/LanguageSwitcher';
 export default {
   name: 'Settings',
   components: {
     UserDetails,
     ThemeSwitcher,
+    LanguageSwitcher
   },
   methods: {
     closeDialog(value) {

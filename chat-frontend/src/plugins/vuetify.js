@@ -22,6 +22,7 @@ export default new Vuetify({
         transparent: colors.transparent,
         blueGrey: colors.blueGrey.darken4,
         lightGreen: colors.green.lighten1,
+        notInUse: colors.grey.lighten5,
 
         //Navbar
         navbarBackground: colors.grey.lighten3,

@@ -4,7 +4,7 @@
       <v-list-item class="grow">
         <v-list-item-content>
           <h2 class="text-center">{{ groupInfo.name }}</h2>
-          <h4 class="text-center caption">Groupe</h4>
+          <h4 class="text-center caption">{{$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupInfo.subTitle')}}</h4>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="grow">
@@ -16,7 +16,7 @@
 
         <v-list-item-content>
           <v-list-item-title>{{ groupInfo.admin }}</v-list-item-title>
-          <v-list-item-subtitle> <h6>Admin</h6></v-list-item-subtitle>
+          <v-list-item-subtitle> <h6>{{$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupInfo.groupAdmin')}}</h6></v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>

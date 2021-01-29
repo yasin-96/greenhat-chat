@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="d-flex flex-no-wrap justify-center">
-      <v-card max-height="200px" max-width="180px" v-if="user.hasAvatarPicture">
+      <v-card class="elevation-6" max-height="200px" max-width="180px" v-if="user.hasAvatarPicture">
         <v-img max-height="180px" max-width="180px" alt="" :src="user.avatarPicture"> </v-img>
         <v-card-title primary-title style="position: relative">
           <div>
@@ -12,7 +12,7 @@
         </v-card-title>
       </v-card>
 
-      <v-card class="my-auto" max-height="100px" max-width="180px" v-else>
+      <v-card class="my-auto elevation-6" max-height="100px" max-width="180px" v-else>
         <v-container>
           <v-chip x-large label link>
             <h1 class="display-3 text-white">{{ user.avatarName }}</h1></v-chip
@@ -37,13 +37,15 @@
                   <v-icon>mdi-pencil-outline</v-icon>
                 </v-btn>
               </template>
-              <span>Add Avatar-Picture</span>
+              <span>
+                {{ $t('chatView.user.userDetails.action.avatarPicture') }}
+              </span>
             </v-tooltip>
           </div>
         </v-card-title>
       </v-card>
 
-      <v-card class="ml-14">
+      <v-card class="ml-14 elevation-6">
         <v-list>
           <v-list-item-group>
             <v-list-item>
@@ -52,11 +54,11 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon v-bind="attrs" v-on="on">mdi-fingerprint</v-icon>
                   </template>
-                  <span>ID</span>
+                  <span>{{ $t('chatView.user.userDetails.tooltip.id') }}</span>
                 </v-tooltip>
               </v-list-item-icon>
               <v-list-item-content>
-                <h4 class="body-1"  ref="idToCopy">{{ user.id }}</h4>
+                <h4 class="body-1" ref="idToCopy">{{ user.id }}</h4>
               </v-list-item-content>
               <v-list-item-action>
                 <v-btn small @click="copyToClipBoard">
@@ -72,7 +74,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon v-bind="attrs" v-on="on">mdi-email</v-icon>
                   </template>
-                  <span>Email</span>
+                  <span>{{ $t('chatView.user.userDetails.tooltip.email') }}</span>
                 </v-tooltip>
               </v-list-item-icon>
               <v-list-item-content>
@@ -92,7 +94,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon v-bind="attrs" v-on="on">mdi-badge-account</v-icon>
                   </template>
-                  <span>Nickname</span>
+                  <span>{{ $t('chatView.user.userDetails.tooltip.username') }}</span>
                 </v-tooltip>
               </v-list-item-icon>
               <v-list-item-content>
@@ -112,7 +114,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon v-bind="attrs" v-on="on">mdi-drama-masks</v-icon>
                   </template>
-                  <span>Avatar Name</span>
+                  <span>{{ $t('chatView.user.userDetails.tooltip.avatarName') }}</span>
                 </v-tooltip>
               </v-list-item-icon>
               <v-list-item-content>
@@ -163,11 +165,11 @@ export default {
       });
       this.enableOrDisbleUserAvatarPicture = '';
     },
-    copyToClipBoard(){
-      let idToCopy = this.$refs.idToCopy
-      console.log(idToCopy)
-      idToCopy.execCommand("copy");
-    }
+    copyToClipBoard() {
+      let idToCopy = this.$refs.idToCopy;
+      console.log(idToCopy);
+      idToCopy.execCommand('copy');
+    },
   },
   computed: {
     ...mapState({

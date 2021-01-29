@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title class="headline">
           <h1 class="headline">
-            Change:
+            {{ $t('chatView.user.editValue.title') }}
           </h1>
           <span class="ml-2"
             ><h1 class="title">{{ editOpions.title }}</h1></span
@@ -36,7 +36,9 @@
               ></v-text-field>
             </v-container>
             <v-container v-else>
-              <span>Generate your Avatare here</span>
+              <span>
+                {{ $t('chatView.user.editValue.createAvatar') }}
+              </span>
               <a href="https://getavataaars.com/" target="_blank">
                 <v-icon class="ml-1" large color="info"> mdi-image</v-icon>
               </a>
@@ -61,10 +63,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="error darken-1" text @click="showWindow = false">
-            Close
+            {{ $t('actions.close') }}
           </v-btn>
           <v-btn color="success darken-1" text @click="updateUserInformationen">
-            Save
+            {{ $t('actions.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -104,7 +106,7 @@ export default {
       //   _id: this.userId,
       //   update: {},
       // };
-      console.log("updateUserInformationen", this.infoType)
+      console.log('updateUserInformationen', this.infoType);
       switch (this.infoType) {
         case 0:
           await this.$store.dispatch('user/act_updateSpecificUserInformationen', {
@@ -138,7 +140,7 @@ export default {
       userId: (state) => state.user.user.id,
       editOpions: (state) => state.user.editOptions,
       enableWindow: (state) => state.user.editOptions.displaySettingsWindow,
-      infoType: (state) => state.user.editOptions.infoType
+      infoType: (state) => state.user.editOptions.infoType,
     }),
 
     showWindow: {

@@ -5,7 +5,7 @@
         <v-card-title>
           <v-container class="text-center">
             <h1 class="headline">
-              Create New Group
+              {{ $t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupDialog.title') }}
             </h1>
           </v-container>
         </v-card-title>
@@ -14,7 +14,7 @@
             <v-form ref="reg_form" v-model="validOfFormular">
               <v-text-field
                 v-model="newGroupName"
-                :label="label.groupTitle"
+                :label="$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupDialog.newTitle')"
                 outlined
                 shaped
                 prepend-inner-icon="mdi-account-group"
@@ -22,13 +22,13 @@
                 required
               ></v-text-field>
 
-              <v-combobox 
-                v-model="selectedUser" 
-                :items="userList" 
+              <v-combobox
+                v-model="selectedUser"
+                :items="userList"
                 item-text="userName"
-                :label="label.addUser" 
-                outlined 
-                multiple 
+                :label="$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupDialog.addUsers')"
+                outlined
+                multiple
                 chips
               >
                 <template v-slot:selection="data">
@@ -39,7 +39,11 @@
                     :disabled="data.disabled"
                     @click:close="data.parent.selectItem(data.item)"
                   >
-                    <v-avatar class="accent white--text" left v-text="data.item.userName.slice(0, 1).toUpperCase()"></v-avatar>
+                    <v-avatar
+                      class="accent white--text"
+                      left
+                      v-text="data.item.userName.slice(0, 1).toUpperCase()"
+                    ></v-avatar>
                     {{ data.item.userName }}
                   </v-chip>
                 </template>
@@ -50,10 +54,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="error darken-1" text @click="dialog = false">
-            Close
+            {{ $t('actions.close') }}
           </v-btn>
           <v-btn color="green darken-1" text @click="createNewGroup">
-            Create
+            {{ $t('actions.create') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -69,16 +73,12 @@ export default {
     validOfFormular: false,
     selectedUser: [],
     newGroupName: '',
-    label: {
-      groupTitle: 'New Group',
-      addUser: 'Add Users',
-    },
   }),
   computed: {
     ...mapState({
       enableDialog: (state) => state.group.enableWindow,
       userId: (state) => state.user.user.id,
-      userList: (state) => state.user.allRegisterdUsers
+      userList: (state) => state.user.allRegisterdUsers,
     }),
     dialog: {
       get() {
@@ -91,13 +91,13 @@ export default {
   },
   methods: {
     async createNewGroup() {
-      const userInGroup = this.selectedUser.map((item) => item.userId)
+      const userInGroup = this.selectedUser.map((item) => item.userId);
       const newGroup = {
         name: this.newGroupName,
         admin: this.userId,
         users: userInGroup,
       };
-      await this.$store.dispatch("group/act_createNewGroup", newGroup)
+      await this.$store.dispatch('group/act_createNewGroup', newGroup);
       this.$store.dispatch('group/act_toggleNewGroupWindow', false);
     },
   },

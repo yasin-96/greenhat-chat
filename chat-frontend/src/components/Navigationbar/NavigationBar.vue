@@ -25,11 +25,11 @@
     <v-responsive max-width="156">
       <v-text-field color="navbarSearchbar" dense flat hide-details rounded solo-inverted></v-text-field>
     </v-responsive>
-    <v-divider class="ml-2 mr-2" vertical></v-divider>
+    <v-divider class="ml-2 mr-2 pt-3" vertical></v-divider>
 
     <v-menu v-model="menu" :close-on-content-click="true" :nudge-width="200" offset-x>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn large icon @click="openGameWindow" v-bind="attrs" v-on="on">
+        <v-btn class="mx-2" large icon @click="openGameWindow" v-bind="attrs" v-on="on">
           <!-- <v-badge :color="gameBell" icon="mdi-gamepad-square" overlap
             >
           </v-badge> -->
@@ -41,16 +41,38 @@
         <winwheel />
       </v-card>
     </v-menu>
-    <v-btn class="mx-2" fab dark small color="primary">
-      <v-icon dark>
-        mdi-cog
-      </v-icon>
-    </v-btn>
-    <v-btn class="mx-2" fab dark small color="primary">
-      <v-icon dark>
-        mdi-translate
-      </v-icon>
-    </v-btn>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn v-bind="attrs" v-on="on" class="mx-2" icon large @click="openSettingsDialog">
+          <v-icon dark>
+            mdi-cog
+          </v-icon>
+        </v-btn>
+      </template>
+      <span>{{ $t('chatView.navigationbar.settings') }}</span>
+    </v-tooltip>
+
+    <div class="text-center">
+      <v-menu open-on-hover button offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" class="mx-2" icon large>
+            <v-icon>
+              mdi-translate
+            </v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item v-for="(lang, index) in languages" :key="index">
+            <v-list-item-content class="text-center">
+              <v-btn text small :color="lang.active ? 'success' : ''" @click="changeLanguage(lang.local, index)"> 
+                {{ $t(lang.title) }}
+              </v-btn>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
   </v-app-bar>
 </template>
 
@@ -70,6 +92,7 @@ export default {
     //this.changeGameBellColor();
   },
   data: () => ({
+    menu:"",
     gameBell: '#424242',
     bellIcon: 'mdi-bell',
     icons: {
@@ -109,12 +132,21 @@ export default {
 
       // }, 2000);
     },
+    changeLanguage(localLang, index){
+      this.$i18n.locale = localLang 
+      this.$store.dispatch("settings/act_changeLanguage", index)
+    },
+     openSettingsDialog() {
+      console.log('asjadh');
+      this.$store.dispatch('settings/act_openSettingsDialog');
+    },
   },
   computed: {
     ...mapState({
       drawer: (state) => state.sidePanel.drawer,
       gameWindow: (state) => state.game.openDialog,
       gameStatus: (state) => state.game.gameWasPlayed,
+      languages: (state) => state.settings.languages,
     }),
 
     uidrawer: {

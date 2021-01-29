@@ -11,7 +11,7 @@
       <v-card elevation="2" outlined class="mx-auto my-auto" max-width="400">
         <v-card-title class="justify-center justify-sm-center justify-md-center justify-lg-center justify-xl-center">
           <v-container>
-            <h2 class="text-center display-1">{{ title }}</h2>
+            <h2 class="text-center display-1">{{ $t('loginView.title') }}</h2>
           </v-container>
         </v-card-title>
         <v-card-text>
@@ -19,7 +19,7 @@
             <v-form ref="reg_login" v-model="valid">
               <v-text-field
                 v-model="user.username"
-                :label="label.username"
+                :label="$t('loginView.user.username')"
                 outlined
                 prepend-inner-icon="mdi-account-circle"
                 clearable
@@ -28,7 +28,7 @@
               ></v-text-field>
               <v-text-field
                 v-model="user.password"
-                :label="label.password"
+                :label="$t('loginView.user.password')"
                 :type="showPasswd ? 'text' : 'password'"
                 prepend-inner-icon="mdi-lock"
                 :append-icon="showPasswd ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
@@ -44,11 +44,11 @@
         </v-card-text>
         <v-card-actions>
           <v-btn dense small color="primary" text :link="true" to="/register">
-              {{ label.createAccount }}
+              {{ $t('loginView.createAccount') }}
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn color="success" :disabled="!valid" @click="login">
-              Anmelden
+              {{ $t('actions.login') }}
             </v-btn>
         </v-card-actions>
       </v-card>
@@ -67,12 +67,6 @@ export default {
     Info,
   },
   data: () => ({
-    title: 'Anmeldung',
-    label: {
-      username: 'Username',
-      password: 'Passwort',
-      createAccount: 'Konto erstellen',
-    },
     user: {
       username: '',
       password: '',

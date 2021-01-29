@@ -3,7 +3,7 @@
     <v-dialog v-model="openDialog" fullscreen>
       <v-card>
         <v-card-title class="headline">
-          {{gameTitle}}
+          {{$t('chatView.games.title')}}
         </v-card-title>
         <v-card-text>
           <winwheel id="wwheel" :segments="gamePrices"/>
@@ -31,8 +31,6 @@ export default {
   name: 'GameWinWheel',
   data:() => ({
     winWheelHeader: null,
-    gameTitle: "Gewinnspiel",
-    newWinHeader: "Glücksrad",
     winWheelHTML: null,
     winWheelBTn: ""
   }),
@@ -41,7 +39,7 @@ export default {
   },
   updated(){
     this.winWheelHTML = document.getElementById("wwheel");
-    let changedHeader = this.winWheelHTML.firstElementChild.firstElementChild.innerHTML = this.newWinHeader
+    let changedHeader = this.winWheelHTML.firstElementChild.firstElementChild.innerHTML = this.$t('chatView.games.winWheel')
     console.log("changedHeader",changedHeader);
   },
   components: {
