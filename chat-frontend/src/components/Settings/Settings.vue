@@ -15,7 +15,9 @@
       </v-toolbar>
       <v-card-title>
         <v-container>
-          <UserInfo />
+          <UserDetails />
+          <v-divider class="mt-5"></v-divider>
+          <ThemeSwitcher />
         </v-container>
         <v-sheet class="pl-14" color="grey lighten-4" height="" width="100%"> </v-sheet>
       </v-card-title>
@@ -28,13 +30,13 @@
 
 <script>
 import { mapState } from 'vuex';
-// import SettingsSidePanel from '@/components/Settings/SettingsSidePanel';
-import UserInfo from '@/components/User/UserInfo';
+import UserDetails from '@/components/User/UserDetails';
+import ThemeSwitcher from '@/components/Settings/Theme/ThemeSwitcher';
 export default {
   name: 'Settings',
   components: {
-    // SettingsSidePanel,
-    UserInfo,
+    UserDetails,
+    ThemeSwitcher,
   },
   methods: {
     closeDialog(value) {

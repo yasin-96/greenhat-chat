@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import NewGroupDialog from '@/components/Chat/Group/NewGroupDialog.vue';
+import NewGroupDialog from "@/components/Chat/Sidebar/PanelLeft/SidebarMini/NewGroupDialog";
 export default {
   name: 'AddGroup',
   components: {

@@ -2,14 +2,10 @@
   <v-bottom-navigation app dense class="ml-14 elevation-0" color="danger" height="60px" width="245px">
     <v-btn disabled
       ><v-avatar v-if="user.hasAvatarPicture">
-        <img
-          :src="avatarPic"
-          alt="User"
-          class="elevation-6"
-        />
+        <img :src="avatarPic" alt="User" class="elevation-6" />
       </v-avatar>
       <v-avatar v-else>
-        {{user.avatarName}}
+        {{ user.avatarName }}
       </v-avatar>
     </v-btn>
 
@@ -20,17 +16,31 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>
-                  <h3>{{ username }}</h3>
+                  <h3>{{ shortUserName }}</h3>
                 </v-list-item-title>
-                <v-list-item-subtitle >
-                  <h6 class="">{{ shortUserId  }}</h6>
+                <v-list-item-subtitle>
+                  <h6 class="">{{ shortUserId }}</h6>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list>
         </v-btn>
       </template>
-      <span>{{ userId }}</span>
+      <span>
+        <p>
+          <v-icon>
+            mdi-badge-account
+          </v-icon>
+          {{ username }}
+        </p>
+        <p>
+          <v-icon>
+            mdi-fingerprint
+          </v-icon>
+          #{{ userId }}
+        </p>
+        <p></p>
+      </span>
     </v-tooltip>
 
     <v-btn @click="openSettingsDialog">
@@ -58,12 +68,18 @@ export default {
       username: (state) => state.user.user.username || '',
       userId: (state) => state.user.user.id || '',
     }),
-    shortUserId(){
-      if(this.user && this.user.id) {
-        return `#${this.user.id.substring(0, 9)} . . .`
+    shortUserId() {
+      if (this.user && this.user.id) {
+        return `#${this.user.id.substring(0, 9)} . . .`;
       }
-      return ""
-    }
+      return '';
+    },
+    shortUserName() {
+      if (this.user && this.user.username) {
+        return `${this.user.username.substring(0, 4)} ...`;
+      }
+      return '';
+    },
   },
 };
 </script>

@@ -25,6 +25,32 @@
     <v-responsive max-width="156">
       <v-text-field color="navbarSearchbar" dense flat hide-details rounded solo-inverted></v-text-field>
     </v-responsive>
+    <v-divider class="ml-2 mr-2" vertical></v-divider>
+
+    <v-menu v-model="menu" :close-on-content-click="true" :nudge-width="200" offset-x>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn large icon @click="openGameWindow" v-bind="attrs" v-on="on">
+          <!-- <v-badge :color="gameBell" icon="mdi-gamepad-square" overlap
+            >
+          </v-badge> -->
+          <v-icon large :color="gameBell">{{ bellIcon }}</v-icon>
+        </v-btn>
+      </template>
+
+      <v-card>
+        <winwheel />
+      </v-card>
+    </v-menu>
+    <v-btn class="mx-2" fab dark small color="primary">
+      <v-icon dark>
+        mdi-cog
+      </v-icon>
+    </v-btn>
+    <v-btn class="mx-2" fab dark small color="primary">
+      <v-icon dark>
+        mdi-translate
+      </v-icon>
+    </v-btn>
   </v-app-bar>
 </template>
 
@@ -37,7 +63,7 @@ export default {
   components: {
     winwheel: GameWinWheel,
   },
-  mounted(){
+  mounted() {
     //this.changeGameBellColor()
   },
   updated() {
@@ -73,14 +99,14 @@ export default {
     },
     changeGameBellColor() {
       if (this.count < this.colors.length) {
-          this.count++;
-        } else {
-          this.count = 0;
-        }
-         this.bellIcon = this.bellIcon == this.icons.notRing ? this.icons.ring : this.icons.notRing;
-        this.gameBell = this.colors[this.count];
+        this.count++;
+      } else {
+        this.count = 0;
+      }
+      this.bellIcon = this.bellIcon == this.icons.notRing ? this.icons.ring : this.icons.notRing;
+      this.gameBell = this.colors[this.count];
       // setTimeout(() => {
-        
+
       // }, 2000);
     },
   },

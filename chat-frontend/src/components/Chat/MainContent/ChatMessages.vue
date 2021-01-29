@@ -30,21 +30,9 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-  name: 'ChatMessage',
+  name: 'ChatMessages',
   data: () => ({
-    date: new Date().toLocaleDateString('de'),
-    tmpMsg: [{ _id: '', created: '', groupId: '', content: [] }],
   }),
-  methods: {
-    convertUnixTimeToReadableString(unixTime) {
-      return Date(unixTime).toLocaleString('de-DE', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
-    },
-  },
   computed: {
     ...mapState({
       activeGroupId:  (state) => state.group.activeGroupId,

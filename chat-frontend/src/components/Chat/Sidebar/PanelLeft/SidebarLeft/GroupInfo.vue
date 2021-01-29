@@ -28,7 +28,8 @@ import { mapState } from 'vuex';
 export default {
   name: 'GroupInfo',
   data: () => ({
-    adminAvatar:"https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairDreads02&accessoriesType=Prescription01&hairColor=Black&facialHairType=BeardLight&facialHairColor=Blonde&clotheType=GraphicShirt&clotheColor=PastelYellow&graphicType=Deer&eyeType=Close&eyebrowType=Angry&mouthType=ScreamOpen&skinColor=Light"
+    adminAvatar:
+      'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairDreads02&accessoriesType=Prescription01&hairColor=Black&facialHairType=BeardLight&facialHairColor=Blonde&clotheType=GraphicShirt&clotheColor=PastelYellow&graphicType=Deer&eyeType=Close&eyebrowType=Angry&mouthType=ScreamOpen&skinColor=Light',
   }),
   computed: {
     ...mapState({

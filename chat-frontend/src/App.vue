@@ -2,14 +2,13 @@
   <v-app>
     <NavigationBar />
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-
-import NavigationBar from "@/components/NavigationBar";
+import NavigationBar from '@/components/Navigationbar/NavigationBar';
 export default {
   name: 'App',
   components: {
@@ -21,3 +20,26 @@ export default {
   }),
 };
 </script>
+
+<style>
+/* Firefox */
+* {
+  scrollbar-width: 0px;
+  scrollbar-color: #21212100 #21212100;
+}
+
+/* Chrome Based Browser and Safari */
+*::-webkit-scrollbar {
+  width: 0px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #21212100;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #21212100;
+  border-radius: 0px;
+  border: none;
+}
+</style>

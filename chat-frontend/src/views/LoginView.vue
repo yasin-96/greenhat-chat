@@ -1,13 +1,13 @@
-<template> 
-    <div>
-        <Login />
-    </div>
+<template>
+  <div>
+    <Login />
+  </div>
 </template>
 
 <script>
-import Login from "@/components/Login";
+import Login from '@/components/Forms/Login';
 export default {
-  name: "LoginView",
+  name: 'LoginView',
   components: { Login },
 };
 </script>
