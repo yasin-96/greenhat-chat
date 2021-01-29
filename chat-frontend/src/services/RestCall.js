@@ -29,40 +29,39 @@ const apiInterfaces = {
   message: '/message',
 };
 
-
 async function rcGet(restPath, params, pathParam) {
   if (params) {
     return httpClient
       .get(restPath, { params: params })
       .then((response) => {
-        console.log("RCGET()",response);
+        console.log('RCGET()', response);
         const { data, status } = response;
         return { data, status };
       })
       .catch((error) => {
-        console.log("RCGET()", error);
+        console.log('RCGET()', error);
       });
-  } else if(pathParam){
+  } else if (pathParam) {
     return httpClient
-    .get(`${restPath}/${pathParam._id}`)
-    .then((response) => {
-      console.log("RCGET()",response);
-      const { data, status } = response;
-      return { data, status };
-    })
-    .catch((error) => {
-      console.log("RCGET()", error);
-    });
+      .get(`${restPath}/${pathParam._id}`)
+      .then((response) => {
+        console.log('RCGET()', response);
+        const { data, status } = response;
+        return { data, status };
+      })
+      .catch((error) => {
+        console.log('RCGET()', error);
+      });
   } else {
     return httpClient
       .get(restPath)
       .then((response) => {
-        console.log("RCGET()", response);
+        console.log('RCGET()', response);
         const { data, status } = response;
         return { data, status };
       })
       .catch((error) => {
-        console.log("RCGET()", error);
+        console.log('RCGET()', error);
       });
   }
 }
@@ -77,7 +76,7 @@ async function rcPost(restPath, params, body) {
         return { data, status };
       })
       .catch((error) => {
-        console.log("RCPOST()", error);
+        console.log('RCPOST()', error);
       });
   }
   if (body) {
@@ -89,7 +88,7 @@ async function rcPost(restPath, params, body) {
         return { data, status };
       })
       .catch((error) => {
-        console.log("RCPOST()", error);
+        console.log('RCPOST()', error);
       });
   }
 }
@@ -103,12 +102,12 @@ async function rcPut(restPath, body) {
       return { data, status };
     })
     .catch((error) => {
-      console.log("RCPUT()", error);
+      console.log('RCPUT()', error);
     });
 }
 
-async function rcPatch(restPath, {_id, update}) {
-  console.log("patch call")
+async function rcPatch(restPath, { _id, update }) {
+  console.log('patch call');
   return httpClient
     .patch(`${restPath}/${_id}`, update)
     .then((response) => {
@@ -117,25 +116,50 @@ async function rcPatch(restPath, {_id, update}) {
       return { data, status };
     })
     .catch((error) => {
-      console.log("RCPUT()", error);
+      console.log('RCPUT()', error);
     });
 }
 
+async function rcDelete(restPath, param, body, pathParam) {
+  if (param) {
+    return httpClient
+      .delete(restPath, { params: param })
+      .then((response) => {
+        console.log(response);
+        const { data, status } = response;
+        return { data, status };
+      })
+      .catch((error) => {
+        console.log('RCDELETE()', error);
+      });
+  }
 
+  if (body) {
+    return httpClient
+      .delete(restPath, body)
+      .then((response) => {
+        console.log(response);
+        const { data, status } = response;
+        return { data, status };
+      })
+      .catch((error) => {
+        console.log('RCDELETE()', error);
+      });
+  }
 
-async function rcDelete(restPath, param) {
-  return httpClient
-    .delete(restPath, { params: param })
-    .then((response) => {
-      console.log(response);
-      const { data, status } = response;
-      return { data, status };
-    })
-    .catch((error) => {
-      console.log("RCDELETE()", error);
-    });
+  if (pathParam) {
+    return httpClient
+      .delete(`${restPath}/${pathParam._id}`)
+      .then((response) => {
+        console.log(response);
+        const { data, status } = response;
+        return { data, status };
+      })
+      .catch((error) => {
+        console.log('RCDELETE()', error);
+      });
+  }
 }
-
 
 export default {
   async login({ username, password }) {
@@ -167,7 +191,7 @@ export default {
     return httpClient
       .post(apiInterfaces.message, newMessage)
       .then((response) => {
-        console.log("send msg",response)
+        console.log('send msg', response);
         const { status } = response;
         return status;
       })
@@ -177,18 +201,18 @@ export default {
   },
   async rcRequest(restPath, methodType, hasParams, hasBody, hasPathVariable) {
     switch (String(methodType).toLowerCase()) {
-      case "get":
+      case 'get':
         if (restPath && hasParams) {
           return await rcGet(restPath, hasParams);
-        } 
+        }
         if (restPath && hasPathVariable) {
           return await rcGet(restPath, null, hasPathVariable);
-        }  
-        if(restPath) {
+        }
+        if (restPath) {
           return await rcGet(restPath, null, null);
         }
         break;
-      case "post":
+      case 'post':
         if (restPath && hasParams) {
           return await rcPost(restPath, hasParams, null);
         }
@@ -197,30 +221,32 @@ export default {
         }
         break;
 
-      case "put":
+      case 'put':
         if (restPath && hasBody) {
           return rcPut(restPath, hasBody);
         }
         break;
-      case "patch":
-          console.log("patch restcalls", hasBody)
-          if (restPath && hasBody) {
-            return rcPatch(restPath, hasBody);
-          }
-          break;
-      case "delete":
+      case 'patch':
+        console.log('patch restcalls', hasBody);
         if (restPath && hasBody) {
-          return rcDelete(restPath, hasBody);
+          return rcPatch(restPath, hasBody);
         }
         break;
+      case 'delete':
+        if (restPath && hasParams) {
+          return await rcDelete(restPath, hasParams, null, null);
+        }
+        if (restPath && hasBody) {
+          return rcDelete(restPath, null, hasBody, null);
+        }
+
+        if (restPath && hasPathVariable) {
+          return await rcDelete(restPath, null, null, hasPathVariable);
+        }
+
+        break;
       default:
-        console.warn(
-          "rcRequest() no call ",
-          restPath,
-          methodType,
-          hasParams,
-          hasBody
-        );
+        console.warn('rcRequest() no call ', restPath, methodType, hasParams, hasBody);
         break;
     }
   },

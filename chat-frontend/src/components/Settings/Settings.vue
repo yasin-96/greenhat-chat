@@ -20,6 +20,9 @@
             <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
           <LanguageSwitcher />
             <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
+            <UpdatePassword />
+            <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
+            <DeleteAccount />
         </v-container>
         <v-sheet class="pl-14" color="grey lighten-4" height="" width="100%"> </v-sheet>
       </v-card-title>
@@ -35,12 +38,17 @@ import { mapState } from 'vuex';
 import UserDetails from '@/components/User/UserDetails';
 import ThemeSwitcher from '@/components/Settings/Theme/ThemeSwitcher';
 import LanguageSwitcher from '@/components/Settings/LanguageSwitcher';
+import UpdatePassword from '@/components/User/UpdatePassword';
+import DeleteAccount from '@/components/User/DeleteAccount';
+
 export default {
   name: 'Settings',
   components: {
     UserDetails,
     ThemeSwitcher,
-    LanguageSwitcher
+    LanguageSwitcher,
+    UpdatePassword,
+    DeleteAccount
   },
   methods: {
     closeDialog(value) {

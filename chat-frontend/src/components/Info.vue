@@ -16,7 +16,7 @@
       {{ notify.message }}
     </v-snackbar>
   </v-scroll-x-transition>
-</template>this.setNotification(msg, "error", "mdi-alert-circle")
+</template>
 
 <script>
 import { mapState } from "vuex";

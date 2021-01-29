@@ -95,6 +95,10 @@ const groupModule = {
           return null;
         });
     },
+
+    act_clearGroupState({ commit }) {
+      commit('MUT_CLEAR_GROUP_STATE');
+    },
   },
   mutations: {
     MUT_SET_ACTIVE_GROUP(state, id) {
@@ -144,6 +148,13 @@ const groupModule = {
         state.allGroupIDS = new Array();
       }
       state.allGroupIDS = groupIds;
+    },
+    MUT_CLEAR_GROUP_STATE(state) {
+      state.enableWindow = false;
+      state.activeGroupId = '';
+      state.activeGroup = {};
+      state.userGroups = [];
+      state.allGroupIDS = [];
     },
   },
 };

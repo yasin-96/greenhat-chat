@@ -2,9 +2,10 @@ const settingsModule = {
   namespaced: true,
   modules: {},
   state: () => ({
+    localStorageKey: 'greenhat-chat',
     enableDialog: false,
     languages: [
-      { local: 'de-DE', title: 'chatView.navigationbar.translate.de', active: true },
+      { local: 'de-DE', title: 'chatView.navigationbar.translate.de', active: false },
       { local: 'en-EN', title: 'chatView.navigationbar.translate.en', active: false },
     ],
   }),

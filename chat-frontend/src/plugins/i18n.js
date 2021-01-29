@@ -30,6 +30,11 @@ export default new VueI18n({
           editValue: {
             title: 'Change:',
             createAvatar: 'Create your avatar here',
+            changePassword:"Change password",
+            deleteAccount: "Close Account",
+            reallyDeleteAccount: "Do you really want to delete the account ?",
+            lastQuestionBeforeDeleteAccount: "Are you sure?",
+            deleteInfo: "Account could be deleted successfully"
           },
           userDetails: {
             tooltip: {
@@ -94,6 +99,8 @@ export default new VueI18n({
         save: 'Save',
         login: 'Sign In',
         create: 'Create',
+        change: 'Change',
+        abort: "Abort"
       },
     },
     'de-DE': {
@@ -103,7 +110,7 @@ export default new VueI18n({
           username: 'Username',
           password: 'Passwort',
         },
-        createAccount: 'Anmeldung',
+        createAccount: 'Konto erstellen',
       },
       registrieView: {
         title: 'Konto erstellen',
@@ -120,6 +127,14 @@ export default new VueI18n({
           editValue: {
             title: 'Ändere:',
             createAvatar: 'Erstelle dein avatar hier',
+            changePassword:"Password ändern",
+            deleteAccount: "Konto schließen",
+            reallyDeleteAccount: "Wollen Sie wirklich das Konto löschen ?",
+            lastQuestionBeforeDeleteAccount: "Bist Du dir ganz Sicher?",
+            deleteInfo: "Konto wurde erfolgreich geloescht",
+            error: {
+              404: "Account was not deleted. ID not found or is wrong"
+            }
           },
           userDetails: {
             tooltip: {
@@ -167,6 +182,8 @@ export default new VueI18n({
         save: 'Speichern',
         login: 'Anmelden',
         create: 'Erstellen',
+        change: 'Verändern',
+        abort: "Abbruch"
       },
     },
   },

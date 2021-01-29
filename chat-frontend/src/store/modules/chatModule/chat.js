@@ -1,5 +1,3 @@
-import groupModule from '@/store/modules/chatModule/groups';
-
 import RestCall from '@/services/RestCall';
 // import { checkUser, messageBasedOnReturnValue } from '@/utils/util';
 
@@ -17,9 +15,6 @@ const API_PATHS = {
 
 const chatModule = {
   namespaced: true,
-  modules: {
-    groups: groupModule,
-  },
   state: () => ({
     messagesOfGroup: [],
     socketInfo: {
@@ -49,6 +44,9 @@ const chatModule = {
     },
     act_addNewMessagesFromWS({ commit }, gId) {
       commit('MUT_ADD_MESSAGE_FROM_WEBSOCKET', gId);
+    },
+    act_clearChatState({ commit }) {
+      commit('MUT_CLEAT_CHAT_STATE');
     },
   },
 
@@ -90,6 +88,16 @@ const chatModule = {
           }
         });
       }
+    },
+    MUT_CLEAT_CHAT_STATE(state) {
+      state.messagesOfGroup = [];
+      state.socketInfo = {
+        clientConnected: false,
+        recievedMessages: '',
+        reconnectError: '',
+        reconnectionCounter: 0,
+      };
+      state.createMessages = 0;
     },
   },
 };

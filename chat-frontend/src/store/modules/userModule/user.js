@@ -1,4 +1,3 @@
-import groupModule from '@/store/modules/chatModule/groups';
 import RestCall from '@/services/RestCall';
 import { checkUser, messageBasedOnReturnValue } from '@/utils/util';
 
@@ -14,36 +13,29 @@ const API_PATHS = {
     login: API_BASE_PATHS.user + '/authenticate',
     specUpdate: API_BASE_PATHS.user + '/specs',
     allUser: API_BASE_PATHS.user + '/allUsers',
+    close: API_BASE_PATHS.user,
   },
 };
 
 const userModule = {
   namespaced: true,
-  modules: {
-    allGroups: groupModule,
-  },
   state: () => ({
-    allRegisterdUsers:[],
+    allRegisterdUsers: [],
     user: {},
-    
-    // groups: [1, 3, 4],
     editOptions: {
       old: '',
       suffix: null,
       infoType: null,
       title: '',
       displaySettingsWindow: false,
+      displayDeleteWindow: false
     },
   }),
   actions: {
-    
-    
-
-
     /**
-     * 
-     * @param {state} param0 
-     * @param {Object} payload login cred from user (username & password) 
+     *
+     * @param {state} param0
+     * @param {Object} payload login cred from user (username & password)
      */
     async act_logUserIn({ commit }, userLoginCred) {
       return await RestCall.login(userLoginCred)
@@ -57,13 +49,13 @@ const userModule = {
         })
         .catch((error) => {
           console.error('act_logUserIn()', error);
-          return null
+          return null;
         });
     },
 
     /**
-     * 
-     * @param {state} param0 
+     *
+     * @param {state} param0
      * @param {Object} newUser new user that will be created
      */
     async act_registerUser({ commit }, newUser) {
@@ -76,14 +68,14 @@ const userModule = {
         })
         .catch((error) => {
           console.error('act_logUserIn()', error);
-          return null
+          return null;
         });
     },
 
     /**
-     * 
-     * @param {*} param0 
-     * @param {*} newInfo 
+     *
+     * @param {*} param0
+     * @param {*} newInfo
      */
     async act_updateSpecificUserInformationen({ commit }, newInfo) {
       console.log('act_updateSpecificUserInformationen', newInfo);
@@ -96,7 +88,7 @@ const userModule = {
         })
         .catch((error) => {
           console.log('act_updateSpecificUserInformationen(): ', error);
-          return null
+          return null;
         });
     },
 
@@ -111,11 +103,25 @@ const userModule = {
         })
         .catch((error) => {
           console.log('act_getAllUserWithIdAndUserName(): ', error);
-          return null
+          return null;
         });
     },
 
-    
+    async act_deleteAccount({ commit }, userId) {
+      console.log('act_deleteAccount');
+      return await RestCall.rcRequest(API_PATHS.user.close, 'delete', null, null, userId)
+        .then(({ status }) => {
+          console.log('act_deleteAccount() res: ', status);
+          if (status === 200) {
+            commit('MUT_CLEAR_STORE');
+          }
+          return status
+        })
+        .catch((error) => {
+          console.log('act_deleteAccount(): ', error);
+          return null;
+        });
+    },
 
     act_closeEditWindowForUser({ commit }) {
       commit('MUT_DISABLE_EDIT_WINDOW');
@@ -127,18 +133,34 @@ const userModule = {
     act_setEditWindowSettingsBasedOnType({ commit }, editOptions) {
       commit('MUT_SET_EDIT_WINDOW_DATA', editOptions);
     },
+
+
+    act_closeWindowForDeleteAccount({ commit }) {
+      commit('MUT_DISABLE_CLOSE_ACCOUNT_WINDOW');
+    },
+    act_toggleCloseAccountWindow({ commit }, toggelValue) {
+      commit('MUT_TOOGLE_CLOSE_ACCOUNT_WINDOW', toggelValue);
+    },
   },
   mutations: {
-    
-
     MUT_SAVE_USER(state, userCred) {
       state.user = userCred;
     },
+
+
     MUT_DISABLE_EDIT_WINDOW(state) {
       state.editOptions.displaySettingsWindow = false;
     },
     MUT_TOOGLE_EDIT_WINDOW(state, value) {
       state.editOptions.displaySettingsWindow = value;
+    },    
+
+
+    MUT_DISABLE_CLOSE_ACCOUNT_WINDOW(state) {
+      state.editOptions.displayDeleteWindow = false;
+    },
+    MUT_TOOGLE_CLOSE_ACCOUNT_WINDOW(state, value) {
+      state.editOptions.displayDeleteWindow = value;
     },
     MUT_SET_EDIT_WINDOW_DATA(state, editOptions) {
       console.log('MUT_SET_EDIT_WINDOW_DATA', editOptions);
@@ -171,15 +193,21 @@ const userModule = {
       state.editOptions.infoType = 0;
     },
 
-    MUT_SAVE_ALL_USERS_WITH_ID_UNAME(state, usersList){
+    MUT_SAVE_ALL_USERS_WITH_ID_UNAME(state, usersList) {
       state.allRegisterdUsers = usersList;
-    }
-  },
-  getters: {
-    usersGroups(state) {
-      return state.groups.forEach((id) => {
-        return state.allGroups.groups.find(({ _id }) => _id === id);
-      });
+    },
+
+    MUT_CLEAR_STORE(state) {
+      state.allRegisterdUsers = [];
+      state.user = {};
+
+      state.editOptions = {
+        old: '',
+        suffix: null,
+        infoType: null,
+        title: '',
+        displaySettingsWindow: false,
+      };
     },
   },
 };
