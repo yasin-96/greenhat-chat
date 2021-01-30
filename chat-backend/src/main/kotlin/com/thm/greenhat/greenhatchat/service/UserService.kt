@@ -4,7 +4,9 @@ import com.thm.greenhat.greenhatchat.exception.BadRequestException
 import com.thm.greenhat.greenhatchat.exception.ConflictException
 import com.thm.greenhat.greenhatchat.exception.NotFoundException
 import com.thm.greenhat.greenhatchat.exception.NotModifiedException
+import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
 import com.thm.greenhat.greenhatchat.model.User
+import com.thm.greenhat.greenhatchat.model.UserForUI
 import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.repository.GroupRepository
 import com.thm.greenhat.greenhatchat.repository.UserRepository
@@ -103,7 +105,42 @@ class UserService(
             .map {
                 it
             }
+    }
 
+    /**
+     *
+     * @param userId String
+     * @param passwordChanges ChangePasswordRequest
+     * @return Mono<UserForUI>
+     */
+    fun tryToChangePassworFromUser(userId: String, passwordChanges: ChangePasswordRequest): Mono<UserForUI> {
+        return Mono.zip(
+            checkIfOldPasswordCorrect(userId, passwordChanges.oldPassInput),
+            findById(userId)
+        )
+            .filter {
+                it.t1
+            }.switchIfEmpty(
+                Mono.error(NotModifiedException("Pasword was not updated"))
+            )
+            .flatMap {
+                changePassword(it.t2, passwordChanges.newPass)
+            }
+
+    }
+
+
+    /**
+     *
+     * @param id String
+     * @param oldPass String
+     * @return Mono<Boolean>
+     */
+    fun checkIfOldPasswordCorrect(id: String, oldPass: String): Mono<Boolean> {
+        return findById(id)
+            .map {
+                it.password == oldPass
+            }
     }
 
     /**
@@ -112,18 +149,27 @@ class UserService(
      * @param newPass String
      * @return Mono<User>
      */
-    fun changePassword(user: User, newPass: String): Mono<User> {
+    fun changePassword(user: User, newPass: String): Mono<UserForUI> {
         return userRepository.save(
             User(
                 user.id,
                 user.username,
-                user.password,
+                newPass,
                 user.email,
                 user.hasAvatarPicture,
                 user.avatarName,
                 user.avatarPicture
             )
-        )
+        ).map {
+            UserForUI(
+                user.id,
+                user.username,
+                user.email,
+                user.hasAvatarPicture,
+                user.avatarName,
+                user.avatarPicture
+            )
+        }
     }
 
 

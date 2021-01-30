@@ -3,6 +3,7 @@ package com.thm.greenhat.greenhatchat.controller
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
 import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
 import com.thm.greenhat.greenhatchat.model.User
+import com.thm.greenhat.greenhatchat.model.UserForUI
 import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.service.UserService
 import org.springframework.web.bind.annotation.*
@@ -70,15 +71,8 @@ class UserController(private val userService: UserService) {
      * @return Mono<User>
      */
     @PutMapping("/user/{id}")
-    fun changePassword(@PathVariable id: String, @RequestBody request: ChangePasswordRequest): Mono<User> {
-        return Mono.zip(checkIfOldPasswordCorrect(id, request.oldPassInput), userService.findById(id))
-            .filter {
-                it.t1
-            }
-            .flatMap {
-                userService.changePassword(it.t2, request.newPass)
-            }
-
+    fun changePassword(@PathVariable id: String, @RequestBody changePasswordRequest: ChangePasswordRequest): Mono<UserForUI> {
+        return userService.tryToChangePassworFromUser(id, changePasswordRequest)
     }
 
     /**
@@ -89,19 +83,6 @@ class UserController(private val userService: UserService) {
     @GetMapping("/user/groups/{id}")
     fun getGroupsFromUser(@PathVariable id: String): Mono<MutableSet<String>> {
         return userService.getGroupsFromUser(id)
-    }
-
-    /**
-     *
-     * @param id String
-     * @param oldPass String
-     * @return Mono<Boolean>
-     */
-    fun checkIfOldPasswordCorrect(id: String, oldPass: String): Mono<Boolean> {
-        return userService.findById(id)
-            .map {
-                it.password == oldPass
-            }
     }
 
 
