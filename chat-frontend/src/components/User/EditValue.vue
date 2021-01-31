@@ -128,6 +128,7 @@ export default {
               hasAvatarPicture: true,
             },
           });
+          this.rawImageToImage = null
           break;
         default:
           break;
