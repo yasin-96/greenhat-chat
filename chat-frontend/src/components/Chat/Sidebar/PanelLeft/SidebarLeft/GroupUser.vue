@@ -2,11 +2,15 @@
   <div>
     <v-list class="pl-14" shaped>
       <v-list-item v-for="userg in userInGroup" :key="userg._id">
-        <v-avatar :key="userg._id" class="d-block " color="sidebarMiniGroupUsersAvatarBackGround" size="32">
+        <v-list-item-avatar class="d-block " color="sidebarMiniGroupUsersAvatarBackGround" size="32">
           <img v-if="userg.avatarPicture" :src="userg.avatarPicture" />
           <span class="title" v-else> {{ userg.avatarName }} </span>
-        </v-avatar>
-        <span class="pl-4">{{ userg.username }}</span>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ userg.username }}
+          </v-list-item-title>
+        </v-list-item-content>
       </v-list-item>
     </v-list>
   </div>

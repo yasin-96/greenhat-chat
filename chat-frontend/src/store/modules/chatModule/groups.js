@@ -11,6 +11,8 @@ const API_PATHS = {
     groupInfo: API_BASE_PATHS.group + '/id',
     groupMessages: API_BASE_PATHS.group + '/messages',
     userGroups: API_BASE_PATHS.group + '/user',
+    updateUserList: API_BASE_PATHS.group + /users/,
+    removeUserFromList: API_BASE_PATHS.group + '/user',
   },
   user: {
     groups: API_BASE_PATHS.user + '/groups',
@@ -25,6 +27,13 @@ const groupModule = {
     activeGroup: {},
     userGroups: [],
     allGroupIDS: [],
+    editOptions: {
+      old: '',
+      infoType: null,
+      title: '',
+      displaySettingsWindow: false,
+      displayDeleteWindow: false,
+    },
   }),
   actions: {
     act_loadGroupInfos({ commit }, payload) {
@@ -96,6 +105,10 @@ const groupModule = {
         });
     },
 
+    act_setGroupEditWindowSettingsBasedOnType({ commit }, editOptions) {
+      commit('MUT_SET_EDIT_WINDOW_DATA_FOR_ADMIN', editOptions);
+    },
+
     act_clearGroupState({ commit }) {
       commit('MUT_CLEAR_GROUP_STATE');
     },
@@ -155,6 +168,38 @@ const groupModule = {
       state.activeGroup = {};
       state.userGroups = [];
       state.allGroupIDS = [];
+    },
+
+    MUT_DISABLE_EDIT_WINDOW(state) {
+      state.editOptions.displaySettingsWindow = false;
+    },
+    MUT_TOOGLE_EDIT_WINDOW(state, value) {
+      state.editOptions.displaySettingsWindow = value;
+    },
+
+    MUT_SET_EDIT_WINDOW_DATA_FOR_ADMIN(state, editOptions) {
+      console.log('MUT_SET_EDIT_WINDOW_DATA_FOR_ADMIN', editOptions);
+      const group = state.userGroups.find((group) => group._id === state.activeGroupId)
+      console.log(group, state.activeGroupId)
+      switch (editOptions) {
+        case 0:
+          state.editOptions.title = 'Group-Name';
+          state.editOptions.old = state.activeGroup.name;
+          state.editOptions.infoType = 0;
+          break;
+        case 1:
+          state.editOptions.title = 'Group-Admin' ;
+          state.editOptions.old = state.activeGroup.admin;
+          state.editOptions.infoType = 1;
+          break;
+        default:
+          break;
+      }
+    },
+    MUT_RESET_EDIT_WINDOW_DATA_FOR_ADMIN(state) {
+      state.editOptions.title = '';
+      state.editOptions.old = '';
+      state.editOptions.infoType = 0;
     },
   },
 };

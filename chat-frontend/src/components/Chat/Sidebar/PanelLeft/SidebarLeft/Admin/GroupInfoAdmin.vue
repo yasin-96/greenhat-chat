@@ -1,12 +1,10 @@
 <template>
-  <v-sheet class="pl-14 mb-2" color="sidebarGroupInfoHeader" height="128" width="100%">
+  <v-sheet class="pl-14 mb-5" color="sidebarGroupInfoHeader" height="128" width="100%">
     <v-list>
       <v-list-item class="grow">
         <v-list-item-content>
           <h2 class="text-center">{{ groupInfo.name }}</h2>
-          <h4 class="text-center caption">
-            {{ $t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupInfo.subTitle') }}
-          </h4>
+          <h4 class="text-center caption">{{$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupInfo.subTitle')}}</h4>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="grow">
@@ -18,12 +16,13 @@
 
         <v-list-item-content>
           <v-list-item-title>{{ groupInfo.admin }}</v-list-item-title>
-          <v-list-item-subtitle>
-            <h6>
-              {{ $t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupInfo.groupAdmin') }}
-            </h6></v-list-item-subtitle
-          >
+          <v-list-item-subtitle> <h6>{{$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupInfo.groupAdmin')}}</h6></v-list-item-subtitle>
         </v-list-item-content>
+        <v-list-item-action>
+          <v-btn fab text small @click="openGroupAdminSettingsDialog">
+            <v-icon >mdi-cog</v-icon>
+          </v-btn>
+        </v-list-item-action>
       </v-list-item>
     </v-list>
   </v-sheet>
@@ -32,7 +31,7 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-  name: 'GroupInfo',
+  name: 'GroupInfoAdmin',
   data: () => ({
     adminAvatar:
       'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairDreads02&accessoriesType=Prescription01&hairColor=Black&facialHairType=BeardLight&facialHairColor=Blonde&clotheType=GraphicShirt&clotheColor=PastelYellow&graphicType=Deer&eyeType=Close&eyebrowType=Angry&mouthType=ScreamOpen&skinColor=Light',
@@ -42,6 +41,11 @@ export default {
       groupInfo: (state) => state.group.activeGroup,
     }),
   },
+  methods:{
+    openGroupAdminSettingsDialog(){
+      this.$store.dispatch("settings/act_openAdminSettingsDialogForGroup")
+    }
+  }
 };
 </script>
 

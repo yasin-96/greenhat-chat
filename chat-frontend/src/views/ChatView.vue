@@ -6,6 +6,7 @@
     <ChatInput />
 
     <Settings />
+    <GroupSettingsAdmin />
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import PanelLeft from '@/components/Chat/Sidebar/PanelLeft/PanelLeft';
 import ChatInput from '@/components/Chat/MainContent/ChatInput';
 import ChatMessages from '@/components/Chat/MainContent/ChatMessages';
 import Settings from '@/components/Settings/Settings';
+import GroupSettingsAdmin from "@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/GroupSettingsAdmin"
 export default {
   name: 'ChatView',
   components: {
@@ -22,6 +24,7 @@ export default {
     ChatInput,
     ChatMessages,
     Settings,
+    GroupSettingsAdmin
   },
   mounted() {
     this.loadAllUsers();

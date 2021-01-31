@@ -23,6 +23,8 @@ export default new Vuetify({
         blueGrey: colors.blueGrey.darken4,
         lightGreen: colors.green.lighten1,
         notInUse: colors.grey.lighten5,
+        groupMember : colors.lightBlue.lighten5,
+        groupAdmin: colors.red.lighten4,
 
         //Navbar
         navbarBackground: colors.grey.lighten3,
@@ -45,6 +47,7 @@ export default new Vuetify({
         chatInputTextMessage: colors.grey.lighten1
       },
       dark: {
+
         //Navbar
         navbarBackground: colors.grey.darken4,
         navbarSearchbar: colors.lightGreen.accent4,
