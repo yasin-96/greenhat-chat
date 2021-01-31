@@ -63,6 +63,11 @@ class GroupService(
      * @return Mono<GroupRequest>
      */
     fun addGroup(group: GroupRequest): Mono<GroupRequest> {
+
+        //add admin also to user list
+        group.users.add(group.admin)
+
+
         return checkIfGroupNameExists(group.name)
             .switchIfEmpty(Mono.error(ConflictException("test")))
             .flatMap {

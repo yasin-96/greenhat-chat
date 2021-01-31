@@ -24,7 +24,7 @@
 
               <v-combobox
                 v-model="selectedUser"
-                :items="userList"
+                :items="filteredListFromUserWithoutCurrentLoggedIn"
                 item-text="userName"
                 :label="$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupDialog.addUsers')"
                 outlined
@@ -88,6 +88,10 @@ export default {
         this.$store.dispatch('group/act_toggleNewGroupWindow', tValue);
       },
     },
+
+    filteredListFromUserWithoutCurrentLoggedIn(){
+      return this.userList.filter((user) => user.userId !== this.userId)
+    }
   },
   methods: {
     async createNewGroup() {
