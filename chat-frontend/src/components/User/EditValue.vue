@@ -55,7 +55,7 @@
               ></v-textarea>
             </v-container>
           </v-form>
-          <v-container v-show="linkFromAvatar">
+          <v-container v-if="editOpions.infoType == 3" v-show="linkFromAvatar">
             <img max-height="100px" :src="linkFromAvatar" alt="User" class="elevation-2 mx-auto" />
           </v-container>
         </v-card-text>
