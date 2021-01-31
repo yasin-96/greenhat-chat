@@ -34,7 +34,11 @@ export default new VueI18n({
             deleteAccount: "Close Account",
             reallyDeleteAccount: "Do you really want to delete the account ?",
             lastQuestionBeforeDeleteAccount: "Are you sure?",
-            deleteInfo: "Account could be deleted successfully"
+            deleteInfo: "Account could be deleted successfully",
+            error: {
+              404: "Kontodaten wurden nicht gefunden",
+              202: "Änderungen wurden erfolgreich übernommen"
+            }
           },
           userDetails: {
             tooltip: {
@@ -133,7 +137,8 @@ export default new VueI18n({
             lastQuestionBeforeDeleteAccount: "Bist Du dir ganz Sicher?",
             deleteInfo: "Konto wurde erfolgreich geloescht",
             error: {
-              404: "Account was not deleted. ID not found or is wrong"
+              404: "Kontodaten wurden nicht gefunden",
+              202: "Änderungen wurden erfolgreich übernommen"
             }
           },
           userDetails: {

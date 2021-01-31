@@ -4,10 +4,7 @@
       <Info />
     </v-container>
 
-    <v-container
-      fluid
-      class="justify-center justify-sm-center justify-md-center justify-lg-center justify-xl-center"
-    >
+    <v-container fluid class="justify-center justify-sm-center justify-md-center justify-lg-center justify-xl-center">
       <v-card elevation="2" outlined class="mx-auto my-auto" max-width="400">
         <v-card-title class="justify-center justify-sm-center justify-md-center justify-lg-center justify-xl-center">
           <v-container>
@@ -44,12 +41,12 @@
         </v-card-text>
         <v-card-actions>
           <v-btn dense small color="primary" text :link="true" to="/register">
-              {{ $t('loginView.createAccount') }}
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="success" :disabled="!valid" @click="login">
-              {{ $t('actions.login') }}
-            </v-btn>
+            {{ $t('loginView.createAccount') }}
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="success" :disabled="!valid" @click="login">
+            {{ $t('actions.login') }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-container>
@@ -73,7 +70,7 @@ export default {
     },
     showPasswd: false,
     notfication: {
-      timeOut: 3000, 
+      timeOut: 3000,
       message: '',
       toggle: false,
       icon: '',
@@ -87,15 +84,16 @@ export default {
   }),
   methods: {
     async login() {
-      const { message, status } = await this.$store.dispatch('user/act_logUserIn', this.user);
+      const error = await this.$store.dispatch('user/act_logUserIn', this.user);
 
-      if (status !== 200) {
-        this.setNotification(message, 'error', 'mdi-alert-circle');
-      } else {
-        this.setNotification(message, 'success', 'mdi-alert-circle');
+      if (error.status === 200) {
         this.$router.push({ path: '/chat' });
-        // setTimeout(() => {
-        // }, 3500);
+      } else {
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: error.message,
+          color: 'error',
+          icon: 'mdi-information-outline',
+        });
       }
     },
   },

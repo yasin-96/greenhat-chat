@@ -38,8 +38,11 @@ async function rcGet(restPath, params, pathParam) {
         const { data, status } = response;
         return { data, status };
       })
-      .catch((error) => {
-        console.log('RCGET()', error);
+      .catch(({ response }) => {
+        console.log('RCGET()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
       });
   } else if (pathParam) {
     return httpClient
@@ -49,8 +52,11 @@ async function rcGet(restPath, params, pathParam) {
         const { data, status } = response;
         return { data, status };
       })
-      .catch((error) => {
-        console.log('RCGET()', error);
+      .catch(({ response }) => {
+        console.log('RCGET()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
       });
   } else {
     return httpClient
@@ -60,8 +66,11 @@ async function rcGet(restPath, params, pathParam) {
         const { data, status } = response;
         return { data, status };
       })
-      .catch((error) => {
-        console.log('RCGET()', error);
+      .catch(({ response }) => {
+        console.log('RCGET()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
       });
   }
 }
@@ -75,8 +84,11 @@ async function rcPost(restPath, params, body) {
         const { data, status } = response;
         return { data, status };
       })
-      .catch((error) => {
-        console.log('RCPOST()', error);
+      .catch(({ response }) => {
+        console.log('RCPOST()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
       });
   }
   if (body) {
@@ -87,23 +99,63 @@ async function rcPost(restPath, params, body) {
         const { data, status } = response;
         return { data, status };
       })
-      .catch((error) => {
-        console.log('RCPOST()', error);
+      .catch(({ response }) => {
+        console.log('RCPOST()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
       });
   }
 }
 
-async function rcPut(restPath, body) {
-  return httpClient
-    .put(restPath, body)
-    .then((response) => {
-      console.log(response);
-      const { data, status } = response;
-      return { data, status };
-    })
-    .catch((error) => {
-      console.log('RCPUT()', error);
-    });
+async function rcPut(restPath, params, body, pathParam) {
+  if (params) {
+    return httpClient
+      .put(restPath, body)
+      .then((response) => {
+        console.log(response);
+        const { data, status } = response;
+        return { data, status };
+      })
+      .catch(({ response }) => {
+        console.log('RCPUT()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
+      });
+  }
+
+  if (body && !pathParam) {
+    return httpClient
+      .put(restPath, body)
+      .then((response) => {
+        console.log(response);
+        const { data, status } = response;
+        return { data, status };
+      })
+      .catch(({ response }) => {
+        console.log('RCPUT()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
+      });
+  }
+
+  if (body && pathParam) {
+    return httpClient
+      .put(`${restPath}/${pathParam._id}`, body)
+      .then((response) => {
+        console.log(response);
+        const { data, status } = response;
+        return { data, status };
+      })
+      .catch(({ response }) => {
+        console.log('RCPUT()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
+      });
+  }
 }
 
 async function rcPatch(restPath, { _id, update }) {
@@ -115,8 +167,11 @@ async function rcPatch(restPath, { _id, update }) {
       const { data, status } = response;
       return { data, status };
     })
-    .catch((error) => {
-      console.log('RCPUT()', error);
+    .catch(({ response }) => {
+      console.log('RCPUT()', response);
+      const { error, message, status } = response.data;
+      console.log(response.data);
+      return { error: error, message: message, status: status };
     });
 }
 
@@ -129,8 +184,11 @@ async function rcDelete(restPath, param, body, pathParam) {
         const { data, status } = response;
         return { data, status };
       })
-      .catch((error) => {
-        console.log('RCDELETE()', error);
+      .catch(({ response }) => {
+        console.log('RCDELETE()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
       });
   }
 
@@ -142,8 +200,11 @@ async function rcDelete(restPath, param, body, pathParam) {
         const { data, status } = response;
         return { data, status };
       })
-      .catch((error) => {
-        console.log('RCDELETE()', error);
+      .catch(({ response }) => {
+        console.log('RCDELETE()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
       });
   }
 
@@ -155,8 +216,11 @@ async function rcDelete(restPath, param, body, pathParam) {
         const { data, status } = response;
         return { data, status };
       })
-      .catch((error) => {
-        console.log('RCDELETE()', error);
+      .catch(({ response }) => {
+        console.log('RCDELETE()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
       });
   }
 }
@@ -166,12 +230,14 @@ export default {
     return httpClient
       .get(apiInterfaces.user.login, { params: { username, password } })
       .then((response) => {
-        console.log(response);
-        const { data, status } = response;
-        return { data, status };
+        console.log('LOGIN()', response);
+        return response;
       })
-      .catch((error) => {
-        console.log('LOGIN()', error);
+      .catch(({ response }) => {
+        console.log('LOGIN()', { response });
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
       });
   },
 
@@ -182,8 +248,11 @@ export default {
         const { data, status } = response;
         return { data, status };
       })
-      .catch((error) => {
-        console.log('NEWACCOUNT()', error);
+      .catch(({ response }) => {
+        console.log('NEWACCOUNT()', response);
+        const { error, message, status } = response.data;
+        console.log(response.data);
+        return { error: error, message: message, status: status };
       });
   },
 
@@ -222,9 +291,15 @@ export default {
         break;
 
       case 'put':
-        if (restPath && hasBody) {
-          return rcPut(restPath, hasBody);
+        if (restPath && hasBody && hasPathVariable) {
+          console.log('Gehe Richtig rein');
+          return rcPut(restPath, null, hasBody, hasPathVariable);
         }
+
+        if (restPath && hasBody) {
+          return rcPut(restPath, null, hasBody);
+        }
+
         break;
       case 'patch':
         console.log('patch restcalls', hasBody);

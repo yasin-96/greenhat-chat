@@ -121,7 +121,7 @@ class UserService(
             .filter {
                 it.t1
             }.switchIfEmpty(
-                Mono.error(NotModifiedException("Pasword was not updated"))
+                Mono.error(BadRequestException("Old password was wrong."))
             )
             .flatMap {
                 changePassword(it.t2, passwordChanges.newPass)

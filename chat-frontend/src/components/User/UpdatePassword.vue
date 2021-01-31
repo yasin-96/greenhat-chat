@@ -43,27 +43,33 @@
         </v-container>
       </v-card-text>
       <v-card-actions>
-          <v-btn large block color="error" :disabled="!valid && !isPasswordValid" @click="registerUser">
-            {{ $t('actions.change') }}
-          </v-btn>
-        </v-card-actions>
+        <v-btn large block color="error" :disabled="!valid && !isPasswordValid" @click="updatePasswordFromUser">
+          {{ $t('actions.change') }}
+        </v-btn>
+      </v-card-actions>
     </v-card>
+    <Info />
   </v-container>
 </template>
 
 <script>
+import Info from '@/components/Info';
 import { mapState } from 'vuex';
 export default {
   name: 'UpdatePassword',
+  components: {
+    Info,
+  },
   data: () => ({
-    valid:false,
+    valid: false,
+    isPasswordValid: false,
     repeatPasswd: '',
     showPasswd: false,
     user: {
       oldPassword: '',
-      email: '',
       password: '',
     },
+    message: '',
     rules: {
       required: (value) => (value && !!value) || 'Das Feld ist erforderlich.',
       email: (value) => {
@@ -88,10 +94,36 @@ export default {
       this.$i18n.locale = localLang;
       this.$store.dispatch('settings/act_changeLanguage', index);
     },
+    async updatePasswordFromUser() {
+      const toUpdate = {
+        id: { _id: this.userId },
+        changes: {
+          oldPassInput: this.user.oldPassword,
+          newPass: this.user.password,
+        },
+      };
+      let resp = await this.$store.dispatch('user/act_updatePasswordFromUser', toUpdate);
+      if (resp.status === 200) {
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: this.$t('chatView.user.editValue.error.202'),
+          color: 'success',
+          icon: 'mdi-information-outline',
+        });
+        this.user.oldPassword = null;
+        this.user.password = null;
+        this.repeatPasswd = null;
+      }
+      this.$store.dispatch('notify/act_setAlterMessage', {
+        message: resp.message,
+        color: 'error',
+        icon: 'mdi-information-outline',
+      });
+    },
   },
   computed: {
     ...mapState({
       languages: (state) => state.settings.languages,
+      userId: (state) => state.user.user.id,
     }),
   },
 };

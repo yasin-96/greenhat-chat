@@ -1,6 +1,6 @@
 import RestCall from '@/services/RestCall';
-import { checkUser, messageBasedOnReturnValue } from '@/utils/util';
 
+//TODO: Outsource this api paths
 const API_BASE_PATHS = {
   user: '/user',
   message: '/message',
@@ -14,6 +14,7 @@ const API_PATHS = {
     specUpdate: API_BASE_PATHS.user + '/specs',
     allUser: API_BASE_PATHS.user + '/allUsers',
     close: API_BASE_PATHS.user,
+    update: API_BASE_PATHS.user,
   },
 };
 
@@ -28,7 +29,7 @@ const userModule = {
       infoType: null,
       title: '',
       displaySettingsWindow: false,
-      displayDeleteWindow: false
+      displayDeleteWindow: false,
     },
   }),
   actions: {
@@ -39,17 +40,16 @@ const userModule = {
      */
     async act_logUserIn({ commit }, userLoginCred) {
       return await RestCall.login(userLoginCred)
-        .then(({ data, status }) => {
-          commit('MUT_SAVE_USER', data);
-          if (checkUser(data) === null) {
-            return messageBasedOnReturnValue(status, 'login');
+        .then((response) => {
+          console.log('', response);
+          if (response && response.status === 200 && response.data) {
+            commit('MUT_SAVE_USER', response.data);
           }
-
-          return messageBasedOnReturnValue(status, 'login');
+          return response;
         })
         .catch((error) => {
           console.error('act_logUserIn()', error);
-          return null;
+          return error;
         });
     },
 
@@ -60,15 +60,15 @@ const userModule = {
      */
     async act_registerUser({ commit }, newUser) {
       return await RestCall.newAccount(newUser)
-        .then(({ data, status }) => {
-          if (checkUser(data) !== null) {
-            commit('MUT_SAVE_USER', data);
+        .then((response) => {
+          if (response && response.data && response.status == 200) {
+            commit('MUT_SAVE_USER', response);
           }
-          return messageBasedOnReturnValue(status, 'register');
+          return {"status": response.status}
         })
         .catch((error) => {
           console.error('act_logUserIn()', error);
-          return null;
+          return error;
         });
     },
 
@@ -115,11 +115,27 @@ const userModule = {
           if (status === 200) {
             commit('MUT_CLEAR_STORE');
           }
-          return status
+          return status;
         })
         .catch((error) => {
           console.log('act_deleteAccount(): ', error);
           return null;
+        });
+    },
+
+    async act_updatePasswordFromUser({ commit }, userInfo) {
+      console.log('act_updatePasswordFromUser', userInfo);
+      return await RestCall.rcRequest(API_PATHS.user.update, 'put', null, userInfo.changes, userInfo.id)
+        .then((response) => {
+          console.log('act_updatePasswordFromUser() res: ', {response});
+          if (response && response.data && response.status === 200) {
+            commit('MUT_SAVE_USER', response.data);
+          }
+          return response;
+        })
+        .catch((error) => {
+          console.log('act_updatePasswordFromUser(): ', error);
+          return error;
         });
     },
 
@@ -134,7 +150,6 @@ const userModule = {
       commit('MUT_SET_EDIT_WINDOW_DATA', editOptions);
     },
 
-
     act_closeWindowForDeleteAccount({ commit }) {
       commit('MUT_DISABLE_CLOSE_ACCOUNT_WINDOW');
     },
@@ -147,14 +162,12 @@ const userModule = {
       state.user = userCred;
     },
 
-
     MUT_DISABLE_EDIT_WINDOW(state) {
       state.editOptions.displaySettingsWindow = false;
     },
     MUT_TOOGLE_EDIT_WINDOW(state, value) {
       state.editOptions.displaySettingsWindow = value;
-    },    
-
+    },
 
     MUT_DISABLE_CLOSE_ACCOUNT_WINDOW(state) {
       state.editOptions.displayDeleteWindow = false;

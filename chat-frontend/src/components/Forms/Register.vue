@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
     <v-container class="ma-10">
       <Info />
     </v-container>
@@ -83,7 +83,7 @@ export default {
     valid: false,
     isPasswordValid: false,
     title: 'Konto erstellen',
-    domainName:"@greenhat.de",
+    domainName: '@greenhat.de',
     label: {
       logIn: 'Stattdessen Anmelden',
       username: 'Username',
@@ -120,17 +120,23 @@ export default {
   methods: {
     async registerUser() {
       let copyOfUser = Object.assign({}, this.user);
-      copyOfUser.email = copyOfUser.email + this.domainName
-      const { message, status } = await this.$store.dispatch('user/act_registerUser', copyOfUser);
-      if (status !== 200) {
-        this.setNotification(message, 'error', 'mdi-alert-circle');
-      } else {
-        this.setNotification(message, 'success', 'mdi-alert-circle');
+      copyOfUser.email = copyOfUser.email + this.domainName;
+      
+      const error = await this.$store.dispatch('user/act_registerUser', copyOfUser);
+
+      if (error.status === 200) {
         this.$router.push({ path: '/chat' });
-        // setTimeout(() => {
-          
-        // }, 3500);
+      } else {
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: error.message,
+          color: 'error',
+          icon: 'mdi-information-outline',
+        });
       }
+
+
+
+
     },
     checkPassword() {
       if (this.repeatPasswd === this.user.password && !!this.repeatPasswd && !!this.user.password) {
