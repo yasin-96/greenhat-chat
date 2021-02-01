@@ -194,7 +194,7 @@ async function rcDelete(restPath, param, body, pathParam) {
 
   if (body) {
     return httpClient
-      .delete(restPath, body)
+      .delete(restPath, {data: body})
       .then((response) => {
         console.log(response);
         const { data, status } = response;

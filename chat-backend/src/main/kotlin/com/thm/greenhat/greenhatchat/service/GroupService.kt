@@ -1,8 +1,10 @@
 package com.thm.greenhat.greenhatchat.service
 
-import com.thm.greenhat.greenhatchat.exception.ConflictException
-import com.thm.greenhat.greenhatchat.exception.NotModifiedException
-import com.thm.greenhat.greenhatchat.model.*
+import com.thm.greenhat.greenhatchat.exception.*
+import com.thm.greenhat.greenhatchat.model.Group.GroupRequest
+import com.thm.greenhat.greenhatchat.model.Group.GroupResponse
+import com.thm.greenhat.greenhatchat.model.Group.GroupUserUpdate
+import com.thm.greenhat.greenhatchat.model.User.UserToDisplay
 import com.thm.greenhat.greenhatchat.repository.GroupRepository
 import com.thm.greenhat.greenhatchat.repository.MessageRepository
 import com.thm.greenhat.greenhatchat.repository.UserRepository
@@ -40,7 +42,7 @@ class GroupService(
                     userRep
                 }.zipWith(userRepository.findById(groupInfo.admin))
             }.map {
-                GroupResponse(groupInfo._id, groupInfo.name, it.t2.username, it.t1)
+                GroupResponse(groupInfo._id, groupInfo.name, it.t2.username, it.t1, groupInfo.groupColor)
             }
     }
 
@@ -101,6 +103,61 @@ class GroupService(
                             group.users.contains(userId)
 
                 }
+            }
+    }
+
+
+    fun removeUserFromGroup(groupUserUpdate: GroupUserUpdate): Mono<GroupResponse> {
+        return groupRepository.findById(groupUserUpdate.groupId)
+            .switchIfEmpty(Mono.error(NotFoundException("Group not found")))
+            .flatMap {
+                if(groupUserUpdate.userId == it.admin){
+                    Mono.error(NotAcceptableException("Admin can not be deleted here"))
+                } else {
+                    it.users.remove(groupUserUpdate.userId)
+                    groupRepository.save(it)
+                        .switchIfEmpty(Mono.error(NotModifiedException()))
+                }
+            }.flatMap {
+                findGroupById(it._id).map { it }
+            }
+    }
+
+    fun addUserToGroup(groupUserUpdate: GroupUserUpdate): Mono<GroupResponse> {
+        return groupRepository.findById(groupUserUpdate.groupId)
+            .switchIfEmpty(Mono.error(NotFoundException("Group not found")))
+            .flatMap {
+                it.users.addAll(groupUserUpdate.userIds!!.map { it })
+                groupRepository.save(it)
+                    .switchIfEmpty(Mono.error(NotModifiedException()))
+            }.flatMap {
+                findGroupById(it._id).map { it }
+            }
+    }
+
+    fun updateOnSpecificProperties(groupId: String, specificInformation: Map<String, Object>): Mono<GroupResponse>{
+        return groupRepository.findById(groupId)
+            .map { group ->
+                println(specificInformation)
+                for (specs in specificInformation) {
+                    println(specs)
+                    when (specs.key) {
+                        "name" -> group.name = specs.value.toString()
+                        "admin" -> group.admin = specs.value.toString()
+                        "groupColor" -> group.groupColor = specs.value.toString()
+                    }
+                    println("updated = $group")
+                }
+                group
+            }
+            .flatMap {
+                groupRepository.save(it)
+                    .switchIfEmpty(Mono.error(NotModifiedException("Could not update Group information")))
+                    .map {
+                        it
+                    }
+            }.flatMap {
+                findGroupById(it._id).map { it }
             }
     }
 }

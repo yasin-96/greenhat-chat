@@ -13,6 +13,7 @@ import reactor.core.publisher.Sinks
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.thm.greenhat.greenhatchat.model.*
+import com.thm.greenhat.greenhatchat.model.User.UserToDisplay
 import com.thm.greenhat.greenhatchat.service.UserService
 import org.springframework.web.reactive.socket.WebSocketSession
 import java.text.SimpleDateFormat

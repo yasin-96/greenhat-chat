@@ -5,7 +5,7 @@
         <v-card-title>
           <v-container class="text-center">
             <h1 class="headline">
-              {{ $t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupDialog.title') }}
+              {{ $t('chatView.sidebar.sidebarLeft.sidebarMini.groupDialog.title') }}
             </h1>
           </v-container>
         </v-card-title>
@@ -14,7 +14,7 @@
             <v-form ref="reg_form" v-model="validOfFormular">
               <v-text-field
                 v-model="newGroupName"
-                :label="$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupDialog.newTitle')"
+                :label="$t('chatView.sidebar.sidebarLeft.sidebarMini.groupDialog.newTitle')"
                 outlined
                 shaped
                 prepend-inner-icon="mdi-account-group"
@@ -26,7 +26,7 @@
                 v-model="selectedUser"
                 :items="filteredListFromUserWithoutCurrentLoggedIn"
                 item-text="userName"
-                :label="$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupDialog.addUsers')"
+                :label="$t('chatView.sidebar.sidebarLeft.sidebarMini.groupDialog.addUsers')"
                 outlined
                 multiple
                 chips

@@ -37,15 +37,15 @@ export default new Vuetify({
         sidebarMiniAddGroupButtonIcon: colors.white,
 
         sidebarMiniActiveGroup: colors.lightGreen,
-        sidebarMiniNotActiveGroups: colors.grey.lighten1,
+        sidebarMiniNotActiveGroups: colors.grey.lighten1,  //#BDBDBD
         
         //SIDEBAR GROUP
         sidebarGroupInfoHeader: colors.grey.lighten3,
 
         //CHAT INPUT
         chatInputSendButton: colors.lightGreen.accent4,
-        chatInputTextMessage: colors.grey.lighten1
-      },
+        chatInputTextMessage: colors.grey.lighten1 //#BDBDBD
+       },
       dark: {
 
         //Navbar
@@ -55,7 +55,7 @@ export default new Vuetify({
         //SIDEBAR MINI
         sidebarMiniBackGround: colors.grey.darken4,
         sidebarMiniGroupUsersAvatarBackGround: colors.grey,
-        sidebarMiniAddGroupButton: colors.blueGrey.lighten1,
+        sidebarMiniAddGroupButton: colors.blueGrey.lighten1,  //#BDBDBD
         sidebarMiniAddGroupButtonIcon: colors.black,
 
         sidebarMiniActiveGroup: colors.lightGreen,

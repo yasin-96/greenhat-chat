@@ -3,20 +3,21 @@
     <v-tooltip right v-for="(group,i) in userGroups" :key="i">
       <template v-slot:activator="{ on, attrs }">
         <v-avatar
+          id="ownGroups"
           v-bind="attrs"
           v-on="on"
           :key="group._id"
           :class="activeGroupID == group._id ? 'mb-5 text-white' : 'mb-5'"
           :color="activeGroupID == group._id ? 'sidebarMiniActiveGroup' : 'sidebarMiniNotActiveGroups'"
-          size="32"
-          :rounded="activeGroupID == group._id ? false : true"
+          size="40"
+          :rounded="activeGroupID != group._id ? false : true"
           @click="loadGroup(group._id)"
-          v-text="
-            String(group.name)
-              .slice(0, 2)
-              .toUpperCase()
-          "
         >
+        <span>
+          {{String(group.name)
+              .slice(0, 2)
+              .toUpperCase()}}
+        </span>
         </v-avatar>
       </template>
       <span>{{group.name}}</span>
@@ -56,4 +57,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#ownGroups.active{
+  background-color: blue;
+}
+</style>

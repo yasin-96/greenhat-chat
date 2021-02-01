@@ -15,14 +15,14 @@
       <v-card-title>
         <v-container>
           <UserDetails />
-            <v-divider class="mt-10 mb-10 mx-auto"></v-divider>
+          <v-divider class="mt-10 mb-10 mx-auto"></v-divider>
           <ThemeSwitcher />
-            <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
+          <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
           <LanguageSwitcher />
-            <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
-            <UpdatePassword />
-            <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
-            <DeleteAccount />
+          <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
+          <UpdatePassword />
+          <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
+          <DeleteAccount />
         </v-container>
         <v-sheet class="pl-14" color="grey lighten-4" height="" width="100%"> </v-sheet>
       </v-card-title>
@@ -48,7 +48,7 @@ export default {
     ThemeSwitcher,
     LanguageSwitcher,
     UpdatePassword,
-    DeleteAccount
+    DeleteAccount,
   },
   methods: {
     closeDialog(value) {

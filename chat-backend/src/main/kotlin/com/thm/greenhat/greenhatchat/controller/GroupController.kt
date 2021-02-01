@@ -1,8 +1,9 @@
 package com.thm.greenhat.greenhatchat.controller
 
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
-import com.thm.greenhat.greenhatchat.model.GroupRequest
-import com.thm.greenhat.greenhatchat.model.GroupResponse
+import com.thm.greenhat.greenhatchat.model.Group.GroupRequest
+import com.thm.greenhat.greenhatchat.model.Group.GroupResponse
+import com.thm.greenhat.greenhatchat.model.Group.GroupUserUpdate
 import com.thm.greenhat.greenhatchat.service.GroupService
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
@@ -51,6 +52,24 @@ class GroupController(
     @GetMapping("/group/user/{id}")
     fun findAllGroupsFromUser(@PathVariable id: String): Mono<List<GroupRequest>> {
         return groupService.findGroupsFromUser(id)
+    }
+
+    @DeleteMapping("/group/user")
+    fun removeUserFromGroup(@RequestBody groupUserUpdate: GroupUserUpdate): Mono<GroupResponse> {
+        return groupService.removeUserFromGroup(groupUserUpdate)
+    }
+
+    @PutMapping("/group/users")
+    fun addUserToGroup(@RequestBody groupUserUpdate: GroupUserUpdate): Mono<GroupResponse> {
+        return groupService.addUserToGroup(groupUserUpdate)
+    }
+
+    @PatchMapping("/group/specs/{groupId}")
+    fun patchSpecificGroupInformation(
+        @PathVariable groupId: String,
+        @RequestBody groupUpdate: Map<String, Object>
+    ): Mono<GroupResponse> {
+        return groupService.updateOnSpecificProperties(groupId, groupUpdate)
     }
 
 }

@@ -1,4 +1,4 @@
-package com.thm.greenhat.greenhatchat.model
+package com.thm.greenhat.greenhatchat.model.User
 
 data class UserForUI(
     val id: String,

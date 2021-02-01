@@ -1,6 +1,7 @@
 <template>
   <v-navigation-drawer hideOverlay v-model="uidrawer" absolute color="sidebarMiniBackGround" mini-variant>
-    <User />
+    <!-- <User /> -->
+    <Home />
     <AddGroup />
     <v-divider class="mx-3 my-5"></v-divider>
     <OwnGroups />
@@ -9,7 +10,8 @@
 
 <script>
 
-import User from "@/components/Chat/Sidebar/PanelLeft/SidebarMini/User";
+import Home from "@/components/Chat/Sidebar/PanelLeft/SidebarMini/Home";
+// import User from "@/componeknts/Chat/Sidebar/PanelLeft/SidebarMini/User";
 import AddGroup from "@/components/Chat/Sidebar/PanelLeft/SidebarMini/AddGroup";
 import OwnGroups from "@/components/Chat/Sidebar/PanelLeft/SidebarMini/OwnGroups";
 import { mapState } from "vuex";
@@ -17,7 +19,8 @@ import { mapState } from "vuex";
 export default {
   name: 'SidebarMiniLeft',
   components:{
-      User,
+    Home,
+      // User,
       AddGroup,
       OwnGroups
   },

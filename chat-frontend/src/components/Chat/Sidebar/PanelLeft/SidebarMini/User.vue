@@ -23,6 +23,7 @@ export default {
   },
   computed: {
     ...mapState({
+      homeLogo: (state) => state.settings.sidebar.sidebarMini.homeLogo,
       user: (state) => state.user.user
     }),
   },

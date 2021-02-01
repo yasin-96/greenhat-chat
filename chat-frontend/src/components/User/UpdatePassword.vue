@@ -48,18 +48,13 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <Info />
   </v-container>
 </template>
 
 <script>
-import Info from '@/components/Info';
 import { mapState } from 'vuex';
 export default {
   name: 'UpdatePassword',
-  components: {
-    Info,
-  },
   data: () => ({
     valid: false,
     isPasswordValid: false,

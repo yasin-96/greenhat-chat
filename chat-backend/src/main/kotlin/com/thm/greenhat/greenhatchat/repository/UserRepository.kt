@@ -1,6 +1,6 @@
 package com.thm.greenhat.greenhatchat.repository
 
-import com.thm.greenhat.greenhatchat.model.User
+import com.thm.greenhat.greenhatchat.model.User.User
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux

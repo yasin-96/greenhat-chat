@@ -1,22 +1,21 @@
 <template>
-  <v-sheet class="pl-14 mb-5" color="sidebarGroupInfoHeader" height="128" width="100%">
+  <v-sheet class="pl-14" color="sidebarGroupInfoHeader" height="150" width="100%">
     <v-list>
       <v-list-item class="grow">
         <v-list-item-content>
-          <h2 class="text-center">{{ groupInfo.name }}</h2>
-          <h4 class="text-center caption">{{$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupInfo.subTitle')}}</h4>
+          <h2 class="title">{{ groupInfo.name }}</h2>
+          <h4 class="caption">{{$t('chatView.sidebar.sidebarLeft.sidebarMini.groupInfo.subTitle')}}</h4>
         </v-list-item-content>
       </v-list-item>
+      <v-divider class="mx-auto" width="100"></v-divider>
       <v-list-item class="grow">
-        <v-list-item-avatar color="">
-          <v-avatar color="grey" size="36">
-            <v-img class="elevation-6" alt="" :src="adminAvatar"></v-img>
-          </v-avatar>
+        <v-list-item-avatar color="white" size="36">
+            <v-img class="elevation-6" alt="Admin" src="@/assets/logo.svg"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
           <v-list-item-title>{{ groupInfo.admin }}</v-list-item-title>
-          <v-list-item-subtitle> <h6>{{$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupInfo.groupAdmin')}}</h6></v-list-item-subtitle>
+          <v-list-item-subtitle> <h6>{{$t('chatView.sidebar.sidebarLeft.sidebarMini.groupInfo.groupAdmin')}}</h6></v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
           <v-btn fab text small @click="openGroupAdminSettingsDialog">
@@ -33,8 +32,8 @@ import { mapState } from 'vuex';
 export default {
   name: 'GroupInfoAdmin',
   data: () => ({
-    adminAvatar:
-      'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairDreads02&accessoriesType=Prescription01&hairColor=Black&facialHairType=BeardLight&facialHairColor=Blonde&clotheType=GraphicShirt&clotheColor=PastelYellow&graphicType=Deer&eyeType=Close&eyebrowType=Angry&mouthType=ScreamOpen&skinColor=Light',
+    adminAvatar: "@/assets/logo.svg"
+      // 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairFrizzle&accessoriesType=Prescription02&hairColor=Black&facialHairType=BeardMagestic&facialHairColor=Brown&clotheType=GraphicShirt&clotheColor=Blue03&graphicType=Deer&eyeType=Happy&eyebrowType=RaisedExcitedNatural&mouthType=Twinkle&skinColor=Brown',
   }),
   computed: {
     ...mapState({

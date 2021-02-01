@@ -2,9 +2,9 @@ package com.thm.greenhat.greenhatchat.controller
 
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
 import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
-import com.thm.greenhat.greenhatchat.model.User
-import com.thm.greenhat.greenhatchat.model.UserForUI
-import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
+import com.thm.greenhat.greenhatchat.model.User.User
+import com.thm.greenhat.greenhatchat.model.User.UserForUI
+import com.thm.greenhat.greenhatchat.model.User.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.service.UserService
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux

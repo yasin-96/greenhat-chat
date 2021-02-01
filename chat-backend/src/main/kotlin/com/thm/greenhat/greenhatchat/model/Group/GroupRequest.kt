@@ -1,5 +1,6 @@
-package com.thm.greenhat.greenhatchat.model
+package com.thm.greenhat.greenhatchat.model.Group
 
+import com.thm.greenhat.greenhatchat.model.Message
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.Transient
@@ -11,7 +12,8 @@ data class GroupRequest(
     @Id var _id: String = ObjectId.get().toString(),
     var name: String,
     var admin: String,
-    var users: MutableList<String> = mutableListOf()
+    var users: MutableList<String> = mutableListOf(),
+    var groupColor: String = "#BDBDBD"
 ) {
     @Transient
     var messages: MutableList<Message> = mutableListOf()

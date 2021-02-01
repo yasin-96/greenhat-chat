@@ -17,9 +17,10 @@
 
               <v-select
                 v-if="editOpions.infoType == groupInfo.GROUP_ADMIN"
-                v-model="newSelectedAdmin"
+                v-model="updatedValue"
                 :items="filteredListWithoutCurrentAdmin"
                 item-text="userName"
+                item-value="userId"
                 :label="`New-${editOpions.title}`"
                 outlined
               >
@@ -79,27 +80,51 @@ export default {
     },
     updatedValue: '',
     newSelectedAdmin: '',
-    dialog: false,
   }),
   methods: {
     async updateGroupInformationen() {
-      this.showWindow = false;
-      console.log('updateUserInformationen', this.infoType);
+      let error = null;
       switch (this.infoType) {
         case 0:
-          //   await this.$store.dispatch('user/act_updateSpecificUserInformationen', {
-          //     _id: this.userId,
-          //     update: { email: this.updatedValue + this.editOpions.suffix },
-          //   });
+          error = await this.$store.dispatch('group/act_updateSpecificGroupInformationen', {
+            _id: this.activeGroupId,
+            update: {
+              name: this.updatedValue,
+            },
+          });
           break;
         case 1:
-          //   await this.$store.dispatch('user/act_updateSpecificUserInformationen', {
-          //     _id: this.userId,
-          //     update: { username: this.updatedValue },
-          //   });
+          error = await this.$store.dispatch('group/act_updateSpecificGroupInformationen', {
+            _id: this.activeGroupId,
+            update: {
+              admin: this.updatedValue,
+            },
+          });
+          this.$store.dispatch("settings/act_toggleAdminSettingsDialogForGroup", false)
+          break;
+        case 3:
+          error = await this.$store.dispatch('group/act_updateSpecificGroupInformationen', {
+            _id: this.activeGroupId,
+            update: {
+              groupColor: '',
+            },
+          });
           break;
         default:
           break;
+      }
+      if (error.status === 200) {
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: this.$t('chatView.user.editValue.error.202'),
+          color: 'success',
+          icon: 'mdi-information-outline',
+        });
+      } else {
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: error.message,
+          color: 'error',
+          icon: 'mdi-information-outline',
+        });
       }
       this.showWindow = false;
     },
@@ -111,6 +136,7 @@ export default {
       editOpions: (state) => state.group.editOptions,
       enableWindow: (state) => state.settings.sidebar.sidebarLeft.admin.group.editValue,
       infoType: (state) => state.group.editOptions.infoType,
+      activeGroupId: (state) => state.group.activeGroupId,
     }),
 
     showWindow: {

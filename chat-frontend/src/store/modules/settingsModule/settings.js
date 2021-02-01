@@ -9,9 +9,12 @@ const settingsModule = {
       { local: 'en-EN', title: 'chatView.navigationbar.translate.en', active: false },
     ],
     sidebar: {
-      sidebarMini: {},
+      sidebarMini: {
+        homeLogo: "@/assets/logo_01.svg"
+      },
       sidebarLeft: {
         admin:{
+          adminLogo: "",
           group:{
             addUserToGroupDialog: false,
             editValue: false,

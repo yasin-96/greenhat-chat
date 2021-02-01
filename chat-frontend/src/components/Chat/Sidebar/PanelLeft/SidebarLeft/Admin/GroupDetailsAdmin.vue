@@ -27,7 +27,7 @@
                   top
                   right
                   fab
-                  @click="setValuesForEditingSpecificUserInformation(3)"
+                  @click="setValuesForEditingSpecificGroupInformation(3)"
                 >
                   <v-icon>mdi-pencil-outline</v-icon>
                 </v-btn>
@@ -87,7 +87,7 @@
               </v-list-item-icon>
               <v-list-item-content>
                 <h4 class="body-1">{{ activeGroup.admin }}</h4>
-                <h6 class="caption">#{{ adminOfGroup }}</h6></v-list-item-content
+                <h6 class="caption">{{ adminOfGroup }}</h6></v-list-item-content
               >
               <v-list-item-action>
                 <v-btn fab text small @click="setValuesForEditingSpecificGroupInformation(1)">

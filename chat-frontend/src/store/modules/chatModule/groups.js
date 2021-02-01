@@ -13,6 +13,7 @@ const API_PATHS = {
     userGroups: API_BASE_PATHS.group + '/user',
     updateUserList: API_BASE_PATHS.group + /users/,
     removeUserFromList: API_BASE_PATHS.group + '/user',
+    specUpdate: API_BASE_PATHS.group + '/specs',
   },
   user: {
     groups: API_BASE_PATHS.user + '/groups',
@@ -105,6 +106,53 @@ const groupModule = {
         });
     },
 
+    async act_removeUserFromGroup({ commit, dispatch }, detailsForRemovingUser) {
+      return await RestCall.rcRequest(API_PATHS.group.removeUserFromList, 'delete', null, detailsForRemovingUser, null)
+        .then((response) => {
+          console.log('act_removeUserFromGroup', response);
+          if (response && response.data && response.status === 200) {
+            commit('MUT_CHANGE_GROUP_INFORMATION', response.data);
+            dispatch("act_getAllGroupsFromUser")
+          }
+          return response;
+        })
+        .catch((error) => {
+          console.error('act_removeUserFromGroup', error);
+          return error;
+        });
+    },
+
+    async act_addUserToGroup({ commit, dispatch }, detailsForAddingUser) {
+      return await RestCall.rcRequest(API_PATHS.group.updateUserList, 'put', null, detailsForAddingUser, null)
+        .then((response) => {
+          console.log('act_addUserToGroup', response);
+          if (response && response.data && response.status === 200) {
+            commit('MUT_CHANGE_GROUP_INFORMATION', response.data);
+            dispatch("act_getAllGroupsFromUser")
+          }
+          return response;
+        })
+        .catch((error) => {
+          console.error('act_addUserToGroup', error);
+          return error;
+        });
+    },
+
+    async act_updateSpecificGroupInformationen({ commit, dispatch }, specificInformationen) {
+      return await RestCall.rcRequest(API_PATHS.group.specUpdate, 'patch', null, specificInformationen)
+        .then((response) => {
+          if (response && response.data && response.status === 200) {
+            commit('MUT_CHANGE_GROUP_INFORMATION', response.data);
+            dispatch("act_getAllGroupsFromUser")
+          }
+          return response;
+        })
+        .catch((error) => {
+          console.error('act_updateSpecificGroupInformationen', error);
+          return error;
+        });
+    },
+
     act_setGroupEditWindowSettingsBasedOnType({ commit }, editOptions) {
       commit('MUT_SET_EDIT_WINDOW_DATA_FOR_ADMIN', editOptions);
     },
@@ -179,8 +227,8 @@ const groupModule = {
 
     MUT_SET_EDIT_WINDOW_DATA_FOR_ADMIN(state, editOptions) {
       console.log('MUT_SET_EDIT_WINDOW_DATA_FOR_ADMIN', editOptions);
-      const group = state.userGroups.find((group) => group._id === state.activeGroupId)
-      console.log(group, state.activeGroupId)
+      const group = state.userGroups.find((group) => group._id === state.activeGroupId);
+      console.log(group, state.activeGroupId);
       switch (editOptions) {
         case 0:
           state.editOptions.title = 'Group-Name';
@@ -188,7 +236,7 @@ const groupModule = {
           state.editOptions.infoType = 0;
           break;
         case 1:
-          state.editOptions.title = 'Group-Admin' ;
+          state.editOptions.title = 'Group-Admin';
           state.editOptions.old = state.activeGroup.admin;
           state.editOptions.infoType = 1;
           break;
@@ -200,6 +248,9 @@ const groupModule = {
       state.editOptions.title = '';
       state.editOptions.old = '';
       state.editOptions.infoType = 0;
+    },
+    MUT_CHANGE_GROUP_INFORMATION(state, newGroupInfo) {
+      state.activeGroup = newGroupInfo;
     },
   },
 };

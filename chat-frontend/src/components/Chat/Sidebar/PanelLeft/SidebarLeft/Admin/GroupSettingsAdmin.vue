@@ -28,6 +28,7 @@
 
       <div style="flex: 1 1 auto;"></div>
     </v-card>
+    <AddUserToGroupAdmin />
   </v-dialog>
 </template>
 
@@ -35,12 +36,14 @@
 import { mapState } from 'vuex';
 import GroupDetailsAdmin from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/GroupDetailsAdmin';
 import GroupUserListAdmin from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/GroupUserListAdmin';
+import AddUserToGroupAdmin from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/AddUserToGroupAdmin';
 
 export default {
   name: 'GroupSettingsAdmin',
   components: {
     GroupDetailsAdmin,
     GroupUserListAdmin,
+    AddUserToGroupAdmin
   },
   methods: {
     closeDialog(value) {

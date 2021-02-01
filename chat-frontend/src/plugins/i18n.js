@@ -30,15 +30,15 @@ export default new VueI18n({
           editValue: {
             title: 'Change:',
             createAvatar: 'Create your avatar here',
-            changePassword:"Change password",
-            deleteAccount: "Close Account",
-            reallyDeleteAccount: "Do you really want to delete the account ?",
-            lastQuestionBeforeDeleteAccount: "Are you sure?",
-            deleteInfo: "Account could be deleted successfully",
+            changePassword: 'Change password',
+            deleteAccount: 'Close Account',
+            reallyDeleteAccount: 'Do you really want to delete the account ?',
+            lastQuestionBeforeDeleteAccount: 'Are you sure?',
+            deleteInfo: 'Account could be deleted successfully',
             error: {
-              404: "Kontodaten wurden nicht gefunden",
-              202: "Änderungen wurden erfolgreich übernommen"
-            }
+              404: 'Kontodaten wurden nicht gefunden',
+              202: 'Änderungen wurden erfolgreich übernommen',
+            },
           },
           userDetails: {
             tooltip: {
@@ -59,9 +59,9 @@ export default new VueI18n({
         },
         settings: {
           title: 'All about my account',
-          languagesSwitcher:{
-            title: "Change the language"
-        }
+          languagesSwitcher: {
+            title: 'Change the language',
+          },
         },
         navigationbar: {
           translate: {
@@ -74,27 +74,28 @@ export default new VueI18n({
             message: 'A new message has arrived',
           },
         },
-        games:{
-            title: "Competition",
-            winWheel:"Win-Wheel"
+        games: {
+          title: 'Competition',
+          winWheel: 'Win-Wheel',
         },
-        sidebar:{
-            panelLeft:{
-                sidebarLeft:{
-                    sidebarMini:{
-                        groupDialog:{
-                            title: "Create a new group",
-                            newTitle: "Title of group",
-                            addUsers: "Add Users to group"
-                        },
-                        groupInfo:{
-                            subTitle:"Group",
-                            groupAdmin: "Admin"
-                        }
-                    }
-                }
-            }
-        }
+        sidebar: {
+          sidebarLeft: {
+            sidebarMini: {
+              groupDialog: {
+                title: 'Create a new group',
+                newTitle: 'Title of group',
+                addUsers: 'Add Users to group',
+              },
+              groupInfo: {
+                subTitle: 'Group',
+                groupAdmin: 'Admin',
+              },
+            },
+            admin: {
+              addUserToGroup: 'Group members',
+            },
+          },
+        },
       },
       aboutView: {},
       errors: {},
@@ -104,7 +105,7 @@ export default new VueI18n({
         login: 'Sign In',
         create: 'Create',
         change: 'Change',
-        abort: "Abort"
+        abort: 'Abort',
       },
     },
     'de-DE': {
@@ -131,15 +132,15 @@ export default new VueI18n({
           editValue: {
             title: 'Ändere:',
             createAvatar: 'Erstelle dein avatar hier',
-            changePassword:"Password ändern",
-            deleteAccount: "Konto schließen",
-            reallyDeleteAccount: "Wollen Sie wirklich das Konto löschen ?",
-            lastQuestionBeforeDeleteAccount: "Bist Du dir ganz Sicher?",
-            deleteInfo: "Konto wurde erfolgreich geloescht",
+            changePassword: 'Password ändern',
+            deleteAccount: 'Konto schließen',
+            reallyDeleteAccount: 'Wollen Sie wirklich das Konto löschen ?',
+            lastQuestionBeforeDeleteAccount: 'Bist Du dir ganz Sicher?',
+            deleteInfo: 'Konto wurde erfolgreich geloescht',
             error: {
-              404: "Kontodaten wurden nicht gefunden",
-              202: "Änderungen wurden erfolgreich übernommen"
-            }
+              404: 'Kontodaten wurden nicht gefunden',
+              202: 'Änderungen wurden erfolgreich übernommen',
+            },
           },
           userDetails: {
             tooltip: {
@@ -160,9 +161,9 @@ export default new VueI18n({
         },
         settings: {
           title: 'Alles über mein Konto',
-          languagesSwitcher:{
-              title: "Ändere die Sprache"
-          }
+          languagesSwitcher: {
+            title: 'Ändere die Sprache',
+          },
         },
         navigationbar: {
           translate: {
@@ -175,10 +176,10 @@ export default new VueI18n({
             message: 'Eine neu Nachricht ist eingetroffen',
           },
         },
-        games:{
-            title: "Gewinnspiel",
-            winWheel:"Glücksrad"
-        }
+        games: {
+          title: 'Gewinnspiel',
+          winWheel: 'Glücksrad',
+        },
       },
       aboutView: {},
       errors: {},
@@ -188,7 +189,7 @@ export default new VueI18n({
         login: 'Anmelden',
         create: 'Erstellen',
         change: 'Verändern',
-        abort: "Abbruch"
+        abort: 'Abbruch',
       },
     },
   },

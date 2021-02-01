@@ -1,8 +1,8 @@
 <template>
   <v-bottom-navigation app dense class="ml-14 elevation-0" color="danger" height="60px" width="245px">
     <v-btn disabled
-      ><v-avatar v-if="user.hasAvatarPicture">
-        <img :src="avatarPic" alt="User" class="elevation-6" />
+      ><v-avatar color="transparent" v-if="user.hasAvatarPicture">
+        <img :src="avatarPic" alt="User" class="elevation-0" />
       </v-avatar>
       <v-avatar v-else>
         {{ user.avatarName }}
@@ -26,8 +26,8 @@
           </v-list>
         </v-btn>
       </template>
-      <span>
-        <p>
+       <v-container>
+          <p>
           <v-icon>
             mdi-badge-account
           </v-icon>
@@ -39,8 +39,7 @@
           </v-icon>
           #{{ userId }}
         </p>
-        <p></p>
-      </span>
+       </v-container>
     </v-tooltip>
 
     <v-btn @click="openSettingsDialog">

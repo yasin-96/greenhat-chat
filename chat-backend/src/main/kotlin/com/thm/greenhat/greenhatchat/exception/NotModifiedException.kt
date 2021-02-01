@@ -8,3 +8,4 @@ class NotModifiedException: ResponseStatusException {
     constructor(reason: String?) : super(HttpStatus.NOT_MODIFIED, reason)
     constructor(reason: String?, cause: Throwable?) : super(HttpStatus.NOT_MODIFIED, reason, cause)
 }
+

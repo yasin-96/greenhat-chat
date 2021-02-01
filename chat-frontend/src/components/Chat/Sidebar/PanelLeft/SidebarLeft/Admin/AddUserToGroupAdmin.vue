@@ -1,10 +1,10 @@
 <template>
   <v-dialog v-model="dialog" transition="dialog-top-transition" max-width="500">
     <v-card>
-      <v-toolbar class="mb-5" color="primary"
-        >Opening from the top
+      <v-toolbar flat class="mb-5" color="primary"
+        >{{ $t('chatView.sidebar.sidebarLeft.admin.addUserToGroup') }}
         <v-spacer></v-spacer>
-        <v-btn text @click="dialog = false">
+        <v-btn text @click="closeDialog">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
@@ -13,7 +13,7 @@
           v-model="selectedUser"
           :items="filteredListWithoutAdminAndUsersInGroup"
           item-text="userName"
-          :label="$t('chatView.sidebar.panelLeft.sidebarLeft.sidebarMini.groupDialog.addUsers')"
+          :label="$t('chatView.sidebar.sidebarLeft.sidebarMini.groupDialog.addUsers')"
           outlined
           multiple
           chips
@@ -53,6 +53,7 @@ export default {
   computed: {
     ...mapState({
       activeGroup: (state) => state.group.activeGroup,
+      activeGroupId: (state) => state.group.activeGroupId,
       userId: (state) => state.user.user.id,
       userList: (state) => state.user.allRegisterdUsers,
       addUserToGroupDialog: (state) => state.settings.sidebar.sidebarLeft.admin.group.addUserToGroupDialog,
@@ -78,10 +79,33 @@ export default {
     },
   },
   methods: {
-    addUserToGroup() {
-      const allsUserIds = this.selectedUser.map((user) => user.userId);
-      console.log(allsUserIds);
+    async addUserToGroup() {
+      const allUserIds = this.selectedUser.map((user) => user.userId);
+
+      const newUserToGroup = {
+        groupId: this.activeGroupId,
+        userIds: allUserIds,
+      };
+      const error = await this.$store.dispatch('group/act_addUserToGroup', newUserToGroup);
+      this.selectedUser = [];
+      this.$store.dispatch('settings/act_toggleDialogForAddUserToGroup', false);
+      if (error.status === 200) {
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: this.$t('chatView.user.editValue.error.202'),
+          color: 'success',
+          icon: 'mdi-information-outline',
+        });
+      }
+      this.$store.dispatch('notify/act_setAlterMessage', {
+        message: error.message,
+        color: 'error',
+        icon: 'mdi-information-outline',
+      });
     },
+    closeDialog(){
+        this.dialog = false;
+        this.selectedUser = [];
+    }
   },
 };
 </script>

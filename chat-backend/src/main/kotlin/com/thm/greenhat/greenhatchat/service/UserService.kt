@@ -5,9 +5,9 @@ import com.thm.greenhat.greenhatchat.exception.ConflictException
 import com.thm.greenhat.greenhatchat.exception.NotFoundException
 import com.thm.greenhat.greenhatchat.exception.NotModifiedException
 import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
-import com.thm.greenhat.greenhatchat.model.User
-import com.thm.greenhat.greenhatchat.model.UserForUI
-import com.thm.greenhat.greenhatchat.model.UserToAddIntoGroup
+import com.thm.greenhat.greenhatchat.model.User.User
+import com.thm.greenhat.greenhatchat.model.User.UserForUI
+import com.thm.greenhat.greenhatchat.model.User.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.repository.GroupRepository
 import com.thm.greenhat.greenhatchat.repository.UserRepository
 import org.springframework.stereotype.Service
