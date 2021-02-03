@@ -1,6 +1,6 @@
 package com.thm.greenhat.greenhatchat.model
 
-import com.thm.greenhat.greenhatchat.model.User.UserToDisplay
+import com.thm.greenhat.greenhatchat.model.user.UserToDisplay
 
 data class MessageToDisplay(
     var _id: String,

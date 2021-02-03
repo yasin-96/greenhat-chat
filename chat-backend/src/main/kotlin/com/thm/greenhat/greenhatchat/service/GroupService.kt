@@ -1,10 +1,10 @@
 package com.thm.greenhat.greenhatchat.service
 
 import com.thm.greenhat.greenhatchat.exception.*
-import com.thm.greenhat.greenhatchat.model.Group.GroupRequest
-import com.thm.greenhat.greenhatchat.model.Group.GroupResponse
-import com.thm.greenhat.greenhatchat.model.Group.GroupUserUpdate
-import com.thm.greenhat.greenhatchat.model.User.UserToDisplay
+import com.thm.greenhat.greenhatchat.model.group.GroupRequest
+import com.thm.greenhat.greenhatchat.model.group.GroupResponse
+import com.thm.greenhat.greenhatchat.model.group.GroupUserUpdate
+import com.thm.greenhat.greenhatchat.model.user.UserToDisplay
 import com.thm.greenhat.greenhatchat.repository.GroupRepository
 import com.thm.greenhat.greenhatchat.repository.MessageRepository
 import com.thm.greenhat.greenhatchat.repository.UserRepository

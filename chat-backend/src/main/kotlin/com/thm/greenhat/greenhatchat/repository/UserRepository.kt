@@ -1,6 +1,6 @@
 package com.thm.greenhat.greenhatchat.repository
 
-import com.thm.greenhat.greenhatchat.model.User.User
+import com.thm.greenhat.greenhatchat.model.user.User
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
@@ -10,7 +10,5 @@ import reactor.core.publisher.Mono
 interface UserRepository : ReactiveCrudRepository<User, String> {
     fun findByUsername(username: String): Mono<User>
     fun findByEmail(email: String): Mono<User>
-    fun findUserNameById(id: String): Mono<String>
-    fun findByUsernameAndEmail(username: String, email: String): Flux<User>
     fun existsByUsernameAndEmail(username: String, email: String): Mono<Boolean>
 }

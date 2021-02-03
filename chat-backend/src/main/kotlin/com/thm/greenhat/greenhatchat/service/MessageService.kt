@@ -2,7 +2,7 @@ package com.thm.greenhat.greenhatchat.service
 
 import com.thm.greenhat.greenhatchat.model.Message
 import com.thm.greenhat.greenhatchat.model.MessageToDisplay
-import com.thm.greenhat.greenhatchat.model.User.UserToDisplay
+import com.thm.greenhat.greenhatchat.model.user.UserToDisplay
 import com.thm.greenhat.greenhatchat.repository.MessageRepository
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.KafkaHeaders

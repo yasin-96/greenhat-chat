@@ -1,4 +1,4 @@
-package com.thm.greenhat.greenhatchat.model.User
+package com.thm.greenhat.greenhatchat.model.user
 
 data class UserToDisplay(
     val userId: String,

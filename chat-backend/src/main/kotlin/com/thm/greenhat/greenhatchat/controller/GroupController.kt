@@ -1,17 +1,21 @@
 package com.thm.greenhat.greenhatchat.controller
 
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
-import com.thm.greenhat.greenhatchat.model.Group.GroupRequest
-import com.thm.greenhat.greenhatchat.model.Group.GroupResponse
-import com.thm.greenhat.greenhatchat.model.Group.GroupUserUpdate
+import com.thm.greenhat.greenhatchat.model.group.GroupRequest
+import com.thm.greenhat.greenhatchat.model.group.GroupResponse
+import com.thm.greenhat.greenhatchat.model.group.GroupUserUpdate
+import com.thm.greenhat.greenhatchat.repository.GroupRepository
 import com.thm.greenhat.greenhatchat.service.GroupService
 import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 @CrossOrigin
 @RestController
 class GroupController(
-    private val groupService: GroupService
+    private val groupService: GroupService,
+    private val groupRepository: GroupRepository
 ) {
     /**
      *
@@ -64,12 +68,19 @@ class GroupController(
         return groupService.addUserToGroup(groupUserUpdate)
     }
 
+    @GetMapping("/test/{id}")
+    fun testFun(@PathVariable id:String) : Mono<MutableList<GroupRequest>> {
+        return  groupRepository.findAllByAdmin(id)
+    }
+
+
+    /*
     @PatchMapping("/group/specs/{groupId}")
     fun patchSpecificGroupInformation(
         @PathVariable groupId: String,
-        @RequestBody groupUpdate: Map<String, Object>
+        @RequestBody groupUpdate: Map<String, Any>
     ): Mono<GroupResponse> {
         return groupService.updateOnSpecificProperties(groupId, groupUpdate)
-    }
+    }*/
 
 }

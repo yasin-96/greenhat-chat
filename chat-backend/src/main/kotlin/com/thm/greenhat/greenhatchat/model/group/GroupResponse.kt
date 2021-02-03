@@ -1,6 +1,6 @@
-package com.thm.greenhat.greenhatchat.model.Group
+package com.thm.greenhat.greenhatchat.model.group
 
-import com.thm.greenhat.greenhatchat.model.User.UserToDisplay
+import com.thm.greenhat.greenhatchat.model.user.UserToDisplay
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 

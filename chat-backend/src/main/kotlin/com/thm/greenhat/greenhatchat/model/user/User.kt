@@ -1,4 +1,4 @@
-package com.thm.greenhat.greenhatchat.model.User
+package com.thm.greenhat.greenhatchat.model.user
 
 import com.thm.greenhat.greenhatchat.utils.createAvatarName
 import org.bson.types.ObjectId

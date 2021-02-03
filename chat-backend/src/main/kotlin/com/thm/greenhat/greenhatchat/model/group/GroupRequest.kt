@@ -1,4 +1,4 @@
-package com.thm.greenhat.greenhatchat.model.Group
+package com.thm.greenhat.greenhatchat.model.group
 
 import com.thm.greenhat.greenhatchat.model.Message
 import org.bson.types.ObjectId
@@ -17,7 +17,4 @@ data class GroupRequest(
 ) {
     @Transient
     var messages: MutableList<Message> = mutableListOf()
-
-    @Transient
-    var private: Boolean = false
 }

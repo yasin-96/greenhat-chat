@@ -5,19 +5,22 @@ import com.thm.greenhat.greenhatchat.exception.ConflictException
 import com.thm.greenhat.greenhatchat.exception.NotFoundException
 import com.thm.greenhat.greenhatchat.exception.NotModifiedException
 import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
-import com.thm.greenhat.greenhatchat.model.User.User
-import com.thm.greenhat.greenhatchat.model.User.UserForUI
-import com.thm.greenhat.greenhatchat.model.User.UserToAddIntoGroup
+import com.thm.greenhat.greenhatchat.model.user.User
+import com.thm.greenhat.greenhatchat.model.user.UserForUI
+import com.thm.greenhat.greenhatchat.model.user.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.repository.GroupRepository
+import com.thm.greenhat.greenhatchat.repository.MessageRepository
 import com.thm.greenhat.greenhatchat.repository.UserRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    private val groupRepository: GroupRepository
+    private val groupRepository: GroupRepository,
+    private val messageRepository: MessageRepository
 ) {
 
     /**
@@ -30,6 +33,8 @@ class UserService(
         return userRepository.findByUsername(username)
             .switchIfEmpty(Mono.error(NotFoundException("No user was found by username")))
     }
+
+
 
     /**
      *
@@ -87,8 +92,16 @@ class UserService(
      * @param id String
      * @return Mono<Void>
      */
-    fun deleteAccount(id: String): Mono<Void> {
-        return userRepository.deleteById(id)
+    fun deleteAccount(userId: String): Mono<Void> {
+        return Mono.zip(userRepository.deleteById(userId),messageRepository.deleteAllByUserId(userId),groupRepository.findAllByAdmin(userId))
+                .map {
+                    it.t3.map { group->
+                        group.users.remove(userId)
+                        group.admin = group.users[0]
+                        groupRepository.save(group)
+                    }
+                    it.t1
+                }
     }
 
 

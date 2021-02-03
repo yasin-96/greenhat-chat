@@ -1,4 +1,4 @@
-package com.thm.greenhat.greenhatchat.model.Group
+package com.thm.greenhat.greenhatchat.model.group
 
 data class GroupUserUpdate(
     val groupId: String,

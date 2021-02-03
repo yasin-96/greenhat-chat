@@ -2,9 +2,9 @@ package com.thm.greenhat.greenhatchat.controller
 
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
 import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
-import com.thm.greenhat.greenhatchat.model.User.User
-import com.thm.greenhat.greenhatchat.model.User.UserForUI
-import com.thm.greenhat.greenhatchat.model.User.UserToAddIntoGroup
+import com.thm.greenhat.greenhatchat.model.user.User
+import com.thm.greenhat.greenhatchat.model.user.UserForUI
+import com.thm.greenhat.greenhatchat.model.user.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.service.UserService
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
@@ -12,7 +12,10 @@ import reactor.core.publisher.Mono
 
 @CrossOrigin
 @RestController
-class UserController(private val userService: UserService) {
+class UserController(
+        private val userService: UserService,
+
+        ) {
 
     //Do we really need this
     @GetMapping("/user/name/{username}")
@@ -95,7 +98,7 @@ class UserController(private val userService: UserService) {
     @PatchMapping("/user/specs/{userId}")
     fun patchSpecificUserInformation(
         @PathVariable userId: String,
-        @RequestBody newUserSpecs: Map<String, Object>
+        @RequestBody newUserSpecs: Map<String, Any>
     ): Mono<User> {
         return userService.updateOnSpecificProperties(userId, newUserSpecs)
     }
