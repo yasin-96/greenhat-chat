@@ -3,6 +3,7 @@ package com.thm.greenhat.greenhatchat
 import org.json.JSONObject
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -24,6 +25,9 @@ fun main(args: Array<String>) {
         makeFirstCall()
     }
 }
+
+
+
 
 /**
  *

@@ -5,6 +5,7 @@ import com.thm.greenhat.greenhatchat.exception.ConflictException
 import com.thm.greenhat.greenhatchat.exception.NotFoundException
 import com.thm.greenhat.greenhatchat.exception.NotModifiedException
 import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
+import com.thm.greenhat.greenhatchat.model.group.GroupRequest
 import com.thm.greenhat.greenhatchat.model.user.User
 import com.thm.greenhat.greenhatchat.model.user.UserForUI
 import com.thm.greenhat.greenhatchat.model.user.UserToAddIntoGroup
@@ -14,6 +15,7 @@ import com.thm.greenhat.greenhatchat.repository.UserRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toFlux
 import reactor.kotlin.core.publisher.toMono
 
 @Service
@@ -92,16 +94,20 @@ class UserService(
      * @param id String
      * @return Mono<Void>
      */
-    fun deleteAccount(userId: String): Mono<Void> {
-        return Mono.zip(userRepository.deleteById(userId),messageRepository.deleteAllByUserId(userId),groupRepository.findAllByAdmin(userId))
-                .map {
-                    it.t3.map { group->
-                        group.users.remove(userId)
-                        group.admin = group.users[0]
-                        groupRepository.save(group)
-                    }
-                    it.t1
+    fun deleteAccount(userId: String) : Flux<Void>{
+        return groupRepository.findAllByAdmin(userId)
+                .flatMap{
+                    if(it.users.size<1) groupRepository.deleteById(it._id)
+                    it.admin = it.users[0]
+                    it.users.remove(userId)
+                    groupRepository.save(it)
                 }
+                .flatMap {
+                    Mono.zip(messageRepository.deleteMessageByUserId(userId),userRepository.deleteById(userId)).map {
+                        it.t1
+                    }
+                }
+
     }
 
 
