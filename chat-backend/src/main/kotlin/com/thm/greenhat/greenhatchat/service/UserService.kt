@@ -94,21 +94,23 @@ class UserService(
      * @param id String
      * @return Mono<Void>
      */
-    fun deleteAccount(userId: String) : Flux<Void>{
+    fun deleteAccount(userId: String) : Flux<Void> {
         return groupRepository.findAllByAdmin(userId)
-                .flatMap{
-                    if(it.users.size<1) groupRepository.deleteById(it._id)
-                    it.admin = it.users[0]
-                    it.users.remove(userId)
-                    groupRepository.save(it)
-                }
-                .flatMap {
-                    Mono.zip(messageRepository.deleteMessageByUserId(userId),userRepository.deleteById(userId)).map {
-                        it.t1
+                .flatMap { group ->
+                    if (group.users.size < 1) {
+                        groupRepository.deleteById(group._id)
+                        Mono.zip(messageRepository.deleteMessageByUserId(userId), userRepository.deleteById(userId)).map {
+                            it.t1
+                        }
+                    } else {
+                        group.admin = group.users[0]
+                        group.users.remove(userId)
+                        groupRepository.save(group)
+                        Mono.zip(messageRepository.deleteMessageByUserId(userId), userRepository.deleteById(userId)).map {it.t1 }
                     }
                 }
-
     }
+
 
 
     /**
@@ -197,13 +199,13 @@ class UserService(
      * @param user User
      * @return Mono<User> or  ConflictException if username/ email was found in database
      */
-    fun addUser(user: User): Mono<User> {
+    fun addUser(user: User): Mono<UserForUI> {
         return checkUserNameAndEmailIfExist(user.username, user.email)
             .flatMap {
                 if (it) Mono.error(ConflictException("This username/email already exists"))
                 else userRepository.save(user)
                     .switchIfEmpty(Mono.error(NotModifiedException("Could not add user")))
-                    .map { it }
+                    .map { UserForUI(it.id,it.username,it.email,it.hasAvatarPicture,it.avatarName) }
             }
     }
 
@@ -215,11 +217,11 @@ class UserService(
      *         Mono<NotFoundException> if user not exist with username+password or
      *         Mono<BadRequestException> if username or password are invalid
      */
-    fun login(username: String, password: String): Mono<User> {
+    fun login(username: String, password: String): Mono<UserForUI> {
         return findUserByUsername(username)
             .flatMap {
                 if (it.password == password) {
-                    Mono.just(it)
+                    Mono.just(UserForUI(it.id,it.username,it.email,it.hasAvatarPicture,it.avatarName,it.avatarPicture))
                 } else {
                     Mono.error(BadRequestException("Invalid Password or Username"))
                 }
@@ -232,7 +234,7 @@ class UserService(
      * @param specificInformation Map<String, Object>
      * @return Mono<User>
      */
-    fun updateOnSpecificProperties(userId: String, specificInformation: Map<String, Any>): Mono<User> {
+    fun updateOnSpecificProperties(userId: String, specificInformation: Map<String, Any>): Mono<UserForUI> {
         return findById(userId)
             .map { user ->
                 val userCopy = user.copy()
@@ -259,7 +261,7 @@ class UserService(
                 userRepository.save(it[1])
                     .switchIfEmpty(Mono.error(NotModifiedException("Could not update User information")))
                     .map {
-                        it
+                        UserForUI(it.id,it.username,it.email,it.hasAvatarPicture,it.avatarName,it.avatarPicture)
                     }
             }
     }
