@@ -2,6 +2,7 @@ package com.thm.greenhat.greenhatchat.controller
 
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
 import com.thm.greenhat.greenhatchat.model.ChangePasswordRequest
+import com.thm.greenhat.greenhatchat.model.group.GroupRequest
 import com.thm.greenhat.greenhatchat.model.user.User
 import com.thm.greenhat.greenhatchat.model.user.UserForUI
 import com.thm.greenhat.greenhatchat.model.user.UserToAddIntoGroup
@@ -63,7 +64,7 @@ class UserController(
      * @return Mono<Void>
      */
     @DeleteMapping("/user/{id}")
-    fun deleteAccount(@PathVariable id: String): Mono<Void> {
+    fun deleteAccount(@PathVariable id: String): Flux<Void> {
         return userService.deleteAccount(id)
     }
 

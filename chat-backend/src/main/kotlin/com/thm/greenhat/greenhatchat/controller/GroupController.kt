@@ -68,10 +68,6 @@ class GroupController(
         return groupService.addUserToGroup(groupUserUpdate)
     }
 
-    @GetMapping("/test/{id}")
-    fun testFun(@PathVariable id:String) : Mono<MutableList<GroupRequest>> {
-        return  groupRepository.findAllByAdmin(id)
-    }
 
 
     /*

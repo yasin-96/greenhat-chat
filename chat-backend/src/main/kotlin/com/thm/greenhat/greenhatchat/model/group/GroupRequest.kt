@@ -13,7 +13,8 @@ data class GroupRequest(
     var name: String,
     var admin: String,
     var users: MutableList<String> = mutableListOf(),
-    var groupColor: String = "#BDBDBD"
+    var groupColor: String = "#BDBDBD",
+
 ) {
     @Transient
     var messages: MutableList<Message> = mutableListOf()

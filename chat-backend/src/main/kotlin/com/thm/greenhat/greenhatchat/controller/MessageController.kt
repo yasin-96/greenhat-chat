@@ -3,6 +3,7 @@ package com.thm.greenhat.greenhatchat.controller
 import com.thm.greenhat.greenhatchat.exception.BadRequestException
 import com.thm.greenhat.greenhatchat.model.Message
 import com.thm.greenhat.greenhatchat.model.MessageToDisplay
+import com.thm.greenhat.greenhatchat.repository.MessageRepository
 import com.thm.greenhat.greenhatchat.service.MessageService
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.SendTo
@@ -13,7 +14,8 @@ import reactor.core.publisher.Mono
 @CrossOrigin
 @RestController
 class MessageController(
-    private val messageService: MessageService
+    private val messageService: MessageService,
+    private val messageRepository: MessageRepository
 ) {
 
     /**
@@ -27,6 +29,10 @@ class MessageController(
             .switchIfEmpty(Mono.error(BadRequestException("There is no message with such an id")))
     }
 
+    @DeleteMapping("/del/{id}")
+    fun deleteMessages(@PathVariable id:String) : Mono<Void> {
+        return messageRepository.deleteMessageByUserId(id)
+    }
     /**
      *
      * @param message Message
