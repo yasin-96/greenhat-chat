@@ -12,6 +12,9 @@ import com.thm.greenhat.greenhatchat.model.user.UserToAddIntoGroup
 import com.thm.greenhat.greenhatchat.repository.GroupRepository
 import com.thm.greenhat.greenhatchat.repository.MessageRepository
 import com.thm.greenhat.greenhatchat.repository.UserRepository
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -22,7 +25,8 @@ import reactor.kotlin.core.publisher.toMono
 class UserService(
     private val userRepository: UserRepository,
     private val groupRepository: GroupRepository,
-    private val messageRepository: MessageRepository
+    private val messageRepository: MessageRepository,
+    private val passwordEncoder: PasswordEncoder
 ) {
 
     /**
@@ -202,9 +206,13 @@ class UserService(
         return checkUserNameAndEmailIfExist(user.username, user.email)
             .flatMap {
                 if (it) Mono.error(ConflictException("This username/email already exists"))
-                else userRepository.save(user)
-                    .switchIfEmpty(Mono.error(NotModifiedException("Could not add user")))
-                    .map { UserForUI(it.id,it.username,it.email,it.hasAvatarPicture,it.avatarName) }
+                else
+                {
+                    user.password = passwordEncoder.encode(user.password)
+                    userRepository.save(user)
+                            .switchIfEmpty(Mono.error(NotModifiedException("Could not add user")))
+                            .map { UserForUI(it.id,it.username,it.email,it.hasAvatarPicture,it.avatarName) }
+                }
             }
     }
 
@@ -219,7 +227,7 @@ class UserService(
     fun login(username: String, password: String): Mono<UserForUI> {
         return findUserByUsername(username)
             .flatMap {
-                if (it.password == password) {
+                if (passwordEncoder.matches(password,it.password) ) {
                     Mono.just(UserForUI(it.id,it.username,it.email,it.hasAvatarPicture,it.avatarName,it.avatarPicture))
                 } else {
                     Mono.error(BadRequestException("Invalid Password or Username"))
