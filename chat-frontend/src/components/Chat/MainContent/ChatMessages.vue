@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="overflow-y-auto mb-72">
-    <v-timeline>
+    <v-timeline v-if="messagesToDisplay">
       <v-timeline-item v-for="(msg, index) in messagesToDisplay.messages" :key="index" large color="transparent">
         <template v-slot:icon>
           <v-tooltip bottom>
@@ -40,7 +40,7 @@ export default {
       messagesFromGroup: (state) => state.chat.messagesOfGroup,
     }),
     messagesToDisplay(){
-      if(this.messagesFromGroup && this.activeGroupId){
+      if(this.messagesFromGroup && !!this.messagesFromGroup && this.messagesFromGroup.length && this.activeGroupId){
         return this.messagesFromGroup.find((msg) => msg.gid = this.activeGroupId)
       }
       return null

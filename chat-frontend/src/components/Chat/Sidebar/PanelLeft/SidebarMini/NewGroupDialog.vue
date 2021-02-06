@@ -101,8 +101,21 @@ export default {
         admin: this.userId,
         users: userInGroup,
       };
-      await this.$store.dispatch('group/act_createNewGroup', newGroup);
-      this.$store.dispatch('group/act_toggleNewGroupWindow', false);
+      const error = await this.$store.dispatch('group/act_createNewGroup', newGroup);
+      
+      if(error == 200){
+
+        this.$store.dispatch('group/act_toggleNewGroupWindow', false);
+      } else {
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: error.message,
+          color: 'error',
+          icon: 'mdi-information-outline',
+        });
+      }
+
+
+      
     },
   },
 };

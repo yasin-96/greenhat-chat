@@ -42,7 +42,10 @@ export default {
     }),
     isCurrentUserAdminOfGroup(){
       const foundedGroup = this.userGroups.find((group) => group._id == this.activeGroupId)
-      return this.userId == foundedGroup.admin
+      if(foundedGroup){
+        return this.userId == foundedGroup.admin
+      }
+      return null
     }
   }
 };
