@@ -28,6 +28,9 @@ services:
 
   kafka-connector:
     image: kafka-mongodb:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
     ports:
       - "8083:8083"
     depends_on:
