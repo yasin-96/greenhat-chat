@@ -62,7 +62,7 @@ const userModule = {
       return await RestCall.newAccount(newUser)
         .then((response) => {
           if (response && response.data && response.status == 200) {
-            commit('MUT_SAVE_USER', response);
+            commit('MUT_SAVE_USER', response.data);
           }
           return {"status": response.status}
         })

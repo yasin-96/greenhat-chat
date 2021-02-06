@@ -226,6 +226,7 @@ class UserService(
      */
     fun login(username: String, password: String): Mono<UserForUI> {
         return findUserByUsername(username)
+            .switchIfEmpty(Mono.error(NotFoundException()))
             .flatMap {
                 if (passwordEncoder.matches(password,it.password) ) {
                     Mono.just(UserForUI(it.id,it.username,it.email,it.hasAvatarPicture,it.avatarName,it.avatarPicture))

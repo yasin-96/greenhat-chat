@@ -15,7 +15,7 @@ const notifyModule = {
         commit('MUT_SET_MESSAGE', { message, color, icon });
         setTimeout(() => {
           dispatch('act_clearNotificationState');
-        }, 10000);
+        }, 5000);
       }
     },
     act_clearNotificationState({ commit }) {

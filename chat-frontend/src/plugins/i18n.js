@@ -98,7 +98,19 @@ export default new VueI18n({
         },
       },
       aboutView: {},
-      errors: {},
+      errors: {
+        loginView: {
+          "200": "Alles ok",
+          "400": "Unfortunately, the login data of the user is not correct.",
+          "404": "The specified user was not found",
+        },
+        registryView:{
+          "200": "User could be created. You will be logged in.",
+          "400": "Die Daten stimmen nicht",
+          "409": "This user already exists. Please choose another email and username."
+        },
+        "500": "Critical server errors have occurred. If this occurs again, contact the administrator."
+      },
       actions: {
         close: 'Close',
         save: 'Save',
@@ -182,7 +194,19 @@ export default new VueI18n({
         },
       },
       aboutView: {},
-      errors: {},
+      errors: {
+        loginView: {
+          "200": "Alles ok",
+          "400": "Die login daten des Benutzer stimmen leider nicht.",
+          "404": "Der angegebene Benutzer wurde nicht gefunden",
+        },
+        registryView:{
+          "200": "User konnte erstellt werden. Sie werden eingeloggt.",
+          "400": "Die Daten stimmen nicht",
+          "409": "Dieser Benutzer ist bereits vorhanden. Bitte waehlen Sie eine andere Email und Usernamen aus."
+        },
+        "500": "Kritische Server Fehler sind aufgetreten. Falls dies erneut auftritt melden Sie sich beim Administrator."
+      },
       actions: {
         close: 'Schließen',
         save: 'Speichern',

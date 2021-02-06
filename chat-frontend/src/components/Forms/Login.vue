@@ -86,12 +86,18 @@ export default {
     async login() {
       const error = await this.$store.dispatch('user/act_logUserIn', this.user);
 
-      if (error.status === 200) {
+      if (error.status == 200) {
         this.$router.push({ path: '/chat' });
+      } else if (error.status >= 500) {
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: this.$t(`errors.${error.status}`),
+          color: 'error',
+          icon: 'mdi-information-outline',
+        });
       } else {
         this.$store.dispatch('notify/act_setAlterMessage', {
-          message: error.message,
-          color: 'error',
+          message: this.$t(`errors.loginView.${error.status}`),
+          color: 'warning',
           icon: 'mdi-information-outline',
         });
       }

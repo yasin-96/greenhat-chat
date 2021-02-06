@@ -37,18 +37,20 @@ const groupModule = {
     },
   }),
   actions: {
-    act_loadGroupInfos({ commit }, payload) {
-      RestCall.rcRequest(API_PATHS.group.groupInfo, 'get', null, null, payload)
-        .then(({ data }) => {
-          console.log('act_loadGroupInfos() res: ', data);
-          if (data !== null) {
-            commit('MUT_SAVE_GROUP', data);
-            commit('MUT_SET_ACTIVE_GROUP', data._id);
+    async act_loadGroupInfos({ commit }, payload) {
+      return await RestCall.rcRequest(API_PATHS.group.groupInfo, 'get', null, null, payload)
+        .then((response) => {
+          console.log('act_loadGroupInfos() res: ', response);
+          if (response && response.data !== null && response.status) {
+            commit('MUT_SAVE_GROUP', response.data);
+            commit('MUT_SET_ACTIVE_GROUP', response.data._id);
             commit('MUT_LOAD_GROUP_INFO');
           }
+          return response
         })
         .catch((error) => {
           console.log('act_loadGroupInfos(): ', error);
+          return error
         });
     },
     act_toggleNewGroupWindow({ commit }, toggleValue) {
@@ -58,16 +60,18 @@ const groupModule = {
       commit('MUT_CLOSE_NEW_GROUP_WINDOW');
     },
     async act_createNewGroup({ dispatch }, newGroup) {
-      await RestCall.rcRequest(API_PATHS.group.create, 'post', null, newGroup)
-        .then(({ data }) => {
-          console.log('act_createNewGroup() res: ', data);
-          if (data !== null) {
+      return await RestCall.rcRequest(API_PATHS.group.create, 'post', null, newGroup)
+        .then((response) => {
+          console.log('act_createNewGroup() res: ', response);
+          if (response && response.data !== null && response.status == 200) {
             // commit('MUT_SAVE_GROUP', data);
-            dispatch('act_loadGroupInfos', data);
+            dispatch('act_loadGroupInfos', response.data);
           }
+          return response
         })
         .catch((error) => {
           console.log('act_createNewGroup(): ', error);
+          return error
         });
     },
     async act_getAllGroupsFromUser({ commit, rootState }) {
@@ -75,16 +79,16 @@ const groupModule = {
         _id: rootState.user.user.id,
       };
       console.log('act_getAllGroupsFromUser', userId);
-      await RestCall.rcRequest(API_PATHS.group.userGroups, 'get', null, null, userId)
-        .then(({ data }) => {
-          console.log('act_getAllGroupsFromUser() res: ', data);
-          if (data !== null) {
-            commit('MUT_LOAD_ALL_GROUPS_FROM_USER', data);
+      return await RestCall.rcRequest(API_PATHS.group.userGroups, 'get', null, null, userId)
+        .then((response) => {
+          console.log('act_getAllGroupsFromUser() res: ', response);
+          if (response && response.data !== null && response.status == 200) {
+            commit('MUT_LOAD_ALL_GROUPS_FROM_USER', response.data);
           }
         })
         .catch((error) => {
           console.log('act_getAllGroupsFromUser(): ', error);
-          return null;
+          return error
         });
     },
 
@@ -93,16 +97,17 @@ const groupModule = {
         _id: rootState.user.user.id,
       };
       console.log('act_getAllGroupIdsFromUser', userId);
-      await RestCall.rcRequest(API_PATHS.user.groups, 'get', null, null, userId)
-        .then(({ data }) => {
-          console.log('act_getAllGroupIdsFromUser() res: ', data);
-          if (data !== null) {
-            commit('MUT_LOAD_ALL_IDS_FROM_GROUPS', data);
+      return await RestCall.rcRequest(API_PATHS.user.groups, 'get', null, null, userId)
+        .then((response) => {
+          console.log('act_getAllGroupIdsFromUser() res: ', response);
+          if (response && response.data !== null && response.status == 200) {
+            commit('MUT_LOAD_ALL_IDS_FROM_GROUPS', response.data);
           }
+          return response
         })
         .catch((error) => {
           console.log('act_getAllGroupIdsFromUser(): ', error);
-          return null;
+          return error;
         });
     },
 

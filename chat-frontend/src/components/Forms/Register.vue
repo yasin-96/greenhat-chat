@@ -121,22 +121,24 @@ export default {
     async registerUser() {
       let copyOfUser = Object.assign({}, this.user);
       copyOfUser.email = copyOfUser.email + this.domainName;
-      
+
       const error = await this.$store.dispatch('user/act_registerUser', copyOfUser);
 
-      if (error.status === 200) {
+      if (error.status == 200) {
         this.$router.push({ path: '/chat' });
-      } else {
+      } else if (error.status >= 500) {
         this.$store.dispatch('notify/act_setAlterMessage', {
-          message: error.message,
+          message: this.$t(`errors.${error.status}`),
           color: 'error',
           icon: 'mdi-information-outline',
         });
+      } else {
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: this.$t(`errors.registryView.${error.status}`),
+          color: 'warning',
+          icon: 'mdi-information-outline',
+        });
       }
-
-
-
-
     },
     checkPassword() {
       if (this.repeatPasswd === this.user.password && !!this.repeatPasswd && !!this.user.password) {
