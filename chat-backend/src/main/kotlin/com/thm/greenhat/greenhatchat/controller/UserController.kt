@@ -43,7 +43,7 @@ class UserController(
      * @return Mono<User> or BadRequestException
      */
     @PostMapping("/user/register")
-    fun addNewUser(@RequestBody user: User): Mono<User> {
+    fun addNewUser(@RequestBody user: User): Mono<UserForUI> {
         return userService.addUser(user)
     }
 
@@ -54,7 +54,7 @@ class UserController(
      * @return Mono<User>
      */
     @GetMapping("/user/authenticate")
-    fun login(@RequestParam username: String, @RequestParam password: String): Mono<User> {
+    fun login(@RequestParam username: String, @RequestParam password: String): Mono<UserForUI> {
         return userService.login(username, password)
     }
 
@@ -100,7 +100,7 @@ class UserController(
     fun patchSpecificUserInformation(
         @PathVariable userId: String,
         @RequestBody newUserSpecs: Map<String, Any>
-    ): Mono<User> {
+    ): Mono<UserForUI> {
         return userService.updateOnSpecificProperties(userId, newUserSpecs)
     }
 
