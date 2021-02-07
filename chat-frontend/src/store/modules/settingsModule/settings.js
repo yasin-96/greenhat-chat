@@ -18,6 +18,7 @@ const settingsModule = {
           group: {
             addUserToGroupDialog: false,
             editValue: false,
+            deleteGroup: false
           },
           adminDialog: false,
         },
@@ -76,6 +77,10 @@ const settingsModule = {
     act_toggleSidePanelWithValue({ commit }, payload) {
       commit('MUT_TOOGLE_SIDE_PANEL_WITH_FLAG', payload);
     },
+
+    act_toggleDialogForDeletingGroup({commit}, toggleValue){
+      commit("MUT_TOGGLE_DIALOG_FOR_DELETING_GROUP",toggleValue)
+    }
   },
   mutations: {
     /**
@@ -182,6 +187,15 @@ const settingsModule = {
      */
     MUT_TOOGLE_SIDE_PANEL_WITH_FLAG(state, toggleValue) {
       state.sidebar.sidebarLeft.sidebarLeftDrawer = toggleValue;
+    },
+
+    /**
+     * 
+     * @param {*} state 
+     * @param {*} data 
+     */
+    MUT_TOGGLE_DIALOG_FOR_DELETING_GROUP(state, toggleValue) {
+      state.sidebar.sidebarLeft.admin.group.deleteGroup = toggleValue;
     },
   },
 };

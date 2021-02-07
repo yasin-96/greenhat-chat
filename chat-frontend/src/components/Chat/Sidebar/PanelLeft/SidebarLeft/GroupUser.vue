@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="userInGroup && !!userInGroup && userInGroup.length">
     <v-list class="pl-14" shaped>
       <v-list-item v-for="userg in userInGroup" :key="userg._id">
         <v-list-item-avatar class="d-block " color="sidebarMiniGroupUsersAvatarBackGround" size="32">

@@ -4,7 +4,7 @@ import VueI18n from 'vue-i18n';
 Vue.use(VueI18n);
 
 /**
- * 
+ *
  */
 export default new VueI18n({
   locale: 'de-DE', //default value
@@ -29,6 +29,33 @@ export default new VueI18n({
         signIn: 'Sign in instead',
       },
       chatView: {
+        group:{
+          editValue: {
+            title: 'Change:',
+            createAvatar: 'Create your avatar here',
+            changePassword: 'Change password',
+            deleteAccount: 'Close Account',
+            reallyDeleteAccount: 'Do you really want to delete the account ?',
+            lastQuestionBeforeDeleteAccount: 'Are you sure?',
+            deleteInfo: 'Account could be deleted successfully',
+            error: {
+              404: 'Kontodaten wurden nicht gefunden',
+              202: 'Änderungen wurden erfolgreich übernommen',
+            },
+          },
+          groupDetails: {
+            tooltip: {
+              email: 'EMail',
+              id: 'ID from group',
+              groupName: 'Group Name',
+              groupPicture: 'Group Logo',
+              groupAdmin: "Admin of the group"
+            },
+            action: {
+              avatarPicture: 'Change group color',
+            },
+          }
+        },
         user: {
           editValue: {
             title: 'Change:',
@@ -96,6 +123,13 @@ export default new VueI18n({
             },
             admin: {
               addUserToGroup: 'Group members',
+              editValue: {
+                title: 'Change:',
+                deleteGroup: 'Close Group',
+                reallyDeleteGroup: 'Do you really want to delete the group with all messages ?',
+                lastQuestionBeforeDeleteGroup: 'Are you sure?',
+                deleteInfo: 'Group could be deleted successfully',
+              },
             },
           },
         },
@@ -103,16 +137,69 @@ export default new VueI18n({
       aboutView: {},
       errors: {
         loginView: {
-          "200": "Alles ok",
-          "400": "Unfortunately, the login data of the user is not correct.",
-          "404": "The specified user was not found",
+          '200': 'Alles ok',
+          '400': 'Unfortunately, the login data of the user is not correct.',
+          '404': 'The specified user was not found',
         },
-        registryView:{
-          "200": "User could be created. You will be logged in.",
-          "400": "Die Daten stimmen nicht",
-          "409": "This user already exists. Please choose another email and username."
+        registryView: {
+          '200': 'User could be created. You will be logged in.',
+          '400': 'Die Daten stimmen nicht',
+          '409': 'This user already exists. Please choose another email and username.',
         },
-        "500": "Critical server errors have occurred. If this occurs again, contact the administrator."
+        user: {
+          edit: {
+            avatarPicture:{
+              '200': '',
+              '400': '',
+              '500': '',
+            },
+            avatarName: {
+              '200': '',
+              '400': '',
+              '500': '',
+            },
+            password: {
+              '200': '',
+              '400': '',
+              '500': '',
+            },
+            email: {
+              '200': '',
+              '400': '',
+              '500': '',
+            },
+            deleteAccount:{
+              '200': '',
+              '400': '',
+              '500': '',
+            }
+          },
+        },
+        admin: {
+          group: {
+           groupName:{
+            '200': '',
+            '400': '',
+            '500': '',
+           },
+           groupAdmin:{
+            '200': '',
+            '400': '',
+            '500': '',
+           },
+           groupColor:{
+            '200': '',
+            '400': '',
+            '500': '',
+           },
+           deleteGroup:{
+            '200': 'The groups were successfully deleted with all the messages.',
+            '400': '',
+            '500': '',
+           }
+          },
+        },
+        '500': 'Critical server errors have occurred. If this occurs again, contact the administrator.',
       },
       actions: {
         close: 'Close',
@@ -199,16 +286,61 @@ export default new VueI18n({
       aboutView: {},
       errors: {
         loginView: {
-          "200": "Alles ok",
-          "400": "Die login daten des Benutzer stimmen leider nicht.",
-          "404": "Der angegebene Benutzer wurde nicht gefunden",
+          '200': 'Alles ok',
+          '400': 'Die login daten des Benutzer stimmen leider nicht.',
+          '404': 'Der angegebene Benutzer wurde nicht gefunden',
         },
-        registryView:{
-          "200": "User konnte erstellt werden. Sie werden eingeloggt.",
-          "400": "Die Daten stimmen nicht",
-          "409": "Dieser Benutzer ist bereits vorhanden. Bitte waehlen Sie eine andere Email und Usernamen aus."
+        registryView: {
+          '200': 'User konnte erstellt werden. Sie werden eingeloggt.',
+          '400': 'Die Daten stimmen nicht',
+          '409': 'Dieser Benutzer ist bereits vorhanden. Bitte waehlen Sie eine andere Email und Usernamen aus.',
         },
-        "500": "Kritische Server Fehler sind aufgetreten. Falls dies erneut auftritt melden Sie sich beim Administrator."
+        user: {
+          edit: {
+            avatarPicture:{
+              '200': '',
+              '400': '',
+            },
+            avatarName: {
+              '200': '',
+              '400': '',
+            },
+            password: {
+              '200': '',
+              '400': '',
+            },
+            email: {
+              '200': '',
+              '400': '',
+            },
+            deleteAccount:{
+              '200': '',
+              '400': '',
+            }
+          },
+        },
+        admin: {
+          group: {
+           groupName:{
+            '200': '',
+            '400': '',
+           },
+           groupAdmin:{
+            '200': '',
+            '400': '',
+           },
+           groupColor:{
+            '200': '',
+            '400': '',
+           },
+           deleteGroup:{
+            '200': 'Die Gruppen wurde mit allen Nachtrichten erfolgreich geloescht.',
+            '400': '',
+           }
+          },
+        },
+        '500':
+          'Kritische Server Fehler sind aufgetreten. Falls dies erneut auftritt melden Sie sich beim Administrator.',
       },
       actions: {
         close: 'Schließen',

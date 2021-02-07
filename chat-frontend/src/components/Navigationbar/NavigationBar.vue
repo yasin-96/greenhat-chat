@@ -1,81 +1,66 @@
 <template>
   <v-app-bar app color="navbarBackground">
-    <div  v-if="checkRoute"></div>
-    <v-btn v-if="drawer" icon @click="uidrawer = true">
-      <v-icon >mdi-menu</v-icon>
-    </v-btn>
+    <div v-if="checkRoute">
+      <v-btn v-if="drawer" icon @click="uidrawer = true">
+        <v-icon>mdi-menu</v-icon>
+      </v-btn>
       <v-btn v-else icon @click="uidrawer = false">
-      <v-icon>mdi-dots-vertical</v-icon>
-    </v-btn>
-    <div class="d-flex align-center">
-      <v-img
-        alt="Greenhat Logo"
-        class="shrink mr-2"
-        contain
-        src="@/assets/logo_02.svg"
-        transition="scale-transition"
-        width="40"
-      />
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn>
     </div>
-    <v-btn large v-if="checkRoute && checkGames && gameIsActive" icon @click="openGameWindow">
-      <v-badge :color="gameBell" icon="mdi-gamepad-square" overlap
-        ><v-icon large :color="gameBell">{{ bellIcon }}</v-icon>
-      </v-badge>
-      <winwheel />
-    </v-btn>
 
     <v-spacer></v-spacer>
-    <v-responsive max-width="156">
+    <!-- <v-responsive max-width="156">
       <v-text-field color="navbarSearchbar" dense flat hide-details rounded solo-inverted></v-text-field>
-    </v-responsive>
+    </v-responsive> -->
     <v-divider class="ml-2 mr-2 pt-3" vertical></v-divider>
 
-    <v-menu v-model="menu" :close-on-content-click="true" :nudge-width="200" offset-x>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn class="mx-2" large icon @click="openGameWindow" v-bind="attrs" v-on="on">
-          <!-- <v-badge :color="gameBell" icon="mdi-gamepad-square" overlap
+      <v-menu v-if="checkRoute" v-model="menu" :close-on-content-click="true" :nudge-width="200" offset-x>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn class="mx-2" large icon @click="openGameWindow" v-bind="attrs" v-on="on">
+            <!-- <v-badge :color="gameBell" icon="mdi-gamepad-square" overlap
             >
           </v-badge> -->
-          <v-icon large :color="gameBell">{{ bellIcon }}</v-icon>
-        </v-btn>
-      </template>
-
-      <v-card>
-        <winwheel />
-      </v-card>
-    </v-menu>
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" class="mx-2" icon large @click="openSettingsDialog">
-          <v-icon dark>
-            mdi-cog
-          </v-icon>
-        </v-btn>
-      </template>
-      <span>{{ $t('chatView.navigationbar.settings') }}</span>
-    </v-tooltip>
-
-    <div class="text-center">
-      <v-menu open-on-hover button offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn v-bind="attrs" v-on="on" class="mx-2" icon large>
-            <v-icon>
-              mdi-translate
-            </v-icon>
+            <v-icon large :color="gameBell">{{ bellIcon }}</v-icon>
           </v-btn>
         </template>
 
-        <v-list>
-          <v-list-item v-for="(lang, index) in languages" :key="index">
-            <v-list-item-content class="text-center">
-              <v-btn text small :color="lang.active ? 'success' : ''" @click="changeLanguage(lang.local, index)">
-                {{ $t(lang.title) }}
-              </v-btn>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+        <v-card>
+          <winwheel />
+        </v-card>
       </v-menu>
-    </div>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" class="mx-2" icon large @click="openSettingsDialog">
+            <v-icon dark>
+              mdi-cog
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t('chatView.navigationbar.settings') }}</span>
+      </v-tooltip>
+
+      <div class="text-center">
+        <v-menu open-on-hover button offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" class="mx-2" icon large>
+              <v-icon>
+                mdi-translate
+              </v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item v-for="(lang, index) in languages" :key="index">
+              <v-list-item-content class="text-center">
+                <v-btn text small :color="lang.active ? 'success' : ''" @click="changeLanguage(lang.local, index)">
+                  {{ $t(lang.title) }}
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
   </v-app-bar>
 </template>
 
@@ -88,12 +73,6 @@ export default {
   components: {
     winwheel: GameWinWheel,
   },
-  mounted() {
-    //this.changeGameBellColor()
-  },
-  updated() {
-    //this.changeGameBellColor();
-  },
   data: () => ({
     menu: '',
     gameBell: '#424242',
@@ -102,18 +81,7 @@ export default {
       notRing: 'mdi-bell',
       ring: 'mdi-bell-ring',
     },
-    colors: [
-      '#FFEE58',
-      '#FDD835',
-      '#F57F17',
-      '#F57C00',
-      '#EF6C00',
-      '#E65100',
-      '#D84315',
-      '#BF360C',
-      '#424242',
-      '#212121',
-    ],
+    
     count: 0,
   }),
   methods: {
@@ -122,18 +90,6 @@ export default {
     },
     openGameWindow() {
       this.$store.dispatch('game/act_toggleGameWindowWithValue', true);
-    },
-    changeGameBellColor() {
-      if (this.count < this.colors.length) {
-        this.count++;
-      } else {
-        this.count = 0;
-      }
-      this.bellIcon = this.bellIcon == this.icons.notRing ? this.icons.ring : this.icons.notRing;
-      this.gameBell = this.colors[this.count];
-      // setTimeout(() => {
-
-      // }, 2000);
     },
     changeLanguage(localLang, index) {
       this.$i18n.locale = localLang;
@@ -157,7 +113,7 @@ export default {
         return this.drawer;
       },
       set() {
-        this.toggleSidePanel()
+        this.toggleSidePanel();
       },
     },
     checkRoute() {

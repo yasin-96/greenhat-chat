@@ -5,33 +5,33 @@ import colors from 'vuetify/lib/util/colors';
 Vue.use(Vuetify);
 
 /**
- * 
+ *
  */
 export default new Vuetify({
   theme: {
     // dark: true,   //only dark theme
-    // light: true   //onlt light theme 
+    // light: true   //onlt light theme
     themes: {
       light: {
-        primary: colors.lightBlue.darken1, // #E53935
-        secondary: colors.red.lighten4, // #FFCDD2
-        accent: colors.indigo.base, // #3F51B5
+        primary: colors.lightBlue.darken1,
+        secondary: colors.red.lighten4,
+        accent: colors.indigo.base,
         success: colors.green.darken1,
         greenHatGreen: colors.green.darken2,
         danger: colors.deepOrange.darken2,
         error: colors.red.darken4,
-        yellow: colors.amber.accent3, //#FFEA00
+        yellow: colors.amber.accent3,
         send: colors.lightGreen.accent4,
         transparent: colors.transparent,
         blueGrey: colors.blueGrey.darken4,
         lightGreen: colors.green.lighten1,
         notInUse: colors.grey.lighten5,
-        groupMember : colors.lightBlue.lighten5,
+        groupMember: colors.lightBlue.lighten5,
         groupAdmin: colors.red.lighten4,
 
         //Navbar
         navbarBackground: colors.grey.lighten3,
-        navbarSearchbar: colors.lightGreen.accent4, 
+        navbarSearchbar: colors.lightGreen.accent4,
 
         //SIDEBAR MINI
         sidebarMiniBackGround: colors.grey.lighten3,
@@ -40,17 +40,16 @@ export default new Vuetify({
         sidebarMiniAddGroupButtonIcon: colors.white,
 
         sidebarMiniActiveGroup: colors.lightGreen,
-        sidebarMiniNotActiveGroups: colors.grey.lighten1,  //#BDBDBD
-        
+        sidebarMiniNotActiveGroups: colors.grey.lighten1,
+
         //SIDEBAR GROUP
         sidebarGroupInfoHeader: colors.grey.lighten3,
 
         //CHAT INPUT
         chatInputSendButton: colors.lightGreen.accent4,
-        chatInputTextMessage: colors.grey.lighten1 //#BDBDBD
-       },
+        chatInputTextMessage: colors.grey.lighten1,
+      },
       dark: {
-
         //Navbar
         navbarBackground: colors.grey.darken4,
         navbarSearchbar: colors.lightGreen.accent4,
@@ -58,7 +57,7 @@ export default new Vuetify({
         //SIDEBAR MINI
         sidebarMiniBackGround: colors.grey.darken4,
         sidebarMiniGroupUsersAvatarBackGround: colors.grey,
-        sidebarMiniAddGroupButton: colors.blueGrey.lighten1,  //#BDBDBD
+        sidebarMiniAddGroupButton: colors.blueGrey.lighten1,
         sidebarMiniAddGroupButtonIcon: colors.black,
 
         sidebarMiniActiveGroup: colors.lightGreen,
@@ -69,8 +68,8 @@ export default new Vuetify({
 
         //CHAT INPUT
         chatInputSendButton: colors.lightGreen.accent4,
-        chatInputTextMessage: colors.grey.darken3
-      }
+        chatInputTextMessage: colors.grey.darken3,
+      },
     },
   },
 });

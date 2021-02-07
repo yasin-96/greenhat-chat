@@ -3,7 +3,7 @@
     <div class="d-flex flex-no-wrap justify-center">
       <v-card outlined class="my-auto elevation-6" max-height="100px" max-width="180px">
         <v-container>
-          <v-chip x-large label link>
+          <v-chip x-large label link :color="activeGroup.groupColor">
             <h1 class="display-3 text-white">
               {{
                 String(activeGroup.name)
@@ -27,13 +27,13 @@
                   top
                   right
                   fab
-                  @click="setValuesForEditingSpecificGroupInformation(3)"
+                  @click="setValuesForEditingSpecificGroupInformation(2)"
                 >
                   <v-icon>mdi-pencil-outline</v-icon>
                 </v-btn>
               </template>
               <span>
-                {{ $t('chatView.user.userDetails.action.avatarPicture') }}
+                {{ $t('chatView.group.groupDetails.action.avatarPicture') }}
               </span>
             </v-tooltip>
           </div>
@@ -49,7 +49,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon v-bind="attrs" v-on="on">mdi-fingerprint</v-icon>
                   </template>
-                  <span>{{ $t('chatView.user.userDetails.tooltip.id') }}</span>
+                  <span>{{ $t('chatView.group.groupDetails.tooltip.id') }}</span>
                 </v-tooltip>
               </v-list-item-icon>
               <v-list-item-content>
@@ -62,7 +62,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon v-bind="attrs" v-on="on">mdi-badge-account</v-icon>
                   </template>
-                  <span>{{ $t('chatView.user.userDetails.tooltip.username') }}</span>
+                  <span>{{ $t('chatView.group.groupDetails.tooltip.groupName') }}</span>
                 </v-tooltip>
               </v-list-item-icon>
               <v-list-item-content>
@@ -82,7 +82,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon v-bind="attrs" v-on="on">mdi-account-tie</v-icon>
                   </template>
-                  <span>{{ $t('chatView.user.userDetails.tooltip.email') }}</span>
+                  <span>{{ $t('chatView.group.groupDetails.tooltip.groupAdmin') }}</span>
                 </v-tooltip>
               </v-list-item-icon>
               <v-list-item-content>
@@ -135,13 +135,6 @@ export default {
       user: (state) => state.user.user,
       adminOfGroup: (state) => state.user.user.id,
     }),
-  },
-  watch: {
-    enableOrDisbleUserAvatarPicture() {
-      if (this.enableOrDisbleUserAvatarPicture) {
-        this.removeAvatarPicture();
-      }
-    },
   },
 };
 </script>

@@ -189,13 +189,13 @@ export default {
       user: (state) => state.user.user,
     }),
   },
-  watch: {
-    enableOrDisbleUserAvatarPicture() {
-      if (this.enableOrDisbleUserAvatarPicture) {
-        this.removeAvatarPicture();
-      }
-    },
-  },
+  // watch: {
+  //   enableOrDisbleUserAvatarPicture() {
+  //     if (this.enableOrDisbleUserAvatarPicture) {
+  //       this.removeAvatarPicture();
+  //     }
+  //   },
+  // },
 };
 </script>
 

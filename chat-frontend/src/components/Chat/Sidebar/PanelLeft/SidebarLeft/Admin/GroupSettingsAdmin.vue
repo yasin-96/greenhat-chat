@@ -17,10 +17,8 @@
           <GroupDetailsAdmin />
           <v-divider class="mt-10 mb-10 mx-auto"></v-divider>
           <GroupUserListAdmin />
-          <!--
-            <UpdatePassword />
-            <v-divider width="250px" class="mt-10 mb-10 mx-auto"></v-divider>
-            <DeleteAccount /> -->
+          <v-divider class="mt-10 mb-10 mx-auto"></v-divider>
+          <DeleteGroup />
         </v-container>
         <v-sheet class="pl-14" color="grey lighten-4" height="" width="100%"> </v-sheet>
       </v-card-title>
@@ -37,6 +35,7 @@ import { mapState } from 'vuex';
 import GroupDetailsAdmin from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/GroupDetailsAdmin';
 import GroupUserListAdmin from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/GroupUserListAdmin';
 import AddUserToGroupAdmin from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/AddUserToGroupAdmin';
+import DeleteGroup from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/DeleteGroup';
 
 /**
  *
@@ -47,6 +46,7 @@ export default {
     GroupDetailsAdmin,
     GroupUserListAdmin,
     AddUserToGroupAdmin,
+    DeleteGroup,
   },
   computed: {
     ...mapState({
@@ -54,7 +54,7 @@ export default {
       user: (state) => state.user.user,
     }),
     /**
-     * 
+     *
      */
     dialog: {
       get() {

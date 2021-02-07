@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="pl-14 mb-5" color="sidebarGroupInfoHeader" height="128" width="100%">
+  <v-sheet v-if="groupInfo && !!groupInfo && activeGroupId" class="pl-14 mb-5" color="sidebarGroupInfoHeader" height="128" width="100%">
     <v-list>
       <v-list-item>
         <v-list-item-content>
@@ -35,6 +35,15 @@
         </div>
       </v-list-item>
     </v-list>
+  </v-sheet>
+  <v-sheet v-else class="pl-14 mb-5" color="sidebarGroupInfoHeader" height="100%" width="100%">
+    <v-alert
+      border="right"
+      colored-border
+      type="info"
+      elevation="0"
+    >
+Leider keine Gruppe ausgewaehlt    </v-alert>
   </v-sheet>
 </template>
 

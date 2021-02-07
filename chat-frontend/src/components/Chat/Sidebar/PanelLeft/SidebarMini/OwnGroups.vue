@@ -8,7 +8,7 @@
           v-on="on"
           :key="group._id"
           :class="activeGroupID == group._id ? 'mb-5 text-white' : 'mb-5'"
-          :color="activeGroupID == group._id ? 'sidebarMiniActiveGroup' : 'sidebarMiniNotActiveGroups'"
+          :color="activeGroupID == group._id ? 'sidebarMiniActiveGroup' : group.groupColor || 'sidebarMiniNotActiveGroups'"
           size="40"
           :rounded="activeGroupID != group._id ? false : true"
           @click="loadGroup(group._id)"

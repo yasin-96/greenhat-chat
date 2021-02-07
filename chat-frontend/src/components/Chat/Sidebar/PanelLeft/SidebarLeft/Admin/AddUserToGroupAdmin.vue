@@ -76,21 +76,26 @@ export default {
      *
      */
     allUserIdsInGroup() {
-      return this.activeGroup.users.map((user) => user.userId);
+      if (this.activeGroup && !!this.activeGroup && this.activeGroup.length) {
+        return this.activeGroup.users.map((user) => user.userId);
+      }
+      return null;
     },
     /**
      *
      */
     filteredListWithoutAdminAndUsersInGroup() {
-      return this.userList.filter(
-        (user) => !this.allUserIdsInGroup.includes(user.userId) && user.userId !== this.userId
-      );
+      if (this.userList && !!this.userList && this.userList.length) {
+        return this.userList.filter(
+          (user) => !this.allUserIdsInGroup.includes(user.userId) && user.userId !== this.userId
+        );
+      }
+      return null;
     },
   },
   methods: {
-    
     /**
-     * 
+     *
      */
     closeDialog() {
       this.dialog = false;

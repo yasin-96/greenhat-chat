@@ -28,6 +28,19 @@ class GroupController(
             .switchIfEmpty(Mono.error(BadRequestException("There is no group with such an id")))
     }
 
+
+    /**
+     *
+     * @param id String
+     * @return Mono<GroupResponse>
+     */
+    @DeleteMapping("/group/id/{id}")
+    fun deleteGroupById(@PathVariable id: String): Mono<Void> {
+        return groupService.deleteGroupById(id)
+    }
+
+
+
     /**
      *
      * @param id String
@@ -69,14 +82,12 @@ class GroupController(
     }
 
 
-
-    /*
     @PatchMapping("/group/specs/{groupId}")
     fun patchSpecificGroupInformation(
         @PathVariable groupId: String,
         @RequestBody groupUpdate: Map<String, Any>
     ): Mono<GroupResponse> {
         return groupService.updateOnSpecificProperties(groupId, groupUpdate)
-    }*/
+    }
 
 }

@@ -135,7 +135,7 @@ class GroupService(
             }
     }
 
-    fun updateOnSpecificProperties(groupId: String, specificInformation: Map<String, Object>): Mono<GroupResponse>{
+    fun updateOnSpecificProperties(groupId: String, specificInformation: Map<String, Any>): Mono<GroupResponse>{
         return groupRepository.findById(groupId)
             .map { group ->
                 println(specificInformation)
@@ -158,6 +158,18 @@ class GroupService(
                     }
             }.flatMap {
                 findGroupById(it._id).map { it }
+            }
+    }
+
+
+    fun deleteGroupById(groupId: String): Mono<Void>{
+        return groupRepository.findById(groupId)
+            .switchIfEmpty(Mono.error(NotFoundException()))
+            .flatMap {
+                Mono.zip(
+                    groupRepository.deleteById(groupId),
+                    messageRepository.deleteMessageByGroupId(groupId)
+                ).then()
             }
     }
 }

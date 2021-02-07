@@ -4,14 +4,14 @@
       <v-card>
         <v-card-title class="headline">
           <h1 class="headline">
-            {{ $t('chatView.user.editValue.title') }}
+            {{ $t('chatView.sidebar.sidebarLeft.admin.editValue.title') }}
           </h1>
           <span class="ml-2"
             ><h1 class="title">{{ editOpions.title }}</h1></span
           >
         </v-card-title>
         <v-card-text>
-          <v-form ref="form" v-model="valid" lazy-validation>
+          <v-form ref="form" v-model="valid" lazy-validation v-if="infoType < 2">
             <v-container>
               <v-text-field :value="editOpions.old" :label="`Old-${editOpions.title}`" disabled filled></v-text-field>
 
@@ -52,6 +52,39 @@
               ></v-text-field>
             </v-container>
           </v-form>
+          <v-container v-else>
+            <v-text-field :value="editOpions.old" :label="`Old-${editOpions.title}`" disabled filled>
+              <template v-slot:append-outer class="my-auto">
+                <v-avatar :color="editOpions.old" class="ma-0 pa-0"></v-avatar>
+              </template>
+            </v-text-field>
+
+            <v-card outlined>
+              <v-card-text>
+                <v-color-picker
+                  width="500"
+                  canvas-height="80"
+                  canvas-widht="100"
+                  v-model="updatedValue"
+                  class="ma-2"
+                  show-swatches
+                  swatches-max-height="50px"
+                ></v-color-picker> </v-card-text
+              ><v-card-actions>
+                <v-container>
+                  <v-text-field
+                    v-model="updatedValue"
+                    outlined
+                    :label="`New-${editOpions.title}`"
+                    disabled
+                    required
+                    :color="updatedValue"
+                  >
+                  </v-text-field>
+                </v-container>
+              </v-card-actions>
+            </v-card>
+          </v-container>
         </v-card-text>
 
         <v-card-actions>
@@ -86,10 +119,10 @@ export default {
      *
      */
     async updateGroupInformationen() {
-      let error = null;
+      let errorStatus = null;
       switch (this.infoType) {
         case 0:
-          error = await this.$store.dispatch('group/act_updateSpecificGroupInformationen', {
+          errorStatus = await this.$store.dispatch('group/act_updateSpecificGroupInformationen', {
             _id: this.activeGroupId,
             update: {
               name: this.updatedValue,
@@ -97,34 +130,35 @@ export default {
           });
           break;
         case 1:
-          error = await this.$store.dispatch('group/act_updateSpecificGroupInformationen', {
+          errorStatus = await this.$store.dispatch('group/act_updateSpecificGroupInformationen', {
             _id: this.activeGroupId,
             update: {
               admin: this.updatedValue,
             },
           });
-          this.$store.dispatch('settings/act_toggleAdminSettingsDialogForGroup', false);
           break;
-        case 3:
-          error = await this.$store.dispatch('group/act_updateSpecificGroupInformationen', {
+        case 2:
+          errorStatus = await this.$store.dispatch('group/act_updateSpecificGroupInformationen', {
             _id: this.activeGroupId,
             update: {
-              groupColor: '',
+              groupColor: this.updatedValue,
             },
           });
           break;
         default:
           break;
       }
-      if (error.status === 200) {
+      this.updatedValue = '';
+      if (errorStatus === 200) {
         this.$store.dispatch('notify/act_setAlterMessage', {
           message: this.$t('chatView.user.editValue.error.202'),
           color: 'success',
           icon: 'mdi-information-outline',
         });
+        this.$store.dispatch('settings/act_toggleAdminSettingsDialogForGroup', false);
       } else {
         this.$store.dispatch('notify/act_setAlterMessage', {
-          message: error.message,
+          message: errorStatus,
           color: 'error',
           icon: 'mdi-information-outline',
         });
@@ -154,10 +188,13 @@ export default {
       },
     },
     /**
-     * 
+     *
      */
     filteredListWithoutCurrentAdmin() {
-      return this.allRegisterdUsers.filter((user) => user.userId !== this.userId);
+      if (this.allRegisterdUsers && !!this.allRegisterdUsers && this.allRegisterdUsers.length) {
+        return this.allRegisterdUsers.filter((user) => user.userId !== this.userId);
+      }
+      return null;
     },
   },
 };

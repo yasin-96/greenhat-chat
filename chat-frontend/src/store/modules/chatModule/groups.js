@@ -9,6 +9,7 @@ const API_PATHS = {
   group: {
     create: API_BASE_PATHS.group + '/new',
     groupInfo: API_BASE_PATHS.group + '/id',
+    deleteGroup: API_BASE_PATHS.group + '/id',
     groupMessages: API_BASE_PATHS.group + '/messages',
     userGroups: API_BASE_PATHS.group + '/user',
     updateUserList: API_BASE_PATHS.group + /users/,
@@ -20,9 +21,8 @@ const API_PATHS = {
   },
 };
 
-
 /**
- * 
+ *
  */
 const groupModule = {
   namespaced: true,
@@ -51,11 +51,11 @@ const groupModule = {
             commit('MUT_SET_ACTIVE_GROUP', response.data._id);
             commit('MUT_LOAD_GROUP_INFO');
           }
-          return response
+          return response.status;
         })
         .catch((error) => {
           console.log('act_loadGroupInfos(): ', error);
-          return error
+          return error.status;
         });
     },
     act_toggleNewGroupWindow({ commit }, toggleValue) {
@@ -72,11 +72,11 @@ const groupModule = {
             // commit('MUT_SAVE_GROUP', data);
             dispatch('act_loadGroupInfos', response.data);
           }
-          return response
+          return response.status;
         })
         .catch((error) => {
           console.log('act_createNewGroup(): ', error);
-          return error
+          return error.status;
         });
     },
     async act_getAllGroupsFromUser({ commit, rootState }) {
@@ -93,7 +93,7 @@ const groupModule = {
         })
         .catch((error) => {
           console.log('act_getAllGroupsFromUser(): ', error);
-          return error
+          return error.status;
         });
     },
 
@@ -108,11 +108,11 @@ const groupModule = {
           if (response && response.data !== null && response.status == 200) {
             commit('MUT_LOAD_ALL_IDS_FROM_GROUPS', response.data);
           }
-          return response
+          return response.status;
         })
         .catch((error) => {
           console.log('act_getAllGroupIdsFromUser(): ', error);
-          return error;
+          return error.status;
         });
     },
 
@@ -122,13 +122,13 @@ const groupModule = {
           console.log('act_removeUserFromGroup', response);
           if (response && response.data && response.status === 200) {
             commit('MUT_CHANGE_GROUP_INFORMATION', response.data);
-            dispatch("act_getAllGroupsFromUser")
+            dispatch('act_getAllGroupsFromUser');
           }
-          return response;
+          return response.status;
         })
         .catch((error) => {
           console.error('act_removeUserFromGroup', error);
-          return error;
+          return error.status;
         });
     },
 
@@ -138,13 +138,13 @@ const groupModule = {
           console.log('act_addUserToGroup', response);
           if (response && response.data && response.status === 200) {
             commit('MUT_CHANGE_GROUP_INFORMATION', response.data);
-            dispatch("act_getAllGroupsFromUser")
+            dispatch('act_getAllGroupsFromUser');
           }
-          return response;
+          return response.status;
         })
         .catch((error) => {
           console.error('act_addUserToGroup', error);
-          return error;
+          return error.status;
         });
     },
 
@@ -153,13 +153,13 @@ const groupModule = {
         .then((response) => {
           if (response && response.data && response.status === 200) {
             commit('MUT_CHANGE_GROUP_INFORMATION', response.data);
-            dispatch("act_getAllGroupsFromUser")
+            dispatch('act_getAllGroupsFromUser');
           }
-          return response;
+          return response.status;
         })
         .catch((error) => {
           console.error('act_updateSpecificGroupInformationen', error);
-          return error;
+          return error.status;
         });
     },
 
@@ -170,10 +170,36 @@ const groupModule = {
     act_clearGroupState({ commit }) {
       commit('MUT_CLEAR_GROUP_STATE');
     },
+
+    async act_deleteGroup({ commit, state,  }) {
+      const gInfo = {
+        _id: state.activeGroupId,
+      };
+      return await RestCall.rcRequest(API_PATHS.group.deleteGroup, 'delete', null, null, gInfo)
+        .then((response) => {
+          if (response && response.status == 200) {
+            // dispatch('act_getAllGroupsFromUser');
+            commit('MUT_REMOVE_GROUP_FROM_STATE');
+            commit('MUT_CLEAR_ACTIVE_GROUP');
+            commit('MUT_CLEAR_ACTIVE_GROUP_INFO');
+          }
+          return response.status;
+        })
+        .catch((error) => {
+          console.error('act_deleteGroup()', error);
+          return error.status;
+        });
+    },
   },
   mutations: {
     MUT_SET_ACTIVE_GROUP(state, id) {
       state.activeGroupId = id;
+    },
+    MUT_CLEAR_ACTIVE_GROUP(state) {
+      state.activeGroupId = '';
+    },
+    MUT_CLEAR_ACTIVE_GROUP_INFO(state) {
+      state.activeGroup = {};
     },
 
     MUT_LOAD_GROUP_INFO(state) {
@@ -213,10 +239,10 @@ const groupModule = {
         state.userGroups = new Array();
       }
 
-      if(state.rawGroups && !!state.rawGroups && state.rawGroups.length){
-        state.rawGroups = userGroups
+      if (state.rawGroups && !!state.rawGroups && state.rawGroups.length) {
+        state.rawGroups = userGroups;
       }
-      state.rawGroups = Object.assign(new Array(),userGroups);
+      state.rawGroups = Object.assign(new Array(), userGroups);
       state.userGroups = userGroups;
     },
     MUT_LOAD_ALL_IDS_FROM_GROUPS(state, groupIds) {
@@ -255,6 +281,11 @@ const groupModule = {
           state.editOptions.old = state.activeGroup.admin;
           state.editOptions.infoType = 1;
           break;
+        case 2:
+          state.editOptions.title = 'Group-Color';
+          state.editOptions.old = state.activeGroup.groupColor;
+          state.editOptions.infoType = 2;
+          break;
         default:
           break;
       }
@@ -266,6 +297,20 @@ const groupModule = {
     },
     MUT_CHANGE_GROUP_INFORMATION(state, newGroupInfo) {
       state.activeGroup = newGroupInfo;
+    },
+
+    MUT_REMOVE_GROUP_FROM_STATE(state, groupId) {
+      if (state.userGroups && !!state.userGroups && state.userGroups.length) {
+        let pos = null;
+        state.userGroups.map((group, index) => {
+          if (group._id == groupId) {
+            pos = index;
+          }
+        });
+
+        state.userGroups.splice(pos, 1);
+        state.rawGroups.splice(pos, 1);
+      }
     },
   },
 };

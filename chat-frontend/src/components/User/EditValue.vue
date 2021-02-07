@@ -90,12 +90,18 @@ export default {
      *
      */
     generatedImage: '',
+    /**
+     * 
+     */
     userInfo: {
       MAIL: 0,
       NICKNAME: 1,
       AVATAR_NAME: 2,
       PROFILE: 3,
     },
+    /**
+     * 
+     */
     updatedValue: '',
     rules: {
       required: (value) => (value && !!value) || 'Das Feld ist erforderlich.',
@@ -111,11 +117,6 @@ export default {
      */
     async updateUserInformationen() {
       this.showWindow = false;
-
-      // let updateInfo = {
-      //   _id: this.userId,
-      //   update: {},
-      // };
       console.log('updateUserInformationen', this.infoType);
       switch (this.infoType) {
         case 0:
