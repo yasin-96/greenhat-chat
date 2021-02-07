@@ -39,8 +39,10 @@
 
 <script>
 import { mapState } from 'vuex';
+import { umix } from '@/mixins/umix';
 export default {
   name: 'GroupUserListAdmin',
+  mixins: [umix],
   data: () => ({
     searchInTable: '',
     headers: [
@@ -53,42 +55,17 @@ export default {
     ...mapState({
       adminOfGroup: (state) => state.user.user.id,
       activeGroup: (state) => state.group.activeGroup,
-      activeGroupId: (state) => state.group.activeGroupId
+      activeGroupId: (state) => state.group.activeGroupId,
     }),
+    /**
+     *
+     */
     userlist() {
       if (this.activeGroup) {
         return this.activeGroup.users;
       }
 
       return null;
-    },
-  },
-  methods: {
-    async removeUserFromGroup(userId) {
-      if (userId) {
-        const removeUserFromGroup = {
-          groupId: this.activeGroupId,
-          userId: userId,
-        };
-        let error = await this.$store.dispatch('group/act_removeUserFromGroup', removeUserFromGroup);
-        console.log("removeUserFromGroup",error)
-        if (error.status === 200) {
-          this.$store.dispatch('notify/act_setAlterMessage', {
-            message: "User wurde aus der Liste entfernt",
-            color: 'success',
-            icon: 'mdi-information-outline',
-          });
-        } else {
-          this.$store.dispatch('notify/act_setAlterMessage', {
-            message: error.message,
-            color: 'error',
-            icon: 'mdi-information-outline',
-          });
-        }
-      }
-    },
-    openDialogForAddingUserToGroup() {
-      this.$store.dispatch('settings/act_openDialogForAddUserToGroup');
     },
   },
 };

@@ -8,13 +8,20 @@
 </template>
 
 <script>
-import NewGroupDialog from "@/components/Chat/Sidebar/PanelLeft/SidebarMini/NewGroupDialog";
+import NewGroupDialog from '@/components/Chat/Sidebar/PanelLeft/SidebarMini/NewGroupDialog';
+
+/**
+ *
+ */
 export default {
   name: 'AddGroup',
   components: {
     NewGroupDialog,
   },
   methods: {
+    /**
+     *
+     */
     openDialog() {
       this.$store.dispatch('group/act_toggleNewGroupWindow', true);
     },

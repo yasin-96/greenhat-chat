@@ -45,8 +45,10 @@
 
 <script>
 import { mapState } from 'vuex';
+import { umix } from '@/mixins/umix';
 export default {
   name: 'AddUserToGroupAdmin',
+  mixins: [umix],
   data: () => ({
     selectedUser: [],
   }),
@@ -59,6 +61,9 @@ export default {
       addUserToGroupDialog: (state) => state.settings.sidebar.sidebarLeft.admin.group.addUserToGroupDialog,
     }),
 
+    /**
+     *
+     */
     dialog: {
       get() {
         return this.addUserToGroupDialog;
@@ -67,11 +72,15 @@ export default {
         this.$store.dispatch('settings/act_toggleDialogForAddUserToGroup', value);
       },
     },
-
+    /**
+     *
+     */
     allUserIdsInGroup() {
       return this.activeGroup.users.map((user) => user.userId);
     },
-
+    /**
+     *
+     */
     filteredListWithoutAdminAndUsersInGroup() {
       return this.userList.filter(
         (user) => !this.allUserIdsInGroup.includes(user.userId) && user.userId !== this.userId
@@ -79,33 +88,14 @@ export default {
     },
   },
   methods: {
-    async addUserToGroup() {
-      const allUserIds = this.selectedUser.map((user) => user.userId);
-
-      const newUserToGroup = {
-        groupId: this.activeGroupId,
-        userIds: allUserIds,
-      };
-      const error = await this.$store.dispatch('group/act_addUserToGroup', newUserToGroup);
+    
+    /**
+     * 
+     */
+    closeDialog() {
+      this.dialog = false;
       this.selectedUser = [];
-      this.$store.dispatch('settings/act_toggleDialogForAddUserToGroup', false);
-      if (error.status === 200) {
-        this.$store.dispatch('notify/act_setAlterMessage', {
-          message: this.$t('chatView.user.editValue.error.202'),
-          color: 'success',
-          icon: 'mdi-information-outline',
-        });
-      }
-      this.$store.dispatch('notify/act_setAlterMessage', {
-        message: error.message,
-        color: 'error',
-        icon: 'mdi-information-outline',
-      });
     },
-    closeDialog(){
-        this.dialog = false;
-        this.selectedUser = [];
-    }
   },
 };
 </script>

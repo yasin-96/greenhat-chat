@@ -9,29 +9,25 @@
 </template>
 
 <script>
+import Home from '@/components/Chat/Sidebar/PanelLeft/SidebarMini/Home';
+import AddGroup from '@/components/Chat/Sidebar/PanelLeft/SidebarMini/AddGroup';
+import OwnGroups from '@/components/Chat/Sidebar/PanelLeft/SidebarMini/OwnGroups';
+import { mapState } from 'vuex';
 
-import Home from "@/components/Chat/Sidebar/PanelLeft/SidebarMini/Home";
-// import User from "@/componeknts/Chat/Sidebar/PanelLeft/SidebarMini/User";
-import AddGroup from "@/components/Chat/Sidebar/PanelLeft/SidebarMini/AddGroup";
-import OwnGroups from "@/components/Chat/Sidebar/PanelLeft/SidebarMini/OwnGroups";
-import { mapState } from "vuex";
-
+/**
+ *
+ */
 export default {
   name: 'SidebarMiniLeft',
-  components:{
+  components: {
     Home,
-      // User,
-      AddGroup,
-      OwnGroups
+    AddGroup,
+    OwnGroups,
   },
-  methods: {
-    toggleSidePanelWithValue(value) {
-      this.$store.dispatch('sidePanel/act_toggleSidePanelWithValue', value);
-    },
-  },
+
   computed: {
     ...mapState({
-      drawer: (state) => state.sidePanel.drawer,
+      drawer: (state) => state.settings.sidebar.sidebarLeft.sidebarLeftDrawer,
     }),
 
     uidrawer: {
@@ -39,7 +35,7 @@ export default {
         return this.drawer;
       },
       set(value) {
-        this.toggleSidePanelWithValue(value);
+        this.$store.dispatch('settings/act_toggleSidePanelWithValue', value);
       },
     },
   },

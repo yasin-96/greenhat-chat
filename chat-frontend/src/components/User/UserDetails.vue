@@ -140,6 +140,10 @@
 <script>
 import { mapState } from 'vuex';
 import EditValue from '@/components/User/EditValue';
+
+/**
+ * 
+ */
 export default {
   name: 'UserDetails',
   components: {
@@ -150,11 +154,17 @@ export default {
     domainName: '@greenhat.de',
   }),
   methods: {
+    /**
+     * 
+     */
     setValuesForEditingSpecificUserInformation(userInfo) {
       console.log('userInfo', userInfo);
       this.$store.dispatch('user/act_setEditWindowSettingsBasedOnType', userInfo);
       this.$store.dispatch('user/act_toggleEditWindowForUserWithValue', true);
     },
+    /**
+     * 
+     */
     async removeAvatarPicture() {
       await this.$store.dispatch('user/act_updateSpecificUserInformationen', {
         _id: this.user.id,
@@ -165,6 +175,9 @@ export default {
       });
       this.enableOrDisbleUserAvatarPicture = '';
     },
+    /**
+     * 
+     */
     copyToClipBoard() {
       let idToCopy = this.$refs.idToCopy;
       console.log(idToCopy);

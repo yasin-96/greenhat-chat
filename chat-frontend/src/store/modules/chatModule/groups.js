@@ -20,12 +20,17 @@ const API_PATHS = {
   },
 };
 
+
+/**
+ * 
+ */
 const groupModule = {
   namespaced: true,
   state: () => ({
     enableWindow: false,
     activeGroupId: '',
     activeGroup: {},
+    rawGroups: [],
     userGroups: [],
     allGroupIDS: [],
     editOptions: {
@@ -207,6 +212,11 @@ const groupModule = {
       if (state.userGroups && !!state.userGroups && state.userGroups.length) {
         state.userGroups = new Array();
       }
+
+      if(state.rawGroups && !!state.rawGroups && state.rawGroups.length){
+        state.rawGroups = userGroups
+      }
+      state.rawGroups = Object.assign(new Array(),userGroups);
       state.userGroups = userGroups;
     },
     MUT_LOAD_ALL_IDS_FROM_GROUPS(state, groupIds) {

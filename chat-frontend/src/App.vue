@@ -14,6 +14,15 @@ export default {
   components: {
     NavigationBar,
   },
+  mounted () {
+    console.log("current language: ", this.$i18n.locale)
+    this.setDefaultLanguage()
+  },
+  methods:{
+    setDefaultLanguage(){
+      this.$store.dispatch("settings/act_setDefaultLanguage", this.$i18n.locale)
+    }
+  }
 };
 </script>
 

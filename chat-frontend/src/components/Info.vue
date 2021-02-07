@@ -20,6 +20,13 @@
 
 <script>
 import { mapState } from "vuex";
+
+/**
+ * This component represents a notification window. It is used to notify whether errors have occurred or have been successfully completed.
+ * - login error
+ * - error during registration
+ * - error deleting users/groups
+ */
 export default {
   name: 'Info',
   computed:{

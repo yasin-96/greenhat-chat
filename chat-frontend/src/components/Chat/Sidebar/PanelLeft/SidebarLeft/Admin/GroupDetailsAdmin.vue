@@ -108,12 +108,19 @@
 <script>
 import { mapState } from 'vuex';
 import EditValueForGroup from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/EditValueForGroup';
+
+/**
+ * 
+ */
 export default {
   name: 'GroupDetailsAdmin',
   components: {
     EditValueForGroup,
   },
   methods: {
+    /**
+     * 
+     */
     setValuesForEditingSpecificGroupInformation(groupInfo) {
       console.log('userInfo', groupInfo);
       this.$store.dispatch('group/act_setGroupEditWindowSettingsBasedOnType', groupInfo);

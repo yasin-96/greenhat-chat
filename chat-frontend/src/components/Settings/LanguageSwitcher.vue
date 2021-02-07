@@ -10,14 +10,18 @@
       <v-card-text>
         <v-container>
           <v-list>
-          <v-list-item v-for="(lang, index) in languages" :key="index">
-            <v-list-item-content class="text-center">
-              <v-btn elevation="0" :color="lang.active ? 'success' : 'notInUse'" @click="changeLanguage(lang.local, index)"> 
-                {{ $t(lang.title) }}
-              </v-btn>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+            <v-list-item v-for="(lang, index) in languages" :key="index">
+              <v-list-item-content class="text-center">
+                <v-btn
+                  elevation="0"
+                  :color="lang.active ? 'success' : 'notInUse'"
+                  @click="changeLanguage(lang.local, index)"
+                >
+                  {{ $t(lang.title) }}
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
         </v-container>
       </v-card-text>
     </v-card>
@@ -25,20 +29,23 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
+/**
+ *
+ */
 export default {
   name: 'LanguageSwitcher',
-  methods:{
-      changeLanguage(localLang, index){
-      this.$i18n.locale = localLang 
-      this.$store.dispatch("settings/act_changeLanguage", index)
-    }
+  methods: {
+    changeLanguage(localLang, index) {
+      this.$i18n.locale = localLang;
+      this.$store.dispatch('settings/act_changeLanguage', index);
+    },
   },
   computed: {
-      ...mapState({
-          languages: (state) => state.settings.languages
-      })
-  }
+    ...mapState({
+      languages: (state) => state.settings.languages,
+    }),
+  },
 };
 </script>
 

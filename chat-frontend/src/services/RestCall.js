@@ -29,6 +29,12 @@ const apiInterfaces = {
   message: '/message',
 };
 
+/**
+ * 
+ * @param {*} restPath 
+ * @param {*} params 
+ * @param {*} pathParam 
+ */
 async function rcGet(restPath, params, pathParam) {
   if (params) {
     return httpClient
@@ -75,6 +81,12 @@ async function rcGet(restPath, params, pathParam) {
   }
 }
 
+/**
+ * 
+ * @param {*} restPath 
+ * @param {*} params 
+ * @param {*} body 
+ */
 async function rcPost(restPath, params, body) {
   if (params) {
     return httpClient
@@ -108,6 +120,13 @@ async function rcPost(restPath, params, body) {
   }
 }
 
+/**
+ * 
+ * @param {*} restPath 
+ * @param {*} params 
+ * @param {*} body 
+ * @param {*} pathParam 
+ */
 async function rcPut(restPath, params, body, pathParam) {
   if (params) {
     return httpClient
@@ -158,6 +177,11 @@ async function rcPut(restPath, params, body, pathParam) {
   }
 }
 
+/**
+ * 
+ * @param {*} restPath 
+ * @param {*} param1 
+ */
 async function rcPatch(restPath, { _id, update }) {
   console.log('patch call');
   return httpClient
@@ -175,6 +199,13 @@ async function rcPatch(restPath, { _id, update }) {
     });
 }
 
+/**
+ * 
+ * @param {*} restPath 
+ * @param {*} param 
+ * @param {*} body 
+ * @param {*} pathParam 
+ */
 async function rcDelete(restPath, param, body, pathParam) {
   if (param) {
     return httpClient
@@ -268,6 +299,14 @@ export default {
         console.log('SENDMESSAGE()', error);
       });
   },
+  /**
+   * 
+   * @param {*} restPath 
+   * @param {*} methodType 
+   * @param {*} hasParams 
+   * @param {*} hasBody 
+   * @param {*} hasPathVariable 
+   */
   async rcRequest(restPath, methodType, hasParams, hasBody, hasPathVariable) {
     switch (String(methodType).toLowerCase()) {
       case 'get':

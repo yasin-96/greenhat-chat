@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist';
 import VueNativeSock from 'vue-native-websocket';
 
-import sidePanelModule from '@/store/modules/sidePanelModule/panel';
 import userModule from '@/store/modules/userModule/user';
 import chatModule from '@/store/modules/chatModule/chat';
 import groupModule from '@/store/modules/chatModule/groups';
@@ -24,7 +23,6 @@ const vuexLocal = new VuexPersistence({
 
 const store = new Vuex.Store({
   modules: {
-    sidePanel: sidePanelModule,
     user: userModule,
     chat: chatModule,
     group: groupModule,

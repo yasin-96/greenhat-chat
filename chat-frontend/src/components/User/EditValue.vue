@@ -11,7 +11,7 @@
           >
         </v-card-title>
         <v-card-text>
-          <v-form ref="form" v-model="valid" lazy-validation>
+          <v-form ref="form">
             <v-container v-if="editOpions.infoType < 3">
               <v-text-field :value="editOpions.old" :label="`Old-${editOpions.title}`" disabled filled></v-text-field>
               <v-text-field
@@ -76,12 +76,20 @@
 
 <script>
 import { mapState } from 'vuex';
+/**
+ *
+ */
 export default {
   name: 'EditValue',
   data: () => ({
+    /**
+     *
+     */
     rawImageToImage: '',
+    /**
+     *
+     */
     generatedImage: '',
-    valid: false,
     userInfo: {
       MAIL: 0,
       NICKNAME: 1,
@@ -96,9 +104,11 @@ export default {
         return pattern.test(value) || 'Email passt nicht zur Domaine';
       },
     },
-    dialog: false,
   }),
   methods: {
+    /**
+     *
+     */
     async updateUserInformationen() {
       this.showWindow = false;
 
@@ -128,7 +138,7 @@ export default {
               hasAvatarPicture: true,
             },
           });
-          this.rawImageToImage = null
+          this.rawImageToImage = null;
           break;
         default:
           break;
@@ -144,6 +154,9 @@ export default {
       infoType: (state) => state.user.editOptions.infoType,
     }),
 
+    /**
+     *
+     */
     showWindow: {
       get() {
         return this.editOpions.displaySettingsWindow;
@@ -153,6 +166,9 @@ export default {
       },
     },
 
+    /**
+     *
+     */
     linkFromAvatar() {
       if (this.rawImageToImage) {
         if (this.rawImageToImage.indexOf("'") != -1 && this.rawImageToImage.lastIndexOf("'") != -1) {

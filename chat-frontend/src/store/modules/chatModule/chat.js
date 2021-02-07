@@ -1,5 +1,4 @@
 import RestCall from '@/services/RestCall';
-// import { checkUser, messageBasedOnReturnValue } from '@/utils/util';
 
 const API_BASE_PATHS = {
   message: '/message',

@@ -26,8 +26,8 @@
           </v-list>
         </v-btn>
       </template>
-       <v-container>
-          <p>
+      <v-container>
+        <p>
           <v-icon>
             mdi-badge-account
           </v-icon>
@@ -39,7 +39,7 @@
           </v-icon>
           #{{ userId }}
         </p>
-       </v-container>
+      </v-container>
     </v-tooltip>
 
     <v-btn @click="openSettingsDialog">
@@ -51,11 +51,16 @@
 <script>
 import { mapState } from 'vuex';
 
+/**
+ *
+ */
 export default {
   name: 'UserPanelInfo',
   methods: {
+    /**
+     * Enable/Disable dialog for change User information
+     */
     openSettingsDialog() {
-      console.log('asjadh');
       this.$store.dispatch('settings/act_openSettingsDialog');
     },
   },
@@ -67,12 +72,18 @@ export default {
       username: (state) => state.user.user.username || '',
       userId: (state) => state.user.user.id || '',
     }),
+    /**
+     * The userid is shortened to use the space properly
+     */
     shortUserId() {
       if (this.user && this.user.id) {
         return `#${this.user.id.substring(0, 9)} . . .`;
       }
       return '';
     },
+    /**
+     * The username is shortened to use the space properly
+     */
     shortUserName() {
       if (this.user && this.user.username) {
         return `${this.user.username.substring(0, 4)} ...`;

@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card class="pl-14">
       <v-toolbar flat dark color="dark">
-        <v-btn icon dark @click="closeDialog(false)">
+        <v-btn icon dark @click="dialog = false">
           <v-icon color="">mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title>
@@ -41,6 +41,9 @@ import LanguageSwitcher from '@/components/Settings/LanguageSwitcher';
 import UpdatePassword from '@/components/User/UpdatePassword';
 import DeleteAccount from '@/components/User/DeleteAccount';
 
+/**
+ *
+ */
 export default {
   name: 'Settings',
   components: {
@@ -50,26 +53,22 @@ export default {
     UpdatePassword,
     DeleteAccount,
   },
-  methods: {
-    closeDialog(value) {
-      this.$store.dispatch('settings/act_openSettingsDialogWithValue', value);
-    },
-  },
   computed: {
     ...mapState({
       settingsDialog: (state) => state.settings.enableDialog,
       user: (state) => state.user.user,
     }),
+    /**
+     * 
+     */
     dialog: {
       get() {
         return this.settingsDialog;
       },
       set(value) {
-        this.closeDialog(value);
+        this.$store.dispatch('settings/act_openSettingsDialogWithValue', value);
       },
     },
   },
 };
 </script>
-
-<style></style>

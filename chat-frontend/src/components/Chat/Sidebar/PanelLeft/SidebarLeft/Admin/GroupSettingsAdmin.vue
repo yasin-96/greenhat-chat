@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card class="pl-14">
       <v-toolbar flat dark color="dark">
-        <v-btn icon dark @click="closeDialog(false)">
+        <v-btn icon dark @click="dialog = false">
           <v-icon color="">mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title>
@@ -38,29 +38,30 @@ import GroupDetailsAdmin from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/A
 import GroupUserListAdmin from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/GroupUserListAdmin';
 import AddUserToGroupAdmin from '@/components/Chat/Sidebar/PanelLeft/SidebarLeft/Admin/AddUserToGroupAdmin';
 
+/**
+ *
+ */
 export default {
   name: 'GroupSettingsAdmin',
   components: {
     GroupDetailsAdmin,
     GroupUserListAdmin,
-    AddUserToGroupAdmin
-  },
-  methods: {
-    closeDialog(value) {
-      this.$store.dispatch('settings/act_toggleAdminSettingsDialogForGroup', value);
-    },
+    AddUserToGroupAdmin,
   },
   computed: {
     ...mapState({
       adminDialog: (state) => state.settings.sidebar.sidebarLeft.admin.adminDialog,
       user: (state) => state.user.user,
     }),
+    /**
+     * 
+     */
     dialog: {
       get() {
         return this.adminDialog;
       },
       set(value) {
-        this.closeDialog(value);
+        this.$store.dispatch('settings/act_toggleAdminSettingsDialogForGroup', value);
       },
     },
   },

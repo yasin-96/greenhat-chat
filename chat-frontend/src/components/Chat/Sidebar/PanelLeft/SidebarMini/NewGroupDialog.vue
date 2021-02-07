@@ -11,7 +11,7 @@
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-form ref="reg_form" v-model="validOfFormular">
+            <v-form >
               <v-text-field
                 v-model="newGroupName"
                 :label="$t('chatView.sidebar.sidebarLeft.sidebarMini.groupDialog.newTitle')"
@@ -67,6 +67,10 @@
 
 <script>
 import { mapState } from 'vuex';
+
+/**
+ *
+ */
 export default {
   name: 'NewGroupDialog',
   data: () => ({
@@ -80,6 +84,9 @@ export default {
       userId: (state) => state.user.user.id,
       userList: (state) => state.user.allRegisterdUsers,
     }),
+    /**
+     *
+     */
     dialog: {
       get() {
         return this.enableDialog;
@@ -89,11 +96,17 @@ export default {
       },
     },
 
-    filteredListFromUserWithoutCurrentLoggedIn(){
-      return this.userList.filter((user) => user.userId !== this.userId)
-    }
+    /**
+     *
+     */
+    filteredListFromUserWithoutCurrentLoggedIn() {
+      return this.userList.filter((user) => user.userId !== this.userId);
+    },
   },
   methods: {
+    /**
+     *
+     */
     async createNewGroup() {
       const userInGroup = this.selectedUser.map((item) => item.userId);
       const newGroup = {
@@ -102,9 +115,8 @@ export default {
         users: userInGroup,
       };
       const error = await this.$store.dispatch('group/act_createNewGroup', newGroup);
-      
-      if(error == 200){
 
+      if (error == 200) {
         this.$store.dispatch('group/act_toggleNewGroupWindow', false);
       } else {
         this.$store.dispatch('notify/act_setAlterMessage', {
@@ -113,9 +125,6 @@ export default {
           icon: 'mdi-information-outline',
         });
       }
-
-
-      
     },
   },
 };

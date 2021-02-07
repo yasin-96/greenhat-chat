@@ -73,6 +73,9 @@
 import Info from '@/components/Info';
 import { umix } from '@/mixins/umix';
 
+/**
+ * 
+ */
 export default {
   name: 'Register',
   mixins: [umix],
@@ -81,23 +84,30 @@ export default {
   },
   data: () => ({
     valid: false,
+    /**
+     * 
+     */
     isPasswordValid: false,
-    title: 'Konto erstellen',
+    /**
+     * 
+     */
     domainName: '@greenhat.de',
-    label: {
-      logIn: 'Stattdessen Anmelden',
-      username: 'Username',
-      email: 'Email',
-      password: 'Passwort',
-      createAccount: 'Erstellen',
-    },
+    /**
+     * 
+     */
     user: {
       username: '',
       email: '',
       password: '',
     },
     repeatPasswd: '',
+    /**
+     * Option to show or hide password
+     */
     showPasswd: false,
+    /**
+     * 
+     */
     rules: {
       required: (value) => (value && !!value) || 'Das Feld ist erforderlich.',
       email: (value) => {
@@ -118,6 +128,9 @@ export default {
     },
   }),
   methods: {
+    /**
+     * 
+     */
     async registerUser() {
       let copyOfUser = Object.assign({}, this.user);
       copyOfUser.email = copyOfUser.email + this.domainName;
@@ -140,28 +153,7 @@ export default {
         });
       }
     },
-    checkPassword() {
-      if (this.repeatPasswd === this.user.password && !!this.repeatPasswd && !!this.user.password) {
-        this.isPasswordValid = true;
-      } else {
-        this.isPasswordValid = false;
-      }
-    },
-  },
-  computed: {
-    hideDetailsPassword() {
-      return this.user.password === this.repeatPasswd ? true : false;
-    },
-    hideDetailsUsername() {
-      return this.user.username && !!this.user.username ? true : false;
-    },
-    hideDetailsEmail() {
-      return this.user.email && !!this.user.email ? true : false;
-    },
-    formState() {
-      return this.$refs.reg_form.value;
-    },
-  },
+  }
 };
 </script>
 

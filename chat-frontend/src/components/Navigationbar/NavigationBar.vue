@@ -1,8 +1,11 @@
 <template>
   <v-app-bar app color="navbarBackground">
-    <v-btn v-if="checkRoute" icon @click="toggleSidePanel">
-      <v-icon v-if="uidrawer">mdi-menu</v-icon>
-      <v-icon v-else>mdi-dots-vertical</v-icon>
+    <div  v-if="checkRoute"></div>
+    <v-btn v-if="drawer" icon @click="uidrawer = true">
+      <v-icon >mdi-menu</v-icon>
+    </v-btn>
+      <v-btn v-else icon @click="uidrawer = false">
+      <v-icon>mdi-dots-vertical</v-icon>
     </v-btn>
     <div class="d-flex align-center">
       <v-img
@@ -65,7 +68,7 @@
         <v-list>
           <v-list-item v-for="(lang, index) in languages" :key="index">
             <v-list-item-content class="text-center">
-              <v-btn text small :color="lang.active ? 'success' : ''" @click="changeLanguage(lang.local, index)"> 
+              <v-btn text small :color="lang.active ? 'success' : ''" @click="changeLanguage(lang.local, index)">
                 {{ $t(lang.title) }}
               </v-btn>
             </v-list-item-content>
@@ -92,7 +95,7 @@ export default {
     //this.changeGameBellColor();
   },
   data: () => ({
-    menu:"",
+    menu: '',
     gameBell: '#424242',
     bellIcon: 'mdi-bell',
     icons: {
@@ -114,8 +117,8 @@ export default {
     count: 0,
   }),
   methods: {
-    toggleSidePanel(value) {
-      this.$store.dispatch('sidePanel/act_toggleSidePanel', value);
+    toggleSidePanel() {
+      this.$store.dispatch('settings/act_toggleSidePanel');
     },
     openGameWindow() {
       this.$store.dispatch('game/act_toggleGameWindowWithValue', true);
@@ -132,18 +135,18 @@ export default {
 
       // }, 2000);
     },
-    changeLanguage(localLang, index){
-      this.$i18n.locale = localLang 
-      this.$store.dispatch("settings/act_changeLanguage", index)
+    changeLanguage(localLang, index) {
+      this.$i18n.locale = localLang;
+      this.$store.dispatch('settings/act_changeLanguage', index);
     },
-     openSettingsDialog() {
+    openSettingsDialog() {
       console.log('asjadh');
       this.$store.dispatch('settings/act_openSettingsDialog');
     },
   },
   computed: {
     ...mapState({
-      drawer: (state) => state.sidePanel.drawer,
+      drawer: (state) => state.settings.sidebar.sidebarLeft.sidebarLeftDrawer,
       gameWindow: (state) => state.game.openDialog,
       gameStatus: (state) => state.game.gameWasPlayed,
       languages: (state) => state.settings.languages,
@@ -154,7 +157,7 @@ export default {
         return this.drawer;
       },
       set() {
-        this.toggleSidePanel();
+        this.toggleSidePanel()
       },
     },
     checkRoute() {

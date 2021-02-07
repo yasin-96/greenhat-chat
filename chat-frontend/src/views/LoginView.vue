@@ -6,6 +6,9 @@
 
 <script>
 import Login from '@/components/Forms/Login';
+/**
+ * 
+ */
 export default {
   name: 'LoginView',
   components: { Login },

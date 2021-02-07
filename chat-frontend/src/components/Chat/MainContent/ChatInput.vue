@@ -33,23 +33,42 @@
 <script>
 import { VEmojiPicker } from 'v-emoji-picker';
 import { mapState } from 'vuex';
+
+/**
+ * 
+ */
 export default {
   name: 'ChatInput',
   components: {
     emoji: VEmojiPicker,
   },
   data: () => ({
+    /**
+     * 
+     */
     message: '',
+    /**
+     * 
+     */
     enableEmojiDialog: false,
   }),
   methods: {
+    /**
+     * 
+     */
     selectEmoji({ data }) {
       console.log('emoji', data);
       this.message += data;
     },
+    /**
+     * 
+     */
     openEmojiDialog() {
       this.enableEmojiDialog = !this.enableEmojiDialog;
     },
+    /**
+     * 
+     */
     sendMessage() {
       if (this.message && !!this.message) {
         const message = {

@@ -53,18 +53,39 @@
 
 <script>
 import { mapState } from 'vuex';
+/**
+ *
+ */
 export default {
   name: 'UpdatePassword',
   data: () => ({
+    /**
+     *
+     */
     valid: false,
+    /**
+     *
+     */
     isPasswordValid: false,
+    /**
+     *
+     */
     repeatPasswd: '',
+    /**
+     *
+     */
     showPasswd: false,
+    /**
+     *
+     */
     user: {
       oldPassword: '',
       password: '',
     },
     message: '',
+    /**
+     *
+     */
     rules: {
       required: (value) => (value && !!value) || 'Das Feld ist erforderlich.',
       email: (value) => {
@@ -85,10 +106,16 @@ export default {
     },
   }),
   methods: {
+    /**
+     *
+     */
     changeLanguage(localLang, index) {
       this.$i18n.locale = localLang;
       this.$store.dispatch('settings/act_changeLanguage', index);
     },
+    /**
+     *
+     */
     async updatePasswordFromUser() {
       const toUpdate = {
         id: { _id: this.userId },

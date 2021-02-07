@@ -3,9 +3,13 @@ import VueRouter from 'vue-router';
 import LoginView from '@/views/LoginView.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import ChatView from '@/views/ChatView';
+import About from '@/views/About';
 
 Vue.use(VueRouter);
 
+/**
+ * 
+ */
 const routes = [
   {
     path: '/',
@@ -30,13 +34,13 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: About,
   },
 ];
 
+/**
+ * 
+ */
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

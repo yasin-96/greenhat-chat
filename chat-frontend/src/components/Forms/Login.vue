@@ -64,25 +64,33 @@ export default {
     Info,
   },
   data: () => ({
+    /**
+     * 
+     */
     user: {
       username: '',
       password: '',
     },
+    /**
+     * 
+     */
     showPasswd: false,
-    notfication: {
-      timeOut: 3000,
-      message: '',
-      toggle: false,
-      icon: '',
-      color: '',
-    },
+    /**
+     * 
+     */
     valid: false,
+    /**
+     * 
+     */
     rules: {
       required: (value) => (value && !!value) || 'Das Feld ist erforderlich.',
       notEmpty: (value) => value !== null || value !== undefined || 'Feld darf nicht leer bleiben',
     },
   }),
   methods: {
+    /**
+     * 
+     */
     async login() {
       const error = await this.$store.dispatch('user/act_logUserIn', this.user);
 
@@ -103,7 +111,6 @@ export default {
       }
     },
   },
-  computed: {},
 };
 </script>
 

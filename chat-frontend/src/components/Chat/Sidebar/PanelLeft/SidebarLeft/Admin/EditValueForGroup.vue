@@ -82,6 +82,9 @@ export default {
     newSelectedAdmin: '',
   }),
   methods: {
+    /**
+     *
+     */
     async updateGroupInformationen() {
       let error = null;
       switch (this.infoType) {
@@ -100,7 +103,7 @@ export default {
               admin: this.updatedValue,
             },
           });
-          this.$store.dispatch("settings/act_toggleAdminSettingsDialogForGroup", false)
+          this.$store.dispatch('settings/act_toggleAdminSettingsDialogForGroup', false);
           break;
         case 3:
           error = await this.$store.dispatch('group/act_updateSpecificGroupInformationen', {
@@ -139,6 +142,9 @@ export default {
       activeGroupId: (state) => state.group.activeGroupId,
     }),
 
+    /**
+     *
+     */
     showWindow: {
       get() {
         return this.enableWindow;
@@ -147,6 +153,9 @@ export default {
         this.$store.dispatch('settings/act_toggleDialogForChangeValueForGroup', toggleValue);
       },
     },
+    /**
+     * 
+     */
     filteredListWithoutCurrentAdmin() {
       return this.allRegisterdUsers.filter((user) => user.userId !== this.userId);
     },

@@ -36,61 +36,52 @@
 
 <script>
 import { mapState } from 'vuex';
-/**
- * 
- */
 export default {
-  name: 'DeleteAccount',
+  name: 'DeleteGroup',
   methods: {
-    /**
-     * 
-     */
-    async removeAccount() {
-      const uid = {
+    async removeGroup() {
+      const gid = {
         _id: this.userId,
       };
-      let resp = await this.$store.dispatch('user/act_deleteAccount', uid);
-      console.log("In Comp", resp)
-      if(resp === 200){
-          //user state is cleared after request serrver to close account
-          this.$store.dispatch('chat/act_clearChatState');
-          this.$store.dispatch('group/act_clearGroupState');
-          this.$store.dispatch('game/act_clearGameState');
-          this.$store.dispatch('notify/act_clearNotificationState');
-          window.localStorage.removeItem(this.localStorageKey);
-          this.$router.push({ path:"/"})
-          this.$store.dispatch("notify/act_setAlterMessage",{
-              message: this.$t("chatView.user.editValue.deleteInfo"),
-              color: "success",
-              icon: "mdi-information-outline"
-          })
-      } 
-      
-      if(resp === 404){
-          this.$store.dispatch("notify/act_setAlterMessage",{
-              message: this.$t("chatView.user.editValue.error.404"),
-              color: "warning",
-              icon: "mdi-information-outline"
-          })
+      let resp = await this.$store.dispatch('group/act_deleteGroup', gid);
+      console.log('In Comp', resp);
+      if (resp === 200) {
+        //user state is cleared after request serrver to close account
+        this.$store.dispatch('chat/act_clearChatState');
+        this.$store.dispatch('group/act_clearGroupState');
+        this.$store.dispatch('game/act_clearGameState');
+        this.$store.dispatch('notify/act_clearNotificationState');
+        window.localStorage.removeItem(this.localStorageKey);
+        
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: this.$t('chatView.user.editValue.deleteInfo'),
+          color: 'success',
+          icon: 'mdi-information-outline',
+        });
+      }
+
+      if (resp === 404) {
+        this.$store.dispatch('notify/act_setAlterMessage', {
+          message: this.$t('chatView.user.editValue.error.404'),
+          color: 'warning',
+          icon: 'mdi-information-outline',
+        });
       }
     },
   },
   computed: {
     ...mapState({
-    localStorageKey: (state) => state.settings.localStorageKey,
-      userId: (state) => state.user.user.id,
+      localStorageKey: (state) => state.settings.localStorageKey,
+      groupId: (state) => state.group.activeGroupId,
       languages: (state) => state.settings.languages,
       deleteRequestWindow: (state) => state.user.editOptions.displayDeleteWindow,
     }),
-    /**
-     * 
-     */
     dialog: {
       get() {
         return this.deleteRequestWindow;
       },
       set(value) {
-        this.$store.dispatch('user/act_toggleCloseAccountWindow', value);
+        this.$store.dispatch('group/act_toggleCloseGroupWindow', value);
       },
     },
   },

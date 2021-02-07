@@ -26,16 +26,13 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   name: 'OwnGroups',
-  props: {
-    groupList: {
-      type: Object,
-      //   required: true,
-    },
-  },
   methods: {
+    /**
+     * 
+     */
     loadGroup(groupId) {
       console.log(groupId);
       const groupToLoad = {
@@ -50,15 +47,6 @@ export default {
       userGroups: (state) => state.group.userGroups,
       activeGroupID: (state) => state.group.activeGroupId,
     }),
-    ...mapGetters({
-      usersGroups: 'usersGroups',
-    }),
   },
 };
 </script>
-
-<style>
-#ownGroups.active{
-  background-color: blue;
-}
-</style>
