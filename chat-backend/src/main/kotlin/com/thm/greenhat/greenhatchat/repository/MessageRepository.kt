@@ -10,6 +10,6 @@ import reactor.core.publisher.Mono
 interface MessageRepository : ReactiveCrudRepository<Message, String> {
 
     fun findMessageByGroupId(groupId: String): Flux<Message>
-    fun deleteMessageByUserId(userId:String) : Mono<Void>
+    fun deleteMessageByUserId(userId:String) : Flux<Void>
     fun deleteMessageByGroupId(groupId: String): Mono<Void>
 }

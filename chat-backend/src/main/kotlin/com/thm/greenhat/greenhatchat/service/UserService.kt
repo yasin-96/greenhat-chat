@@ -99,20 +99,41 @@ class UserService(
      * @return Mono<Void>
      */
     fun deleteAccount(userId: String) : Flux<Void> {
-        return groupRepository.findAllByAdmin(userId)
-                .flatMap { group ->
-                    if (group.users.size  < 2) {
-                        Mono.zip(messageRepository.deleteMessageByUserId(userId), userRepository.deleteById(userId),groupRepository.deleteById(group._id)).map {
-                            it.t1
-                        }
-                    } else {
-                        group.admin = group.users[0]
-                        group.users.remove(userId)
 
-                        Mono.zip(messageRepository.deleteMessageByUserId(userId), userRepository.deleteById(userId),groupRepository.save(group)).map {it.t1 }
+        return Flux.zip(
+                messageRepository.deleteMessageByUserId(userId),
+                userRepository.deleteById(userId)
+        ).flatMap {
+            groupRepository.findAllByAdmin(userId)
+                    .flatMap { group->
+                        if (group.users.size  < 2) {
+                            groupRepository.deleteById(group._id)
+                        } else {
+                            group.admin = group.users[0]
+                            group.users.remove(userId)
+
+                           groupRepository.save(group)
+                            Flux.empty()
+                        }
                     }
-                }
+        }
     }
+
+
+        /*  return groupRepository.findAllByAdmin(userId)
+                  .flatMap { group ->
+                      if (group.users.size  < 2) {
+                          Mono.zip(messageRepository.deleteMessageByUserId(userId), userRepository.deleteById(userId),groupRepository.deleteById(group._id)).map {
+                              it.t1
+                          }
+                      } else {
+                          group.admin = group.users[0]
+                          group.users.remove(userId)
+
+                          Mono.zip(messageRepository.deleteMessageByUserId(userId), userRepository.deleteById(userId),groupRepository.save(group)).map {it.t1 }
+                      }
+                  }*/
+
 
 
 

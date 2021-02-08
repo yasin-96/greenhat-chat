@@ -30,7 +30,7 @@ class MessageController(
     }
 
     @DeleteMapping("/del/{id}")
-    fun deleteMessages(@PathVariable id:String) : Mono<Void> {
+    fun deleteMessages(@PathVariable id:String) : Flux<Void> {
         return messageRepository.deleteMessageByUserId(id)
     }
     /**
