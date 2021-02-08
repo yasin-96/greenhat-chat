@@ -163,7 +163,7 @@ class UserService(
     fun checkIfOldPasswordCorrect(id: String, oldPass: String): Mono<Boolean> {
         return findById(id)
             .map {
-                it.password == oldPass
+                passwordEncoder.matches(oldPass,it.password)
             }
     }
 
@@ -178,7 +178,7 @@ class UserService(
             User(
                 user.id,
                 user.username,
-                newPass,
+                passwordEncoder.encode(newPass),
                 user.email,
                 user.hasAvatarPicture,
                 user.avatarName,

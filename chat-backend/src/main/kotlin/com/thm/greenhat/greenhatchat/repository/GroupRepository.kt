@@ -12,5 +12,5 @@ interface GroupRepository : ReactiveCrudRepository<GroupRequest, String> {
     fun findByName(name: String): Mono<GroupRequest>
     fun existsByName(name: String): Mono<Boolean>
     fun findAllByAdmin(admin:String) : Flux<GroupRequest>
-
+    fun existsByAdmin(admin: String) : Flux<Boolean>
 }
